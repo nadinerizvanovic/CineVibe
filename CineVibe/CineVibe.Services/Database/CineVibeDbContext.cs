@@ -16,6 +16,11 @@ namespace CineVibe.Services.Database
         public DbSet<Actor> Actors { get; set; }
         public DbSet<Movie> Movies { get; set; }
         public DbSet<MovieActor> MovieActors { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Genre> Genres { get; set; }
+        public DbSet<Director> Directors { get; set; }
+        public DbSet<ProductionCompany> ProductionCompanies { get; set; }
+        public DbSet<MovieProductionCompany> MovieProductionCompanies { get; set; }
     
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -102,6 +107,59 @@ namespace CineVibe.Services.Database
             // Create a unique constraint on MovieId and ActorId to prevent duplicate assignments
             modelBuilder.Entity<MovieActor>()
                 .HasIndex(ma => new { ma.MovieId, ma.ActorId })
+                .IsUnique();
+
+            // Configure Category entity
+            modelBuilder.Entity<Category>()
+                .HasIndex(c => c.Name)
+                .IsUnique();
+
+            // Configure Genre entity
+            modelBuilder.Entity<Genre>()
+                .HasIndex(g => g.Name)
+                .IsUnique();
+
+            // Configure Movie relationships with Category and Genre
+            modelBuilder.Entity<Movie>()
+                .HasOne(m => m.Category)
+                .WithMany(c => c.Movies)
+                .HasForeignKey(m => m.CategoryId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Movie>()
+                .HasOne(m => m.Genre)
+                .WithMany(g => g.Movies)
+                .HasForeignKey(m => m.GenreId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Configure Movie relationship with Director
+            modelBuilder.Entity<Movie>()
+                .HasOne(m => m.Director)
+                .WithMany(d => d.Movies)
+                .HasForeignKey(m => m.DirectorId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Configure ProductionCompany entity
+            modelBuilder.Entity<ProductionCompany>()
+                .HasIndex(pc => pc.Name)
+                .IsUnique();
+
+            // Configure MovieProductionCompany join entity
+            modelBuilder.Entity<MovieProductionCompany>()
+                .HasOne(mpc => mpc.Movie)
+                .WithMany(m => m.MovieProductionCompanies)
+                .HasForeignKey(mpc => mpc.MovieId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<MovieProductionCompany>()
+                .HasOne(mpc => mpc.ProductionCompany)
+                .WithMany(pc => pc.MovieProductionCompanies)
+                .HasForeignKey(mpc => mpc.ProductionCompanyId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // Create a unique constraint on MovieId and ProductionCompanyId to prevent duplicate assignments
+            modelBuilder.Entity<MovieProductionCompany>()
+                .HasIndex(mpc => new { mpc.MovieId, mpc.ProductionCompanyId })
                 .IsUnique();
 
             // Seed initial data

@@ -10,6 +10,10 @@ namespace CineVibe.Model.SearchObjects
         public int? MinDuration { get; set; }
         public int? MaxDuration { get; set; }
         public bool? IsActive { get; set; }
+        public int? CategoryId { get; set; }
+        public int? GenreId { get; set; }
+        public int? DirectorId { get; set; }
         public int? ActorId { get; set; } // Filter movies by specific actor
+        public int? ProductionCompanyId { get; set; } // Filter movies by specific production company
     }
 }

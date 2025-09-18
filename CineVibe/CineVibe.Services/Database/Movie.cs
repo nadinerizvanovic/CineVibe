@@ -29,7 +29,16 @@ namespace CineVibe.Services.Database
         
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         
+        // Foreign keys
+        public int CategoryId { get; set; }
+        public int GenreId { get; set; }
+        public int DirectorId { get; set; }
+        
         // Navigation properties
+        public virtual Category Category { get; set; } = null!;
+        public virtual Genre Genre { get; set; } = null!;
+        public virtual Director Director { get; set; } = null!;
         public virtual ICollection<MovieActor> MovieActors { get; set; } = new List<MovieActor>();
+        public virtual ICollection<MovieProductionCompany> MovieProductionCompanies { get; set; } = new List<MovieProductionCompany>();
     }
 }

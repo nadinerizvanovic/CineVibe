@@ -20,6 +20,10 @@ builder.Services.AddTransient<ICityService, CityService>();
 builder.Services.AddTransient<IActorService, ActorService>();
 builder.Services.AddTransient<IMovieService, MovieService>();
 builder.Services.AddTransient<IMovieActorService, MovieActorService>();
+builder.Services.AddTransient<ICategoryService, CategoryService>();
+builder.Services.AddTransient<IGenreService, GenreService>();
+builder.Services.AddTransient<IDirectorService, DirectorService>();
+builder.Services.AddTransient<IProductionCompanyService, ProductionCompanyService>();
 
 
 // Configure database

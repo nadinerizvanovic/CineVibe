@@ -132,6 +132,58 @@ namespace CineVibe.Services.Database
                 new City { Id = 10, Name = "Zvornik" }
             );
 
+            // Seed Categories
+            modelBuilder.Entity<Category>().HasData(
+                new Category 
+                { 
+                    Id = 1, 
+                    Name = "In Theaters", 
+                    Description = "Movies currently playing in theaters",
+                    IsActive = true, 
+                    CreatedAt = fixedDate 
+                },
+                new Category 
+                { 
+                    Id = 2, 
+                    Name = "Upcoming", 
+                    Description = "Movies coming soon to theaters",
+                    IsActive = true, 
+                    CreatedAt = fixedDate 
+                },
+                new Category 
+                { 
+                    Id = 3, 
+                    Name = "Classics", 
+                    Description = "Classic movies from the past",
+                    IsActive = true, 
+                    CreatedAt = fixedDate 
+                }
+            );
+
+            // Seed Genres
+            modelBuilder.Entity<Genre>().HasData(
+                new Genre { Id = 1, Name = "Action", Description = "High-energy films with physical stunts and chases", IsActive = true, CreatedAt = fixedDate },
+                new Genre { Id = 2, Name = "Adventure", Description = "Exciting journeys and quests", IsActive = true, CreatedAt = fixedDate },
+                new Genre { Id = 3, Name = "Comedy", Description = "Humorous films intended to make audiences laugh", IsActive = true, CreatedAt = fixedDate },
+                new Genre { Id = 4, Name = "Drama", Description = "Serious, plot-driven films focusing on realistic characters", IsActive = true, CreatedAt = fixedDate },
+                new Genre { Id = 5, Name = "Horror", Description = "Films intended to frighten and create suspense", IsActive = true, CreatedAt = fixedDate },
+                new Genre { Id = 6, Name = "Romance", Description = "Films focusing on love stories and relationships", IsActive = true, CreatedAt = fixedDate },
+                new Genre { Id = 7, Name = "Thriller", Description = "Suspenseful films that keep audiences on edge", IsActive = true, CreatedAt = fixedDate },
+                new Genre { Id = 8, Name = "Science Fiction", Description = "Films with futuristic or scientific themes", IsActive = true, CreatedAt = fixedDate },
+                new Genre { Id = 9, Name = "Fantasy", Description = "Films with magical or supernatural elements", IsActive = true, CreatedAt = fixedDate },
+                new Genre { Id = 10, Name = "Animation", Description = "Films created using animation techniques", IsActive = true, CreatedAt = fixedDate },
+                new Genre { Id = 11, Name = "Documentary", Description = "Non-fiction films about real events or people", IsActive = true, CreatedAt = fixedDate },
+                new Genre { Id = 12, Name = "Musical", Description = "Films featuring songs and musical numbers", IsActive = true, CreatedAt = fixedDate },
+                new Genre { Id = 13, Name = "Western", Description = "Films set in the American Old West", IsActive = true, CreatedAt = fixedDate },
+                new Genre { Id = 14, Name = "Crime", Description = "Films about criminal activities and law enforcement", IsActive = true, CreatedAt = fixedDate },
+                new Genre { Id = 15, Name = "Mystery", Description = "Films involving puzzles or unsolved crimes", IsActive = true, CreatedAt = fixedDate },
+                new Genre { Id = 16, Name = "War", Description = "Films set during wartime or about military conflicts", IsActive = true, CreatedAt = fixedDate },
+                new Genre { Id = 17, Name = "Biography", Description = "Films based on real people's lives", IsActive = true, CreatedAt = fixedDate },
+                new Genre { Id = 18, Name = "History", Description = "Films set in historical periods", IsActive = true, CreatedAt = fixedDate },
+                new Genre { Id = 19, Name = "Sport", Description = "Films centered around sports and athletic competition", IsActive = true, CreatedAt = fixedDate },
+                new Genre { Id = 20, Name = "Family", Description = "Films suitable for all family members", IsActive = true, CreatedAt = fixedDate }
+            );
+
             // Seed Actors
             modelBuilder.Entity<Actor>().HasData(
                 // Fantastic Four: First Steps actors
@@ -183,8 +235,57 @@ namespace CineVibe.Services.Database
                 new Actor { Id = 30, FirstName = "Emma", LastName = "Stone", IsActive = true, CreatedAt = fixedDate }
             );
 
+            // Seed Directors
+            modelBuilder.Entity<Director>().HasData(
+                new Director { Id = 1, FirstName = "Matt", LastName = "Shakman", Nationality = "American", IsActive = true, CreatedAt = fixedDate },
+                new Director { Id = 2, FirstName = "James", LastName = "Gunn", Nationality = "American", IsActive = true, CreatedAt = fixedDate },
+                new Director { Id = 3, FirstName = "Joseph", LastName = "Kosinski", Nationality = "American", IsActive = true, CreatedAt = fixedDate },
+                new Director { Id = 4, FirstName = "Adrian", LastName = "Molina", Nationality = "American", IsActive = true, CreatedAt = fixedDate },
+                new Director { Id = 5, FirstName = "Jon", LastName = "Watts", Nationality = "American", IsActive = true, CreatedAt = fixedDate },
+                new Director { Id = 6, FirstName = "James", LastName = "Cameron", Nationality = "Canadian", IsActive = true, CreatedAt = fixedDate },
+                new Director { Id = 7, FirstName = "Robert", LastName = "Zemeckis", Nationality = "American", IsActive = true, CreatedAt = fixedDate },
+                new Director { Id = 8, FirstName = "Christopher", LastName = "Nolan", Nationality = "British-American", IsActive = true, CreatedAt = fixedDate },
+                new Director { Id = 9, FirstName = "Quentin", LastName = "Tarantino", Nationality = "American", IsActive = true, CreatedAt = fixedDate },
+                new Director { Id = 10, FirstName = "Steven", LastName = "Spielberg", Nationality = "American", IsActive = true, CreatedAt = fixedDate },
+                new Director { Id = 11, FirstName = "Martin", LastName = "Scorsese", Nationality = "American", IsActive = true, CreatedAt = fixedDate },
+                new Director { Id = 12, FirstName = "Ridley", LastName = "Scott", Nationality = "British", IsActive = true, CreatedAt = fixedDate },
+                new Director { Id = 13, FirstName = "Denis", LastName = "Villeneuve", Nationality = "Canadian", IsActive = true, CreatedAt = fixedDate },
+                new Director { Id = 14, FirstName = "Greta", LastName = "Gerwig", Nationality = "American", IsActive = true, CreatedAt = fixedDate },
+                new Director { Id = 15, FirstName = "Jordan", LastName = "Peele", Nationality = "American", IsActive = true, CreatedAt = fixedDate },
+                new Director { Id = 16, FirstName = "Rian", LastName = "Johnson", Nationality = "American", IsActive = true, CreatedAt = fixedDate },
+                new Director { Id = 17, FirstName = "Chloe", LastName = "Zhao", Nationality = "Chinese", IsActive = true, CreatedAt = fixedDate },
+                new Director { Id = 18, FirstName = "Damien", LastName = "Chazelle", Nationality = "American", IsActive = true, CreatedAt = fixedDate },
+                new Director { Id = 19, FirstName = "Bong", LastName = "Joon-ho", Nationality = "South Korean", IsActive = true, CreatedAt = fixedDate },
+                new Director { Id = 20, FirstName = "Patty", LastName = "Jenkins", Nationality = "American", IsActive = true, CreatedAt = fixedDate }
+            );
+
+            // Seed Production Companies
+            modelBuilder.Entity<ProductionCompany>().HasData(
+                new ProductionCompany { Id = 1, Name = "Marvel Studios", Description = "American film and television production company", Country = "United States", IsActive = true, CreatedAt = fixedDate },
+                new ProductionCompany { Id = 2, Name = "DC Studios", Description = "American film and television production company", Country = "United States", IsActive = true, CreatedAt = fixedDate },
+                new ProductionCompany { Id = 3, Name = "Warner Bros. Pictures", Description = "American film production and distribution company", Country = "United States", IsActive = true, CreatedAt = fixedDate },
+                new ProductionCompany { Id = 4, Name = "Universal Pictures", Description = "American film production and distribution company", Country = "United States", IsActive = true, CreatedAt = fixedDate },
+                new ProductionCompany { Id = 5, Name = "Sony Pictures", Description = "American entertainment company", Country = "United States", IsActive = true, CreatedAt = fixedDate },
+                new ProductionCompany { Id = 6, Name = "Paramount Pictures", Description = "American film and television production company", Country = "United States", IsActive = true, CreatedAt = fixedDate },
+                new ProductionCompany { Id = 7, Name = "20th Century Studios", Description = "American film production company", Country = "United States", IsActive = true, CreatedAt = fixedDate },
+                new ProductionCompany { Id = 8, Name = "Walt Disney Pictures", Description = "American film production company", Country = "United States", IsActive = true, CreatedAt = fixedDate },
+                new ProductionCompany { Id = 9, Name = "Pixar Animation Studios", Description = "American computer animation studio", Country = "United States", IsActive = true, CreatedAt = fixedDate },
+                new ProductionCompany { Id = 10, Name = "Legendary Entertainment", Description = "American film production and mass media company", Country = "United States", IsActive = true, CreatedAt = fixedDate },
+                new ProductionCompany { Id = 11, Name = "Lionsgate Films", Description = "American entertainment company", Country = "United States", IsActive = true, CreatedAt = fixedDate },
+                new ProductionCompany { Id = 12, Name = "A24", Description = "American independent entertainment company", Country = "United States", IsActive = true, CreatedAt = fixedDate },
+                new ProductionCompany { Id = 13, Name = "Netflix", Description = "American streaming service and production company", Country = "United States", IsActive = true, CreatedAt = fixedDate },
+                new ProductionCompany { Id = 14, Name = "Amazon Studios", Description = "American television and film producer and distributor", Country = "United States", IsActive = true, CreatedAt = fixedDate },
+                new ProductionCompany { Id = 15, Name = "Apple Studios", Description = "American film and television production company", Country = "United States", IsActive = true, CreatedAt = fixedDate },
+                new ProductionCompany { Id = 16, Name = "Blumhouse Productions", Description = "American film and television production company", Country = "United States", IsActive = true, CreatedAt = fixedDate },
+                new ProductionCompany { Id = 17, Name = "Plan B Entertainment", Description = "American film production company", Country = "United States", IsActive = true, CreatedAt = fixedDate },
+                new ProductionCompany { Id = 18, Name = "Bad Robot Productions", Description = "American film and television production company", Country = "United States", IsActive = true, CreatedAt = fixedDate },
+                new ProductionCompany { Id = 19, Name = "Lucasfilm", Description = "American film and television production company", Country = "United States", IsActive = true, CreatedAt = fixedDate },
+                new ProductionCompany { Id = 20, Name = "Amblin Entertainment", Description = "American film production company", Country = "United States", IsActive = true, CreatedAt = fixedDate }
+            );
+
             // Seed Movies
             modelBuilder.Entity<Movie>().HasData(
+                // In Theaters (first 4 movies)
                 new Movie 
                 { 
                     Id = 1, 
@@ -193,7 +294,10 @@ namespace CineVibe.Services.Database
                     Description = "The first family of superheroes, the Fantastic Four, gain their powers and learn to work together to stop the world-devouring Galactus.",
                     Duration = 125, 
                     IsActive = true, 
-                    CreatedAt = fixedDate 
+                    CreatedAt = fixedDate,
+                    CategoryId = 1, // In Theaters
+                    GenreId = 1, // Action
+                    DirectorId = 1 // Matt Shakman
                 },
                 new Movie 
                 { 
@@ -203,7 +307,10 @@ namespace CineVibe.Services.Database
                     Description = "Superman navigates his dual identity as Clark Kent and the Man of Steel, while facing new challenges in Metropolis.",
                     Duration = 140, 
                     IsActive = true, 
-                    CreatedAt = fixedDate 
+                    CreatedAt = fixedDate,
+                    CategoryId = 1, // In Theaters
+                    GenreId = 1, // Action
+                    DirectorId = 2 // James Gunn
                 },
                 new Movie 
                 { 
@@ -213,7 +320,10 @@ namespace CineVibe.Services.Database
                     Description = "A seasoned Formula 1 driver comes out of retirement to mentor a young rookie and compete at the highest level of motorsport.",
                     Duration = 130, 
                     IsActive = true, 
-                    CreatedAt = fixedDate 
+                    CreatedAt = fixedDate,
+                    CategoryId = 1, // In Theaters
+                    GenreId = 19, // Sport
+                    DirectorId = 3 // Joseph Kosinski
                 },
                 new Movie 
                 { 
@@ -223,8 +333,12 @@ namespace CineVibe.Services.Database
                     Description = "A young boy with an active imagination accidentally becomes Earth's intergalactic representative and must navigate alien politics.",
                     Duration = 100, 
                     IsActive = true, 
-                    CreatedAt = fixedDate 
+                    CreatedAt = fixedDate,
+                    CategoryId = 1, // In Theaters
+                    GenreId = 10, // Animation
+                    DirectorId = 4 // Adrian Molina
                 },
+                // Upcoming (Spider-Man and Avatar)
                 new Movie 
                 { 
                     Id = 5, 
@@ -233,7 +347,10 @@ namespace CineVibe.Services.Database
                     Description = "Peter Parker faces his greatest challenge yet as he balances his life as Spider-Man with new threats emerging in New York City.",
                     Duration = 135, 
                     IsActive = true, 
-                    CreatedAt = fixedDate 
+                    CreatedAt = fixedDate,
+                    CategoryId = 2, // Upcoming
+                    GenreId = 1, // Action
+                    DirectorId = 5 // Jon Watts
                 },
                 new Movie 
                 { 
@@ -243,8 +360,12 @@ namespace CineVibe.Services.Database
                     Description = "Jake Sully and his family continue their fight for survival on Pandora as they face new threats from the fire and ash regions.",
                     Duration = 190, 
                     IsActive = true, 
-                    CreatedAt = fixedDate 
+                    CreatedAt = fixedDate,
+                    CategoryId = 2, // Upcoming
+                    GenreId = 8, // Science Fiction
+                    DirectorId = 6 // James Cameron
                 },
+                // Classics (Titanic and Cast Away)
                 new Movie 
                 { 
                     Id = 7, 
@@ -253,7 +374,10 @@ namespace CineVibe.Services.Database
                     Description = "A seventeen-year-old aristocrat falls in love with a kind but poor artist aboard the luxurious, ill-fated R.M.S. Titanic.",
                     Duration = 195, 
                     IsActive = true, 
-                    CreatedAt = fixedDate 
+                    CreatedAt = fixedDate,
+                    CategoryId = 3, // Classics
+                    GenreId = 6, // Romance
+                    DirectorId = 6 // James Cameron
                 },
                 new Movie 
                 { 
@@ -263,7 +387,10 @@ namespace CineVibe.Services.Database
                     Description = "A FedEx executive undergoes a physical and emotional transformation after crash landing on a deserted island.",
                     Duration = 143, 
                     IsActive = true, 
-                    CreatedAt = fixedDate 
+                    CreatedAt = fixedDate,
+                    CategoryId = 3, // Classics
+                    GenreId = 4, // Drama
+                    DirectorId = 7 // Robert Zemeckis
                 }
             );
 
@@ -309,6 +436,41 @@ namespace CineVibe.Services.Database
                 // Cast Away
                 new MovieActor { Id = 24, MovieId = 8, ActorId = 24, DateAssigned = fixedDate }, // Tom Hanks
                 new MovieActor { Id = 25, MovieId = 8, ActorId = 25, DateAssigned = fixedDate }  // Helen Hunt
+            );
+
+            // Seed MovieProductionCompanies
+            modelBuilder.Entity<MovieProductionCompany>().HasData(
+                // Fantastic Four: First Steps - Marvel Studios + Disney
+                new MovieProductionCompany { Id = 1, MovieId = 1, ProductionCompanyId = 1, DateAssigned = fixedDate }, // Marvel Studios
+                new MovieProductionCompany { Id = 2, MovieId = 1, ProductionCompanyId = 8, DateAssigned = fixedDate }, // Walt Disney Pictures
+
+                // Superman - DC Studios + Warner Bros
+                new MovieProductionCompany { Id = 3, MovieId = 2, ProductionCompanyId = 2, DateAssigned = fixedDate }, // DC Studios
+                new MovieProductionCompany { Id = 4, MovieId = 2, ProductionCompanyId = 3, DateAssigned = fixedDate }, // Warner Bros
+
+                // F1 - Apple Studios + Plan B Entertainment
+                new MovieProductionCompany { Id = 5, MovieId = 3, ProductionCompanyId = 15, DateAssigned = fixedDate }, // Apple Studios
+                new MovieProductionCompany { Id = 6, MovieId = 3, ProductionCompanyId = 17, DateAssigned = fixedDate }, // Plan B Entertainment
+
+                // Elio - Pixar + Disney
+                new MovieProductionCompany { Id = 7, MovieId = 4, ProductionCompanyId = 9, DateAssigned = fixedDate }, // Pixar
+                new MovieProductionCompany { Id = 8, MovieId = 4, ProductionCompanyId = 8, DateAssigned = fixedDate }, // Disney
+
+                // Spider-Man: Brand New Day - Marvel Studios + Sony Pictures
+                new MovieProductionCompany { Id = 9, MovieId = 5, ProductionCompanyId = 1, DateAssigned = fixedDate }, // Marvel Studios
+                new MovieProductionCompany { Id = 10, MovieId = 5, ProductionCompanyId = 5, DateAssigned = fixedDate }, // Sony Pictures
+
+                // Avatar: Fire and Ash - 20th Century Studios + Lightstorm Entertainment
+                new MovieProductionCompany { Id = 11, MovieId = 6, ProductionCompanyId = 7, DateAssigned = fixedDate }, // 20th Century Studios
+                new MovieProductionCompany { Id = 12, MovieId = 6, ProductionCompanyId = 8, DateAssigned = fixedDate}, // Disney
+
+                // Titanic - 20th Century Studios + Paramount Pictures
+                new MovieProductionCompany { Id = 13, MovieId = 7, ProductionCompanyId = 7, DateAssigned = fixedDate }, // 20th Century Studios
+                new MovieProductionCompany { Id = 14, MovieId = 7, ProductionCompanyId = 6, DateAssigned = fixedDate }, // Paramount Pictures
+
+                // Cast Away - 20th Century Studios + Amblin Entertainment
+                new MovieProductionCompany { Id = 15, MovieId = 8, ProductionCompanyId = 7, DateAssigned = fixedDate }, // 20th Century Studios
+                new MovieProductionCompany { Id = 16, MovieId = 8, ProductionCompanyId = 20, DateAssigned = fixedDate } // Amblin Entertainment
             );
         }
     }

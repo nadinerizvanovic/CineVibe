@@ -27,6 +27,16 @@ namespace CineVibe.Model.Requests
         
         public bool IsActive { get; set; } = true;
         
+        [Required]
+        public int CategoryId { get; set; }
+        
+        [Required]
+        public int GenreId { get; set; }
+        
+        [Required]
+        public int DirectorId { get; set; }
+        
         public List<int>? ActorIds { get; set; } // For managing movie-actor relationships
+        public List<int>? ProductionCompanyIds { get; set; } // For managing movie-production company relationships
     }
 }

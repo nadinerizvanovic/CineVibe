@@ -9,5 +9,9 @@ namespace CineVibe.Services.Interfaces
         Task<List<ActorResponse>> GetMovieActorsAsync(int movieId);
         Task<bool> AssignActorToMovieAsync(int movieId, int actorId);
         Task<bool> RemoveActorFromMovieAsync(int movieId, int actorId);
+        
+        Task<List<ProductionCompanyResponse>> GetMovieProductionCompaniesAsync(int movieId);
+        Task<bool> AssignProductionCompanyToMovieAsync(int movieId, int productionCompanyId);
+        Task<bool> RemoveProductionCompanyFromMovieAsync(int movieId, int productionCompanyId);
     }
 }

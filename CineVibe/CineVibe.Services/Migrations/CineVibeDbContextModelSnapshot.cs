@@ -293,6 +293,63 @@ namespace CineVibe.Services.Migrations
                         });
                 });
 
+            modelBuilder.Entity("CineVibe.Services.Database.Category", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Movies currently playing in theaters",
+                            IsActive = true,
+                            Name = "In Theaters"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Movies coming soon to theaters",
+                            IsActive = true,
+                            Name = "Upcoming"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Classic movies from the past",
+                            IsActive = true,
+                            Name = "Classics"
+                        });
+                });
+
             modelBuilder.Entity("CineVibe.Services.Database.City", b =>
                 {
                     b.Property<int>("Id")
@@ -365,6 +422,221 @@ namespace CineVibe.Services.Migrations
                         });
                 });
 
+            modelBuilder.Entity("CineVibe.Services.Database.Director", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Nationality")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Directors");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            FirstName = "Matt",
+                            IsActive = true,
+                            LastName = "Shakman",
+                            Nationality = "American"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            FirstName = "James",
+                            IsActive = true,
+                            LastName = "Gunn",
+                            Nationality = "American"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            FirstName = "Joseph",
+                            IsActive = true,
+                            LastName = "Kosinski",
+                            Nationality = "American"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            FirstName = "Adrian",
+                            IsActive = true,
+                            LastName = "Molina",
+                            Nationality = "American"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            FirstName = "Jon",
+                            IsActive = true,
+                            LastName = "Watts",
+                            Nationality = "American"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            FirstName = "James",
+                            IsActive = true,
+                            LastName = "Cameron",
+                            Nationality = "Canadian"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            FirstName = "Robert",
+                            IsActive = true,
+                            LastName = "Zemeckis",
+                            Nationality = "American"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            FirstName = "Christopher",
+                            IsActive = true,
+                            LastName = "Nolan",
+                            Nationality = "British-American"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            FirstName = "Quentin",
+                            IsActive = true,
+                            LastName = "Tarantino",
+                            Nationality = "American"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            FirstName = "Steven",
+                            IsActive = true,
+                            LastName = "Spielberg",
+                            Nationality = "American"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            FirstName = "Martin",
+                            IsActive = true,
+                            LastName = "Scorsese",
+                            Nationality = "American"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            FirstName = "Ridley",
+                            IsActive = true,
+                            LastName = "Scott",
+                            Nationality = "British"
+                        },
+                        new
+                        {
+                            Id = 13,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            FirstName = "Denis",
+                            IsActive = true,
+                            LastName = "Villeneuve",
+                            Nationality = "Canadian"
+                        },
+                        new
+                        {
+                            Id = 14,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            FirstName = "Greta",
+                            IsActive = true,
+                            LastName = "Gerwig",
+                            Nationality = "American"
+                        },
+                        new
+                        {
+                            Id = 15,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            FirstName = "Jordan",
+                            IsActive = true,
+                            LastName = "Peele",
+                            Nationality = "American"
+                        },
+                        new
+                        {
+                            Id = 16,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            FirstName = "Rian",
+                            IsActive = true,
+                            LastName = "Johnson",
+                            Nationality = "American"
+                        },
+                        new
+                        {
+                            Id = 17,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            FirstName = "Chloe",
+                            IsActive = true,
+                            LastName = "Zhao",
+                            Nationality = "Chinese"
+                        },
+                        new
+                        {
+                            Id = 18,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            FirstName = "Damien",
+                            IsActive = true,
+                            LastName = "Chazelle",
+                            Nationality = "American"
+                        },
+                        new
+                        {
+                            Id = 19,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            FirstName = "Bong",
+                            IsActive = true,
+                            LastName = "Joon-ho",
+                            Nationality = "South Korean"
+                        },
+                        new
+                        {
+                            Id = 20,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            FirstName = "Patty",
+                            IsActive = true,
+                            LastName = "Jenkins",
+                            Nationality = "American"
+                        });
+                });
+
             modelBuilder.Entity("CineVibe.Services.Database.Gender", b =>
                 {
                     b.Property<int>("Id")
@@ -397,7 +669,7 @@ namespace CineVibe.Services.Migrations
                         });
                 });
 
-            modelBuilder.Entity("CineVibe.Services.Database.Movie", b =>
+            modelBuilder.Entity("CineVibe.Services.Database.Genre", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -409,10 +681,212 @@ namespace CineVibe.Services.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("Genres");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "High-energy films with physical stunts and chases",
+                            IsActive = true,
+                            Name = "Action"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Exciting journeys and quests",
+                            IsActive = true,
+                            Name = "Adventure"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Humorous films intended to make audiences laugh",
+                            IsActive = true,
+                            Name = "Comedy"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Serious, plot-driven films focusing on realistic characters",
+                            IsActive = true,
+                            Name = "Drama"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Films intended to frighten and create suspense",
+                            IsActive = true,
+                            Name = "Horror"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Films focusing on love stories and relationships",
+                            IsActive = true,
+                            Name = "Romance"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Suspenseful films that keep audiences on edge",
+                            IsActive = true,
+                            Name = "Thriller"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Films with futuristic or scientific themes",
+                            IsActive = true,
+                            Name = "Science Fiction"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Films with magical or supernatural elements",
+                            IsActive = true,
+                            Name = "Fantasy"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Films created using animation techniques",
+                            IsActive = true,
+                            Name = "Animation"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Non-fiction films about real events or people",
+                            IsActive = true,
+                            Name = "Documentary"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Films featuring songs and musical numbers",
+                            IsActive = true,
+                            Name = "Musical"
+                        },
+                        new
+                        {
+                            Id = 13,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Films set in the American Old West",
+                            IsActive = true,
+                            Name = "Western"
+                        },
+                        new
+                        {
+                            Id = 14,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Films about criminal activities and law enforcement",
+                            IsActive = true,
+                            Name = "Crime"
+                        },
+                        new
+                        {
+                            Id = 15,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Films involving puzzles or unsolved crimes",
+                            IsActive = true,
+                            Name = "Mystery"
+                        },
+                        new
+                        {
+                            Id = 16,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Films set during wartime or about military conflicts",
+                            IsActive = true,
+                            Name = "War"
+                        },
+                        new
+                        {
+                            Id = 17,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Films based on real people's lives",
+                            IsActive = true,
+                            Name = "Biography"
+                        },
+                        new
+                        {
+                            Id = 18,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Films set in historical periods",
+                            IsActive = true,
+                            Name = "History"
+                        },
+                        new
+                        {
+                            Id = 19,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Films centered around sports and athletic competition",
+                            IsActive = true,
+                            Name = "Sport"
+                        },
+                        new
+                        {
+                            Id = 20,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Films suitable for all family members",
+                            IsActive = true,
+                            Name = "Family"
+                        });
+                });
+
+            modelBuilder.Entity("CineVibe.Services.Database.Movie", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
 
+                    b.Property<int>("DirectorId")
+                        .HasColumnType("int");
+
                     b.Property<int>("Duration")
+                        .HasColumnType("int");
+
+                    b.Property<int>("GenreId")
                         .HasColumnType("int");
 
                     b.Property<bool>("IsActive")
@@ -435,6 +909,12 @@ namespace CineVibe.Services.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("DirectorId");
+
+                    b.HasIndex("GenreId");
+
                     b.HasIndex("Title")
                         .IsUnique();
 
@@ -444,9 +924,12 @@ namespace CineVibe.Services.Migrations
                         new
                         {
                             Id = 1,
+                            CategoryId = 1,
                             CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "The first family of superheroes, the Fantastic Four, gain their powers and learn to work together to stop the world-devouring Galactus.",
+                            DirectorId = 1,
                             Duration = 125,
+                            GenreId = 1,
                             IsActive = true,
                             ReleaseDate = new DateTime(2025, 7, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Fantastic Four: First Steps"
@@ -454,9 +937,12 @@ namespace CineVibe.Services.Migrations
                         new
                         {
                             Id = 2,
+                            CategoryId = 1,
                             CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Superman navigates his dual identity as Clark Kent and the Man of Steel, while facing new challenges in Metropolis.",
+                            DirectorId = 2,
                             Duration = 140,
+                            GenreId = 1,
                             IsActive = true,
                             ReleaseDate = new DateTime(2025, 7, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Superman"
@@ -464,9 +950,12 @@ namespace CineVibe.Services.Migrations
                         new
                         {
                             Id = 3,
+                            CategoryId = 1,
                             CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "A seasoned Formula 1 driver comes out of retirement to mentor a young rookie and compete at the highest level of motorsport.",
+                            DirectorId = 3,
                             Duration = 130,
+                            GenreId = 19,
                             IsActive = true,
                             ReleaseDate = new DateTime(2025, 6, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "F1"
@@ -474,9 +963,12 @@ namespace CineVibe.Services.Migrations
                         new
                         {
                             Id = 4,
+                            CategoryId = 1,
                             CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "A young boy with an active imagination accidentally becomes Earth's intergalactic representative and must navigate alien politics.",
+                            DirectorId = 4,
                             Duration = 100,
+                            GenreId = 10,
                             IsActive = true,
                             ReleaseDate = new DateTime(2025, 6, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Elio"
@@ -484,9 +976,12 @@ namespace CineVibe.Services.Migrations
                         new
                         {
                             Id = 5,
+                            CategoryId = 2,
                             CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Peter Parker faces his greatest challenge yet as he balances his life as Spider-Man with new threats emerging in New York City.",
+                            DirectorId = 5,
                             Duration = 135,
+                            GenreId = 1,
                             IsActive = true,
                             ReleaseDate = new DateTime(2026, 7, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Spider-Man: Brand New Day"
@@ -494,9 +989,12 @@ namespace CineVibe.Services.Migrations
                         new
                         {
                             Id = 6,
+                            CategoryId = 2,
                             CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "Jake Sully and his family continue their fight for survival on Pandora as they face new threats from the fire and ash regions.",
+                            DirectorId = 6,
                             Duration = 190,
+                            GenreId = 8,
                             IsActive = true,
                             ReleaseDate = new DateTime(2025, 12, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Avatar: Fire and Ash"
@@ -504,9 +1002,12 @@ namespace CineVibe.Services.Migrations
                         new
                         {
                             Id = 7,
+                            CategoryId = 3,
                             CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "A seventeen-year-old aristocrat falls in love with a kind but poor artist aboard the luxurious, ill-fated R.M.S. Titanic.",
+                            DirectorId = 6,
                             Duration = 195,
+                            GenreId = 6,
                             IsActive = true,
                             ReleaseDate = new DateTime(1997, 12, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Titanic"
@@ -514,9 +1015,12 @@ namespace CineVibe.Services.Migrations
                         new
                         {
                             Id = 8,
+                            CategoryId = 3,
                             CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
                             Description = "A FedEx executive undergoes a physical and emotional transformation after crash landing on a deserted island.",
+                            DirectorId = 7,
                             Duration = 143,
+                            GenreId = 4,
                             IsActive = true,
                             ReleaseDate = new DateTime(2000, 12, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Cast Away"
@@ -724,6 +1228,364 @@ namespace CineVibe.Services.Migrations
                             ActorId = 25,
                             DateAssigned = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
                             MovieId = 8
+                        });
+                });
+
+            modelBuilder.Entity("CineVibe.Services.Database.MovieProductionCompany", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("DateAssigned")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("MovieId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductionCompanyId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductionCompanyId");
+
+                    b.HasIndex("MovieId", "ProductionCompanyId")
+                        .IsUnique();
+
+                    b.ToTable("MovieProductionCompanies");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            DateAssigned = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            MovieId = 1,
+                            ProductionCompanyId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            DateAssigned = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            MovieId = 1,
+                            ProductionCompanyId = 8
+                        },
+                        new
+                        {
+                            Id = 3,
+                            DateAssigned = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            MovieId = 2,
+                            ProductionCompanyId = 2
+                        },
+                        new
+                        {
+                            Id = 4,
+                            DateAssigned = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            MovieId = 2,
+                            ProductionCompanyId = 3
+                        },
+                        new
+                        {
+                            Id = 5,
+                            DateAssigned = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            MovieId = 3,
+                            ProductionCompanyId = 15
+                        },
+                        new
+                        {
+                            Id = 6,
+                            DateAssigned = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            MovieId = 3,
+                            ProductionCompanyId = 17
+                        },
+                        new
+                        {
+                            Id = 7,
+                            DateAssigned = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            MovieId = 4,
+                            ProductionCompanyId = 9
+                        },
+                        new
+                        {
+                            Id = 8,
+                            DateAssigned = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            MovieId = 4,
+                            ProductionCompanyId = 8
+                        },
+                        new
+                        {
+                            Id = 9,
+                            DateAssigned = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            MovieId = 5,
+                            ProductionCompanyId = 1
+                        },
+                        new
+                        {
+                            Id = 10,
+                            DateAssigned = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            MovieId = 5,
+                            ProductionCompanyId = 5
+                        },
+                        new
+                        {
+                            Id = 11,
+                            DateAssigned = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            MovieId = 6,
+                            ProductionCompanyId = 7
+                        },
+                        new
+                        {
+                            Id = 12,
+                            DateAssigned = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            MovieId = 6,
+                            ProductionCompanyId = 8
+                        },
+                        new
+                        {
+                            Id = 13,
+                            DateAssigned = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            MovieId = 7,
+                            ProductionCompanyId = 7
+                        },
+                        new
+                        {
+                            Id = 14,
+                            DateAssigned = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            MovieId = 7,
+                            ProductionCompanyId = 6
+                        },
+                        new
+                        {
+                            Id = 15,
+                            DateAssigned = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            MovieId = 8,
+                            ProductionCompanyId = 7
+                        },
+                        new
+                        {
+                            Id = 16,
+                            DateAssigned = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            MovieId = 8,
+                            ProductionCompanyId = 20
+                        });
+                });
+
+            modelBuilder.Entity("CineVibe.Services.Database.ProductionCompany", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Country")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("ProductionCompanies");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Country = "United States",
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "American film and television production company",
+                            IsActive = true,
+                            Name = "Marvel Studios"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Country = "United States",
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "American film and television production company",
+                            IsActive = true,
+                            Name = "DC Studios"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Country = "United States",
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "American film production and distribution company",
+                            IsActive = true,
+                            Name = "Warner Bros. Pictures"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Country = "United States",
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "American film production and distribution company",
+                            IsActive = true,
+                            Name = "Universal Pictures"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Country = "United States",
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "American entertainment company",
+                            IsActive = true,
+                            Name = "Sony Pictures"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Country = "United States",
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "American film and television production company",
+                            IsActive = true,
+                            Name = "Paramount Pictures"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Country = "United States",
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "American film production company",
+                            IsActive = true,
+                            Name = "20th Century Studios"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Country = "United States",
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "American film production company",
+                            IsActive = true,
+                            Name = "Walt Disney Pictures"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Country = "United States",
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "American computer animation studio",
+                            IsActive = true,
+                            Name = "Pixar Animation Studios"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Country = "United States",
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "American film production and mass media company",
+                            IsActive = true,
+                            Name = "Legendary Entertainment"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            Country = "United States",
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "American entertainment company",
+                            IsActive = true,
+                            Name = "Lionsgate Films"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            Country = "United States",
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "American independent entertainment company",
+                            IsActive = true,
+                            Name = "A24"
+                        },
+                        new
+                        {
+                            Id = 13,
+                            Country = "United States",
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "American streaming service and production company",
+                            IsActive = true,
+                            Name = "Netflix"
+                        },
+                        new
+                        {
+                            Id = 14,
+                            Country = "United States",
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "American television and film producer and distributor",
+                            IsActive = true,
+                            Name = "Amazon Studios"
+                        },
+                        new
+                        {
+                            Id = 15,
+                            Country = "United States",
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "American film and television production company",
+                            IsActive = true,
+                            Name = "Apple Studios"
+                        },
+                        new
+                        {
+                            Id = 16,
+                            Country = "United States",
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "American film and television production company",
+                            IsActive = true,
+                            Name = "Blumhouse Productions"
+                        },
+                        new
+                        {
+                            Id = 17,
+                            Country = "United States",
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "American film production company",
+                            IsActive = true,
+                            Name = "Plan B Entertainment"
+                        },
+                        new
+                        {
+                            Id = 18,
+                            Country = "United States",
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "American film and television production company",
+                            IsActive = true,
+                            Name = "Bad Robot Productions"
+                        },
+                        new
+                        {
+                            Id = 19,
+                            Country = "United States",
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "American film and television production company",
+                            IsActive = true,
+                            Name = "Lucasfilm"
+                        },
+                        new
+                        {
+                            Id = 20,
+                            Country = "United States",
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "American film production company",
+                            IsActive = true,
+                            Name = "Amblin Entertainment"
                         });
                 });
 
@@ -972,6 +1834,33 @@ namespace CineVibe.Services.Migrations
                         });
                 });
 
+            modelBuilder.Entity("CineVibe.Services.Database.Movie", b =>
+                {
+                    b.HasOne("CineVibe.Services.Database.Category", "Category")
+                        .WithMany("Movies")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("CineVibe.Services.Database.Director", "Director")
+                        .WithMany("Movies")
+                        .HasForeignKey("DirectorId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("CineVibe.Services.Database.Genre", "Genre")
+                        .WithMany("Movies")
+                        .HasForeignKey("GenreId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+
+                    b.Navigation("Director");
+
+                    b.Navigation("Genre");
+                });
+
             modelBuilder.Entity("CineVibe.Services.Database.MovieActor", b =>
                 {
                     b.HasOne("CineVibe.Services.Database.Actor", "Actor")
@@ -989,6 +1878,25 @@ namespace CineVibe.Services.Migrations
                     b.Navigation("Actor");
 
                     b.Navigation("Movie");
+                });
+
+            modelBuilder.Entity("CineVibe.Services.Database.MovieProductionCompany", b =>
+                {
+                    b.HasOne("CineVibe.Services.Database.Movie", "Movie")
+                        .WithMany("MovieProductionCompanies")
+                        .HasForeignKey("MovieId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CineVibe.Services.Database.ProductionCompany", "ProductionCompany")
+                        .WithMany("MovieProductionCompanies")
+                        .HasForeignKey("ProductionCompanyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Movie");
+
+                    b.Navigation("ProductionCompany");
                 });
 
             modelBuilder.Entity("CineVibe.Services.Database.User", b =>
@@ -1034,9 +1942,31 @@ namespace CineVibe.Services.Migrations
                     b.Navigation("MovieActors");
                 });
 
+            modelBuilder.Entity("CineVibe.Services.Database.Category", b =>
+                {
+                    b.Navigation("Movies");
+                });
+
+            modelBuilder.Entity("CineVibe.Services.Database.Director", b =>
+                {
+                    b.Navigation("Movies");
+                });
+
+            modelBuilder.Entity("CineVibe.Services.Database.Genre", b =>
+                {
+                    b.Navigation("Movies");
+                });
+
             modelBuilder.Entity("CineVibe.Services.Database.Movie", b =>
                 {
                     b.Navigation("MovieActors");
+
+                    b.Navigation("MovieProductionCompanies");
+                });
+
+            modelBuilder.Entity("CineVibe.Services.Database.ProductionCompany", b =>
+                {
+                    b.Navigation("MovieProductionCompanies");
                 });
 
             modelBuilder.Entity("CineVibe.Services.Database.Role", b =>
