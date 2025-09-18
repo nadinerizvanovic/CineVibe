@@ -1,0 +1,11 @@
+# Kreiranjes migracije
+
+dotnet ef migrations add InitialData --project .\CineVibe.Services --startup-project .\CineVibe.WebAPI
+
+# Pokretanje migracije
+
+update-database
+
+# Generisanje .g dijela klase
+
+dart run build_runner build
