@@ -14,6 +14,22 @@ namespace CineVibe.Services.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "Actors",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Actors", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Cities",
                 columns: table => new
                 {
@@ -37,6 +53,26 @@ namespace CineVibe.Services.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Genders", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Movies",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    ReleaseDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
+                    Duration = table.Column<int>(type: "int", nullable: false),
+                    Trailer = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    Poster = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Movies", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -91,6 +127,33 @@ namespace CineVibe.Services.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "MovieActors",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    MovieId = table.Column<int>(type: "int", nullable: false),
+                    ActorId = table.Column<int>(type: "int", nullable: false),
+                    DateAssigned = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MovieActors", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_MovieActors_Actors_ActorId",
+                        column: x => x.ActorId,
+                        principalTable: "Actors",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_MovieActors_Movies_MovieId",
+                        column: x => x.MovieId,
+                        principalTable: "Movies",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "UserRoles",
                 columns: table => new
                 {
@@ -115,6 +178,43 @@ namespace CineVibe.Services.Migrations
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "Actors",
+                columns: new[] { "Id", "CreatedAt", "FirstName", "IsActive", "LastName" },
+                values: new object[,]
+                {
+                    { 1, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), "Pedro", true, "Pascal" },
+                    { 2, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), "Vanessa", true, "Kirby" },
+                    { 3, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), "Joseph", true, "Quinn" },
+                    { 4, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), "Ebon", true, "Moss-Bachrach" },
+                    { 5, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), "David", true, "Corenswet" },
+                    { 6, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), "Rachel", true, "Brosnahan" },
+                    { 7, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), "Nicholas", true, "Hoult" },
+                    { 8, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), "Brad", true, "Pitt" },
+                    { 9, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), "Damson", true, "Idris" },
+                    { 10, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), "Kerry", true, "Condon" },
+                    { 11, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), "Yonas", true, "Kibreab" },
+                    { 12, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), "Zoe", true, "Saldana" },
+                    { 13, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), "Tom", true, "Holland" },
+                    { 14, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), "Zendaya", true, "Coleman" },
+                    { 15, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), "Jacob", true, "Batalon" },
+                    { 16, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), "Sam", true, "Worthington" },
+                    { 17, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), "Zoe", true, "Saldana" },
+                    { 18, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), "Sigourney", true, "Weaver" },
+                    { 19, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), "Kate", true, "Winslet" },
+                    { 20, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), "Leonardo", true, "DiCaprio" },
+                    { 21, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), "Kate", true, "Winslet" },
+                    { 22, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), "Billy", true, "Zane" },
+                    { 23, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), "Gloria", true, "Stuart" },
+                    { 24, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), "Tom", true, "Hanks" },
+                    { 25, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), "Helen", true, "Hunt" },
+                    { 26, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), "Robert", true, "Downey Jr." },
+                    { 27, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), "Scarlett", true, "Johansson" },
+                    { 28, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), "Chris", true, "Evans" },
+                    { 29, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), "Ryan", true, "Reynolds" },
+                    { 30, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), "Emma", true, "Stone" }
                 });
 
             migrationBuilder.InsertData(
@@ -144,12 +244,59 @@ namespace CineVibe.Services.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "Movies",
+                columns: new[] { "Id", "CreatedAt", "Description", "Duration", "IsActive", "Poster", "ReleaseDate", "Title", "Trailer" },
+                values: new object[,]
+                {
+                    { 1, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), "The first family of superheroes, the Fantastic Four, gain their powers and learn to work together to stop the world-devouring Galactus.", 125, true, null, new DateTime(2025, 7, 25, 0, 0, 0, 0, DateTimeKind.Unspecified), "Fantastic Four: First Steps", null },
+                    { 2, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), "Superman navigates his dual identity as Clark Kent and the Man of Steel, while facing new challenges in Metropolis.", 140, true, null, new DateTime(2025, 7, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), "Superman", null },
+                    { 3, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), "A seasoned Formula 1 driver comes out of retirement to mentor a young rookie and compete at the highest level of motorsport.", 130, true, null, new DateTime(2025, 6, 27, 0, 0, 0, 0, DateTimeKind.Unspecified), "F1", null },
+                    { 4, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), "A young boy with an active imagination accidentally becomes Earth's intergalactic representative and must navigate alien politics.", 100, true, null, new DateTime(2025, 6, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), "Elio", null },
+                    { 5, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), "Peter Parker faces his greatest challenge yet as he balances his life as Spider-Man with new threats emerging in New York City.", 135, true, null, new DateTime(2026, 7, 24, 0, 0, 0, 0, DateTimeKind.Unspecified), "Spider-Man: Brand New Day", null },
+                    { 6, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), "Jake Sully and his family continue their fight for survival on Pandora as they face new threats from the fire and ash regions.", 190, true, null, new DateTime(2025, 12, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), "Avatar: Fire and Ash", null },
+                    { 7, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), "A seventeen-year-old aristocrat falls in love with a kind but poor artist aboard the luxurious, ill-fated R.M.S. Titanic.", 195, true, null, new DateTime(1997, 12, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), "Titanic", null },
+                    { 8, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), "A FedEx executive undergoes a physical and emotional transformation after crash landing on a deserted island.", 143, true, null, new DateTime(2000, 12, 22, 0, 0, 0, 0, DateTimeKind.Unspecified), "Cast Away", null }
+                });
+
+            migrationBuilder.InsertData(
                 table: "Roles",
                 columns: new[] { "Id", "CreatedAt", "Description", "IsActive", "Name" },
                 values: new object[,]
                 {
                     { 1, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), "System administrator with full access", true, "Administrator" },
                     { 2, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), "Regular user role", true, "User" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "MovieActors",
+                columns: new[] { "Id", "ActorId", "DateAssigned", "MovieId" },
+                values: new object[,]
+                {
+                    { 1, 1, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1 },
+                    { 2, 2, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1 },
+                    { 3, 3, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1 },
+                    { 4, 4, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1 },
+                    { 5, 5, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2 },
+                    { 6, 6, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2 },
+                    { 7, 7, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2 },
+                    { 8, 8, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3 },
+                    { 9, 9, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3 },
+                    { 10, 10, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3 },
+                    { 11, 11, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4 },
+                    { 12, 12, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4 },
+                    { 13, 13, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 5 },
+                    { 14, 14, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 5 },
+                    { 15, 15, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 5 },
+                    { 16, 16, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 6 },
+                    { 17, 17, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 6 },
+                    { 18, 18, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 6 },
+                    { 19, 19, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 6 },
+                    { 20, 20, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 7 },
+                    { 21, 21, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 7 },
+                    { 22, 22, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 7 },
+                    { 23, 23, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 7 },
+                    { 24, 24, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 8 },
+                    { 25, 25, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 8 }
                 });
 
             migrationBuilder.InsertData(
@@ -184,6 +331,23 @@ namespace CineVibe.Services.Migrations
                 name: "IX_Genders_Name",
                 table: "Genders",
                 column: "Name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MovieActors_ActorId",
+                table: "MovieActors",
+                column: "ActorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MovieActors_MovieId_ActorId",
+                table: "MovieActors",
+                columns: new[] { "MovieId", "ActorId" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Movies_Title",
+                table: "Movies",
+                column: "Title",
                 unique: true);
 
             migrationBuilder.CreateIndex(
@@ -230,7 +394,16 @@ namespace CineVibe.Services.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "MovieActors");
+
+            migrationBuilder.DropTable(
                 name: "UserRoles");
+
+            migrationBuilder.DropTable(
+                name: "Actors");
+
+            migrationBuilder.DropTable(
+                name: "Movies");
 
             migrationBuilder.DropTable(
                 name: "Roles");

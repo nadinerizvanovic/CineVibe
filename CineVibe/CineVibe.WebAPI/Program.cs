@@ -17,6 +17,9 @@ builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<IRoleService, RoleService>();
 builder.Services.AddTransient<IGenderService, GenderService>();
 builder.Services.AddTransient<ICityService, CityService>();
+builder.Services.AddTransient<IActorService, ActorService>();
+builder.Services.AddTransient<IMovieService, MovieService>();
+builder.Services.AddTransient<IMovieActorService, MovieActorService>();
 
 
 // Configure database

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CineVibe.Services.Migrations
 {
     [DbContext(typeof(CineVibeDbContext))]
-    [Migration("20250918122104_InitialData")]
+    [Migration("20250918125216_InitialData")]
     partial class InitialData
     {
         /// <inheritdoc />
@@ -24,6 +24,277 @@ namespace CineVibe.Services.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("CineVibe.Services.Database.Actor", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Actors");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            FirstName = "Pedro",
+                            IsActive = true,
+                            LastName = "Pascal"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            FirstName = "Vanessa",
+                            IsActive = true,
+                            LastName = "Kirby"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            FirstName = "Joseph",
+                            IsActive = true,
+                            LastName = "Quinn"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            FirstName = "Ebon",
+                            IsActive = true,
+                            LastName = "Moss-Bachrach"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            FirstName = "David",
+                            IsActive = true,
+                            LastName = "Corenswet"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            FirstName = "Rachel",
+                            IsActive = true,
+                            LastName = "Brosnahan"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            FirstName = "Nicholas",
+                            IsActive = true,
+                            LastName = "Hoult"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            FirstName = "Brad",
+                            IsActive = true,
+                            LastName = "Pitt"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            FirstName = "Damson",
+                            IsActive = true,
+                            LastName = "Idris"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            FirstName = "Kerry",
+                            IsActive = true,
+                            LastName = "Condon"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            FirstName = "Yonas",
+                            IsActive = true,
+                            LastName = "Kibreab"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            FirstName = "Zoe",
+                            IsActive = true,
+                            LastName = "Saldana"
+                        },
+                        new
+                        {
+                            Id = 13,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            FirstName = "Tom",
+                            IsActive = true,
+                            LastName = "Holland"
+                        },
+                        new
+                        {
+                            Id = 14,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            FirstName = "Zendaya",
+                            IsActive = true,
+                            LastName = "Coleman"
+                        },
+                        new
+                        {
+                            Id = 15,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            FirstName = "Jacob",
+                            IsActive = true,
+                            LastName = "Batalon"
+                        },
+                        new
+                        {
+                            Id = 16,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            FirstName = "Sam",
+                            IsActive = true,
+                            LastName = "Worthington"
+                        },
+                        new
+                        {
+                            Id = 17,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            FirstName = "Zoe",
+                            IsActive = true,
+                            LastName = "Saldana"
+                        },
+                        new
+                        {
+                            Id = 18,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            FirstName = "Sigourney",
+                            IsActive = true,
+                            LastName = "Weaver"
+                        },
+                        new
+                        {
+                            Id = 19,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            FirstName = "Kate",
+                            IsActive = true,
+                            LastName = "Winslet"
+                        },
+                        new
+                        {
+                            Id = 20,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            FirstName = "Leonardo",
+                            IsActive = true,
+                            LastName = "DiCaprio"
+                        },
+                        new
+                        {
+                            Id = 21,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            FirstName = "Kate",
+                            IsActive = true,
+                            LastName = "Winslet"
+                        },
+                        new
+                        {
+                            Id = 22,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            FirstName = "Billy",
+                            IsActive = true,
+                            LastName = "Zane"
+                        },
+                        new
+                        {
+                            Id = 23,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            FirstName = "Gloria",
+                            IsActive = true,
+                            LastName = "Stuart"
+                        },
+                        new
+                        {
+                            Id = 24,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            FirstName = "Tom",
+                            IsActive = true,
+                            LastName = "Hanks"
+                        },
+                        new
+                        {
+                            Id = 25,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            FirstName = "Helen",
+                            IsActive = true,
+                            LastName = "Hunt"
+                        },
+                        new
+                        {
+                            Id = 26,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            FirstName = "Robert",
+                            IsActive = true,
+                            LastName = "Downey Jr."
+                        },
+                        new
+                        {
+                            Id = 27,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            FirstName = "Scarlett",
+                            IsActive = true,
+                            LastName = "Johansson"
+                        },
+                        new
+                        {
+                            Id = 28,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            FirstName = "Chris",
+                            IsActive = true,
+                            LastName = "Evans"
+                        },
+                        new
+                        {
+                            Id = 29,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            FirstName = "Ryan",
+                            IsActive = true,
+                            LastName = "Reynolds"
+                        },
+                        new
+                        {
+                            Id = 30,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            FirstName = "Emma",
+                            IsActive = true,
+                            LastName = "Stone"
+                        });
+                });
 
             modelBuilder.Entity("CineVibe.Services.Database.City", b =>
                 {
@@ -126,6 +397,336 @@ namespace CineVibe.Services.Migrations
                         {
                             Id = 2,
                             Name = "Female"
+                        });
+                });
+
+            modelBuilder.Entity("CineVibe.Services.Database.Movie", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<int>("Duration")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<byte[]>("Poster")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<DateTime>("ReleaseDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("Trailer")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Title")
+                        .IsUnique();
+
+                    b.ToTable("Movies");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "The first family of superheroes, the Fantastic Four, gain their powers and learn to work together to stop the world-devouring Galactus.",
+                            Duration = 125,
+                            IsActive = true,
+                            ReleaseDate = new DateTime(2025, 7, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Title = "Fantastic Four: First Steps"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Superman navigates his dual identity as Clark Kent and the Man of Steel, while facing new challenges in Metropolis.",
+                            Duration = 140,
+                            IsActive = true,
+                            ReleaseDate = new DateTime(2025, 7, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Title = "Superman"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "A seasoned Formula 1 driver comes out of retirement to mentor a young rookie and compete at the highest level of motorsport.",
+                            Duration = 130,
+                            IsActive = true,
+                            ReleaseDate = new DateTime(2025, 6, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Title = "F1"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "A young boy with an active imagination accidentally becomes Earth's intergalactic representative and must navigate alien politics.",
+                            Duration = 100,
+                            IsActive = true,
+                            ReleaseDate = new DateTime(2025, 6, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Title = "Elio"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Peter Parker faces his greatest challenge yet as he balances his life as Spider-Man with new threats emerging in New York City.",
+                            Duration = 135,
+                            IsActive = true,
+                            ReleaseDate = new DateTime(2026, 7, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Title = "Spider-Man: Brand New Day"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Jake Sully and his family continue their fight for survival on Pandora as they face new threats from the fire and ash regions.",
+                            Duration = 190,
+                            IsActive = true,
+                            ReleaseDate = new DateTime(2025, 12, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Title = "Avatar: Fire and Ash"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "A seventeen-year-old aristocrat falls in love with a kind but poor artist aboard the luxurious, ill-fated R.M.S. Titanic.",
+                            Duration = 195,
+                            IsActive = true,
+                            ReleaseDate = new DateTime(1997, 12, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Title = "Titanic"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "A FedEx executive undergoes a physical and emotional transformation after crash landing on a deserted island.",
+                            Duration = 143,
+                            IsActive = true,
+                            ReleaseDate = new DateTime(2000, 12, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Title = "Cast Away"
+                        });
+                });
+
+            modelBuilder.Entity("CineVibe.Services.Database.MovieActor", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ActorId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("DateAssigned")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("MovieId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ActorId");
+
+                    b.HasIndex("MovieId", "ActorId")
+                        .IsUnique();
+
+                    b.ToTable("MovieActors");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ActorId = 1,
+                            DateAssigned = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            MovieId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            ActorId = 2,
+                            DateAssigned = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            MovieId = 1
+                        },
+                        new
+                        {
+                            Id = 3,
+                            ActorId = 3,
+                            DateAssigned = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            MovieId = 1
+                        },
+                        new
+                        {
+                            Id = 4,
+                            ActorId = 4,
+                            DateAssigned = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            MovieId = 1
+                        },
+                        new
+                        {
+                            Id = 5,
+                            ActorId = 5,
+                            DateAssigned = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            MovieId = 2
+                        },
+                        new
+                        {
+                            Id = 6,
+                            ActorId = 6,
+                            DateAssigned = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            MovieId = 2
+                        },
+                        new
+                        {
+                            Id = 7,
+                            ActorId = 7,
+                            DateAssigned = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            MovieId = 2
+                        },
+                        new
+                        {
+                            Id = 8,
+                            ActorId = 8,
+                            DateAssigned = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            MovieId = 3
+                        },
+                        new
+                        {
+                            Id = 9,
+                            ActorId = 9,
+                            DateAssigned = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            MovieId = 3
+                        },
+                        new
+                        {
+                            Id = 10,
+                            ActorId = 10,
+                            DateAssigned = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            MovieId = 3
+                        },
+                        new
+                        {
+                            Id = 11,
+                            ActorId = 11,
+                            DateAssigned = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            MovieId = 4
+                        },
+                        new
+                        {
+                            Id = 12,
+                            ActorId = 12,
+                            DateAssigned = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            MovieId = 4
+                        },
+                        new
+                        {
+                            Id = 13,
+                            ActorId = 13,
+                            DateAssigned = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            MovieId = 5
+                        },
+                        new
+                        {
+                            Id = 14,
+                            ActorId = 14,
+                            DateAssigned = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            MovieId = 5
+                        },
+                        new
+                        {
+                            Id = 15,
+                            ActorId = 15,
+                            DateAssigned = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            MovieId = 5
+                        },
+                        new
+                        {
+                            Id = 16,
+                            ActorId = 16,
+                            DateAssigned = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            MovieId = 6
+                        },
+                        new
+                        {
+                            Id = 17,
+                            ActorId = 17,
+                            DateAssigned = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            MovieId = 6
+                        },
+                        new
+                        {
+                            Id = 18,
+                            ActorId = 18,
+                            DateAssigned = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            MovieId = 6
+                        },
+                        new
+                        {
+                            Id = 19,
+                            ActorId = 19,
+                            DateAssigned = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            MovieId = 6
+                        },
+                        new
+                        {
+                            Id = 20,
+                            ActorId = 20,
+                            DateAssigned = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            MovieId = 7
+                        },
+                        new
+                        {
+                            Id = 21,
+                            ActorId = 21,
+                            DateAssigned = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            MovieId = 7
+                        },
+                        new
+                        {
+                            Id = 22,
+                            ActorId = 22,
+                            DateAssigned = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            MovieId = 7
+                        },
+                        new
+                        {
+                            Id = 23,
+                            ActorId = 23,
+                            DateAssigned = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            MovieId = 7
+                        },
+                        new
+                        {
+                            Id = 24,
+                            ActorId = 24,
+                            DateAssigned = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            MovieId = 8
+                        },
+                        new
+                        {
+                            Id = 25,
+                            ActorId = 25,
+                            DateAssigned = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            MovieId = 8
                         });
                 });
 
@@ -374,6 +975,25 @@ namespace CineVibe.Services.Migrations
                         });
                 });
 
+            modelBuilder.Entity("CineVibe.Services.Database.MovieActor", b =>
+                {
+                    b.HasOne("CineVibe.Services.Database.Actor", "Actor")
+                        .WithMany("MovieActors")
+                        .HasForeignKey("ActorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CineVibe.Services.Database.Movie", "Movie")
+                        .WithMany("MovieActors")
+                        .HasForeignKey("MovieId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Actor");
+
+                    b.Navigation("Movie");
+                });
+
             modelBuilder.Entity("CineVibe.Services.Database.User", b =>
                 {
                     b.HasOne("CineVibe.Services.Database.City", "City")
@@ -410,6 +1030,16 @@ namespace CineVibe.Services.Migrations
                     b.Navigation("Role");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("CineVibe.Services.Database.Actor", b =>
+                {
+                    b.Navigation("MovieActors");
+                });
+
+            modelBuilder.Entity("CineVibe.Services.Database.Movie", b =>
+                {
+                    b.Navigation("MovieActors");
                 });
 
             modelBuilder.Entity("CineVibe.Services.Database.Role", b =>
