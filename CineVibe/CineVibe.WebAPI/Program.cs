@@ -24,6 +24,9 @@ builder.Services.AddTransient<ICategoryService, CategoryService>();
 builder.Services.AddTransient<IGenreService, GenreService>();
 builder.Services.AddTransient<IDirectorService, DirectorService>();
 builder.Services.AddTransient<IProductionCompanyService, ProductionCompanyService>();
+builder.Services.AddTransient<IHallService, HallService>();
+builder.Services.AddTransient<ISeatTypeService, SeatTypeService>();
+builder.Services.AddTransient<ISeatService, SeatService>();
 
 
 // Configure database

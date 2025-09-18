@@ -105,6 +105,21 @@ namespace CineVibe.Services.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Halls",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Halls", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ProductionCompanies",
                 columns: table => new
                 {
@@ -135,6 +150,21 @@ namespace CineVibe.Services.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Roles", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SeatTypes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SeatTypes", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -211,6 +241,35 @@ namespace CineVibe.Services.Migrations
                         principalTable: "Genres",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Seats",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    SeatNumber = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    HallId = table.Column<int>(type: "int", nullable: false),
+                    SeatTypeId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Seats", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Seats_Halls_HallId",
+                        column: x => x.HallId,
+                        principalTable: "Halls",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Seats_SeatTypes_SeatTypeId",
+                        column: x => x.SeatTypeId,
+                        principalTable: "SeatTypes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.SetNull);
                 });
 
             migrationBuilder.CreateTable(
@@ -422,6 +481,17 @@ namespace CineVibe.Services.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "Halls",
+                columns: new[] { "Id", "CreatedAt", "IsActive", "Name" },
+                values: new object[,]
+                {
+                    { 1, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), true, "Hall 1" },
+                    { 2, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), true, "Hall 2" },
+                    { 3, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), true, "4DX Hall" },
+                    { 4, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), true, "IMAX Hall" }
+                });
+
+            migrationBuilder.InsertData(
                 table: "ProductionCompanies",
                 columns: new[] { "Id", "Country", "CreatedAt", "Description", "IsActive", "Name" },
                 values: new object[,]
@@ -458,6 +528,16 @@ namespace CineVibe.Services.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "SeatTypes",
+                columns: new[] { "Id", "CreatedAt", "IsActive", "Name" },
+                values: new object[,]
+                {
+                    { 1, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), true, "Standard" },
+                    { 2, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), true, "Love Seat" },
+                    { 3, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), true, "Wheelchair" }
+                });
+
+            migrationBuilder.InsertData(
                 table: "Movies",
                 columns: new[] { "Id", "CategoryId", "CreatedAt", "Description", "DirectorId", "Duration", "GenreId", "IsActive", "Poster", "ReleaseDate", "Title", "Trailer" },
                 values: new object[,]
@@ -470,6 +550,413 @@ namespace CineVibe.Services.Migrations
                     { 6, 2, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), "Jake Sully and his family continue their fight for survival on Pandora as they face new threats from the fire and ash regions.", 6, 190, 8, true, null, new DateTime(2025, 12, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), "Avatar: Fire and Ash", null },
                     { 7, 3, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), "A seventeen-year-old aristocrat falls in love with a kind but poor artist aboard the luxurious, ill-fated R.M.S. Titanic.", 6, 195, 6, true, null, new DateTime(1997, 12, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), "Titanic", null },
                     { 8, 3, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), "A FedEx executive undergoes a physical and emotional transformation after crash landing on a deserted island.", 7, 143, 4, true, null, new DateTime(2000, 12, 22, 0, 0, 0, 0, DateTimeKind.Unspecified), "Cast Away", null }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Seats",
+                columns: new[] { "Id", "CreatedAt", "HallId", "IsActive", "SeatNumber", "SeatTypeId" },
+                values: new object[,]
+                {
+                    { 1, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "A1", 1 },
+                    { 2, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "A2", 1 },
+                    { 3, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "A3", 1 },
+                    { 4, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "A4", 1 },
+                    { 5, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "A5", 1 },
+                    { 6, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "A6", 1 },
+                    { 7, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "A7", 1 },
+                    { 8, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "A8", 1 },
+                    { 9, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "A9", 1 },
+                    { 10, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "A10", 1 },
+                    { 11, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "B1", 1 },
+                    { 12, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "B2", 1 },
+                    { 13, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "B3", 1 },
+                    { 14, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "B4", 1 },
+                    { 15, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "B5", 1 },
+                    { 16, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "B6", 1 },
+                    { 17, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "B7", 1 },
+                    { 18, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "B8", 1 },
+                    { 19, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "B9", 1 },
+                    { 20, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "B10", 1 },
+                    { 21, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "C1", 1 },
+                    { 22, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "C2", 1 },
+                    { 23, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "C3", 1 },
+                    { 24, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "C4", 1 },
+                    { 25, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "C5", 1 },
+                    { 26, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "C6", 1 },
+                    { 27, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "C7", 1 },
+                    { 28, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "C8", 1 },
+                    { 29, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "C9", 1 },
+                    { 30, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "C10", 1 },
+                    { 31, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "D1", 1 },
+                    { 32, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "D2", 1 },
+                    { 33, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "D3", 1 },
+                    { 34, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "D4", 1 },
+                    { 35, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "D5", 1 },
+                    { 36, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "D6", 1 },
+                    { 37, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "D7", 1 },
+                    { 38, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "D8", 1 },
+                    { 39, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "D9", 1 },
+                    { 40, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "D10", 1 },
+                    { 41, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "E1", 1 },
+                    { 42, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "E2", 1 },
+                    { 43, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "E3", 1 },
+                    { 44, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "E4", 2 },
+                    { 45, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "E5", 2 },
+                    { 46, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "E6", 2 },
+                    { 47, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "E7", 2 },
+                    { 48, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "E8", 1 },
+                    { 49, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "E9", 1 },
+                    { 50, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "E10", 1 },
+                    { 51, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "F1", 1 },
+                    { 52, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "F2", 1 },
+                    { 53, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "F3", 1 },
+                    { 54, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "F4", 2 },
+                    { 55, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "F5", 2 },
+                    { 56, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "F6", 2 },
+                    { 57, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "F7", 2 },
+                    { 58, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "F8", 1 },
+                    { 59, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "F9", 1 },
+                    { 60, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "F10", 1 },
+                    { 61, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "G1", 1 },
+                    { 62, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "G2", 1 },
+                    { 63, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "G3", 1 },
+                    { 64, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "G4", 2 },
+                    { 65, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "G5", 2 },
+                    { 66, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "G6", 2 },
+                    { 67, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "G7", 2 },
+                    { 68, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "G8", 1 },
+                    { 69, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "G9", 1 },
+                    { 70, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "G10", 1 },
+                    { 71, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "H1", 1 },
+                    { 72, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "H2", 1 },
+                    { 73, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "H3", 1 },
+                    { 74, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "H4", 1 },
+                    { 75, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "H5", 1 },
+                    { 76, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "H6", 1 },
+                    { 77, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "H7", 1 },
+                    { 78, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "H8", 1 },
+                    { 79, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "H9", 1 },
+                    { 80, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "H10", 1 },
+                    { 81, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "I1", 1 },
+                    { 82, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "I2", 1 },
+                    { 83, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "I3", 1 },
+                    { 84, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "I4", 1 },
+                    { 85, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "I5", 1 },
+                    { 86, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "I6", 1 },
+                    { 87, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "I7", 1 },
+                    { 88, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "I8", 1 },
+                    { 89, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "I9", 1 },
+                    { 90, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "I10", 1 },
+                    { 91, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "J1", 3 },
+                    { 92, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "J2", 3 },
+                    { 93, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "J3", 1 },
+                    { 94, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "J4", 1 },
+                    { 95, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "J5", 1 },
+                    { 96, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "J6", 1 },
+                    { 97, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "J7", 1 },
+                    { 98, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "J8", 1 },
+                    { 99, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "J9", 1 },
+                    { 100, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, "J10", 1 },
+                    { 101, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "A1", 1 },
+                    { 102, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "A2", 1 },
+                    { 103, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "A3", 1 },
+                    { 104, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "A4", 1 },
+                    { 105, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "A5", 1 },
+                    { 106, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "A6", 1 },
+                    { 107, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "A7", 1 },
+                    { 108, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "A8", 1 },
+                    { 109, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "A9", 1 },
+                    { 110, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "A10", 1 },
+                    { 111, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "B1", 1 },
+                    { 112, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "B2", 1 },
+                    { 113, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "B3", 1 },
+                    { 114, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "B4", 1 },
+                    { 115, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "B5", 1 },
+                    { 116, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "B6", 1 },
+                    { 117, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "B7", 1 },
+                    { 118, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "B8", 1 },
+                    { 119, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "B9", 1 },
+                    { 120, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "B10", 1 },
+                    { 121, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "C1", 1 },
+                    { 122, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "C2", 1 },
+                    { 123, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "C3", 1 },
+                    { 124, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "C4", 1 },
+                    { 125, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "C5", 1 },
+                    { 126, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "C6", 1 },
+                    { 127, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "C7", 1 },
+                    { 128, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "C8", 1 },
+                    { 129, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "C9", 1 },
+                    { 130, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "C10", 1 },
+                    { 131, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "D1", 1 },
+                    { 132, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "D2", 1 },
+                    { 133, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "D3", 1 },
+                    { 134, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "D4", 1 },
+                    { 135, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "D5", 1 },
+                    { 136, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "D6", 1 },
+                    { 137, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "D7", 1 },
+                    { 138, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "D8", 1 },
+                    { 139, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "D9", 1 },
+                    { 140, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "D10", 1 },
+                    { 141, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "E1", 1 },
+                    { 142, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "E2", 1 },
+                    { 143, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "E3", 1 },
+                    { 144, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "E4", 2 },
+                    { 145, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "E5", 2 },
+                    { 146, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "E6", 2 },
+                    { 147, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "E7", 2 },
+                    { 148, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "E8", 1 },
+                    { 149, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "E9", 1 },
+                    { 150, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "E10", 1 },
+                    { 151, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "F1", 1 },
+                    { 152, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "F2", 1 },
+                    { 153, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "F3", 1 },
+                    { 154, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "F4", 2 },
+                    { 155, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "F5", 2 },
+                    { 156, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "F6", 2 },
+                    { 157, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "F7", 2 },
+                    { 158, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "F8", 1 },
+                    { 159, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "F9", 1 },
+                    { 160, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "F10", 1 },
+                    { 161, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "G1", 1 },
+                    { 162, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "G2", 1 },
+                    { 163, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "G3", 1 },
+                    { 164, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "G4", 2 },
+                    { 165, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "G5", 2 },
+                    { 166, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "G6", 2 },
+                    { 167, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "G7", 2 },
+                    { 168, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "G8", 1 },
+                    { 169, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "G9", 1 },
+                    { 170, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "G10", 1 },
+                    { 171, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "H1", 1 },
+                    { 172, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "H2", 1 },
+                    { 173, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "H3", 1 },
+                    { 174, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "H4", 1 },
+                    { 175, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "H5", 1 },
+                    { 176, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "H6", 1 },
+                    { 177, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "H7", 1 },
+                    { 178, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "H8", 1 },
+                    { 179, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "H9", 1 },
+                    { 180, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "H10", 1 },
+                    { 181, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "I1", 1 },
+                    { 182, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "I2", 1 },
+                    { 183, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "I3", 1 },
+                    { 184, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "I4", 1 },
+                    { 185, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "I5", 1 },
+                    { 186, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "I6", 1 },
+                    { 187, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "I7", 1 },
+                    { 188, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "I8", 1 },
+                    { 189, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "I9", 1 },
+                    { 190, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "I10", 1 },
+                    { 191, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "J1", 3 },
+                    { 192, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "J2", 3 },
+                    { 193, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "J3", 1 },
+                    { 194, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "J4", 1 },
+                    { 195, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "J5", 1 },
+                    { 196, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "J6", 1 },
+                    { 197, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "J7", 1 },
+                    { 198, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "J8", 1 },
+                    { 199, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "J9", 1 },
+                    { 200, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, "J10", 1 },
+                    { 201, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "A1", 1 },
+                    { 202, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "A2", 1 },
+                    { 203, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "A3", 1 },
+                    { 204, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "A4", 1 },
+                    { 205, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "A5", 1 },
+                    { 206, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "A6", 1 },
+                    { 207, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "A7", 1 },
+                    { 208, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "A8", 1 },
+                    { 209, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "A9", 1 },
+                    { 210, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "A10", 1 },
+                    { 211, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "B1", 1 },
+                    { 212, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "B2", 1 },
+                    { 213, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "B3", 1 },
+                    { 214, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "B4", 1 },
+                    { 215, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "B5", 1 },
+                    { 216, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "B6", 1 },
+                    { 217, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "B7", 1 },
+                    { 218, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "B8", 1 },
+                    { 219, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "B9", 1 },
+                    { 220, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "B10", 1 },
+                    { 221, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "C1", 1 },
+                    { 222, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "C2", 1 },
+                    { 223, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "C3", 1 },
+                    { 224, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "C4", 1 },
+                    { 225, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "C5", 1 },
+                    { 226, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "C6", 1 },
+                    { 227, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "C7", 1 },
+                    { 228, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "C8", 1 },
+                    { 229, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "C9", 1 },
+                    { 230, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "C10", 1 },
+                    { 231, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "D1", 1 },
+                    { 232, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "D2", 1 },
+                    { 233, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "D3", 1 },
+                    { 234, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "D4", 1 },
+                    { 235, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "D5", 1 },
+                    { 236, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "D6", 1 },
+                    { 237, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "D7", 1 },
+                    { 238, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "D8", 1 },
+                    { 239, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "D9", 1 },
+                    { 240, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "D10", 1 },
+                    { 241, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "E1", 1 },
+                    { 242, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "E2", 1 },
+                    { 243, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "E3", 1 },
+                    { 244, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "E4", 2 },
+                    { 245, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "E5", 2 },
+                    { 246, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "E6", 2 },
+                    { 247, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "E7", 2 },
+                    { 248, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "E8", 1 },
+                    { 249, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "E9", 1 },
+                    { 250, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "E10", 1 },
+                    { 251, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "F1", 1 },
+                    { 252, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "F2", 1 },
+                    { 253, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "F3", 1 },
+                    { 254, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "F4", 2 },
+                    { 255, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "F5", 2 },
+                    { 256, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "F6", 2 },
+                    { 257, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "F7", 2 },
+                    { 258, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "F8", 1 },
+                    { 259, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "F9", 1 },
+                    { 260, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "F10", 1 },
+                    { 261, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "G1", 1 },
+                    { 262, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "G2", 1 },
+                    { 263, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "G3", 1 },
+                    { 264, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "G4", 2 },
+                    { 265, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "G5", 2 },
+                    { 266, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "G6", 2 },
+                    { 267, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "G7", 2 },
+                    { 268, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "G8", 1 },
+                    { 269, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "G9", 1 },
+                    { 270, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "G10", 1 },
+                    { 271, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "H1", 1 },
+                    { 272, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "H2", 1 },
+                    { 273, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "H3", 1 },
+                    { 274, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "H4", 1 },
+                    { 275, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "H5", 1 },
+                    { 276, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "H6", 1 },
+                    { 277, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "H7", 1 },
+                    { 278, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "H8", 1 },
+                    { 279, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "H9", 1 },
+                    { 280, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "H10", 1 },
+                    { 281, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "I1", 1 },
+                    { 282, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "I2", 1 },
+                    { 283, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "I3", 1 },
+                    { 284, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "I4", 1 },
+                    { 285, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "I5", 1 },
+                    { 286, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "I6", 1 },
+                    { 287, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "I7", 1 },
+                    { 288, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "I8", 1 },
+                    { 289, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "I9", 1 },
+                    { 290, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "I10", 1 },
+                    { 291, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "J1", 3 },
+                    { 292, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "J2", 3 },
+                    { 293, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "J3", 1 },
+                    { 294, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "J4", 1 },
+                    { 295, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "J5", 1 },
+                    { 296, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "J6", 1 },
+                    { 297, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "J7", 1 },
+                    { 298, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "J8", 1 },
+                    { 299, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "J9", 1 },
+                    { 300, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, "J10", 1 },
+                    { 301, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "A1", 1 },
+                    { 302, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "A2", 1 },
+                    { 303, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "A3", 1 },
+                    { 304, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "A4", 1 },
+                    { 305, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "A5", 1 },
+                    { 306, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "A6", 1 },
+                    { 307, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "A7", 1 },
+                    { 308, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "A8", 1 },
+                    { 309, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "A9", 1 },
+                    { 310, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "A10", 1 },
+                    { 311, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "B1", 1 },
+                    { 312, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "B2", 1 },
+                    { 313, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "B3", 1 },
+                    { 314, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "B4", 1 },
+                    { 315, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "B5", 1 },
+                    { 316, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "B6", 1 },
+                    { 317, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "B7", 1 },
+                    { 318, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "B8", 1 },
+                    { 319, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "B9", 1 },
+                    { 320, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "B10", 1 },
+                    { 321, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "C1", 1 },
+                    { 322, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "C2", 1 },
+                    { 323, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "C3", 1 },
+                    { 324, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "C4", 1 },
+                    { 325, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "C5", 1 },
+                    { 326, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "C6", 1 },
+                    { 327, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "C7", 1 },
+                    { 328, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "C8", 1 },
+                    { 329, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "C9", 1 },
+                    { 330, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "C10", 1 },
+                    { 331, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "D1", 1 },
+                    { 332, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "D2", 1 },
+                    { 333, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "D3", 1 },
+                    { 334, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "D4", 1 },
+                    { 335, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "D5", 1 },
+                    { 336, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "D6", 1 },
+                    { 337, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "D7", 1 },
+                    { 338, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "D8", 1 },
+                    { 339, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "D9", 1 },
+                    { 340, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "D10", 1 },
+                    { 341, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "E1", 1 },
+                    { 342, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "E2", 1 },
+                    { 343, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "E3", 1 },
+                    { 344, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "E4", 2 },
+                    { 345, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "E5", 2 },
+                    { 346, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "E6", 2 },
+                    { 347, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "E7", 2 },
+                    { 348, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "E8", 1 },
+                    { 349, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "E9", 1 },
+                    { 350, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "E10", 1 },
+                    { 351, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "F1", 1 },
+                    { 352, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "F2", 1 },
+                    { 353, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "F3", 1 },
+                    { 354, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "F4", 2 },
+                    { 355, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "F5", 2 },
+                    { 356, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "F6", 2 },
+                    { 357, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "F7", 2 },
+                    { 358, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "F8", 1 },
+                    { 359, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "F9", 1 },
+                    { 360, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "F10", 1 },
+                    { 361, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "G1", 1 },
+                    { 362, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "G2", 1 },
+                    { 363, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "G3", 1 },
+                    { 364, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "G4", 2 },
+                    { 365, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "G5", 2 },
+                    { 366, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "G6", 2 },
+                    { 367, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "G7", 2 },
+                    { 368, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "G8", 1 },
+                    { 369, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "G9", 1 },
+                    { 370, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "G10", 1 },
+                    { 371, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "H1", 1 },
+                    { 372, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "H2", 1 },
+                    { 373, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "H3", 1 },
+                    { 374, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "H4", 1 },
+                    { 375, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "H5", 1 },
+                    { 376, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "H6", 1 },
+                    { 377, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "H7", 1 },
+                    { 378, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "H8", 1 },
+                    { 379, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "H9", 1 },
+                    { 380, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "H10", 1 },
+                    { 381, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "I1", 1 },
+                    { 382, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "I2", 1 },
+                    { 383, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "I3", 1 },
+                    { 384, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "I4", 1 },
+                    { 385, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "I5", 1 },
+                    { 386, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "I6", 1 },
+                    { 387, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "I7", 1 },
+                    { 388, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "I8", 1 },
+                    { 389, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "I9", 1 },
+                    { 390, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "I10", 1 },
+                    { 391, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "J1", 3 },
+                    { 392, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "J2", 3 },
+                    { 393, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "J3", 1 },
+                    { 394, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "J4", 1 },
+                    { 395, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "J5", 1 },
+                    { 396, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "J6", 1 },
+                    { 397, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "J7", 1 },
+                    { 398, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "J8", 1 },
+                    { 399, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "J9", 1 },
+                    { 400, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, "J10", 1 }
                 });
 
             migrationBuilder.InsertData(
@@ -574,6 +1061,12 @@ namespace CineVibe.Services.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Halls_Name",
+                table: "Halls",
+                column: "Name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_MovieActors_ActorId",
                 table: "MovieActors",
                 column: "ActorId");
@@ -629,6 +1122,28 @@ namespace CineVibe.Services.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Seats_HallId",
+                table: "Seats",
+                column: "HallId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Seats_SeatNumber_HallId",
+                table: "Seats",
+                columns: new[] { "SeatNumber", "HallId" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Seats_SeatTypeId",
+                table: "Seats",
+                column: "SeatTypeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SeatTypes_Name",
+                table: "SeatTypes",
+                column: "Name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_UserRoles_RoleId",
                 table: "UserRoles",
                 column: "RoleId");
@@ -672,6 +1187,9 @@ namespace CineVibe.Services.Migrations
                 name: "MovieProductionCompanies");
 
             migrationBuilder.DropTable(
+                name: "Seats");
+
+            migrationBuilder.DropTable(
                 name: "UserRoles");
 
             migrationBuilder.DropTable(
@@ -682,6 +1200,12 @@ namespace CineVibe.Services.Migrations
 
             migrationBuilder.DropTable(
                 name: "ProductionCompanies");
+
+            migrationBuilder.DropTable(
+                name: "Halls");
+
+            migrationBuilder.DropTable(
+                name: "SeatTypes");
 
             migrationBuilder.DropTable(
                 name: "Roles");

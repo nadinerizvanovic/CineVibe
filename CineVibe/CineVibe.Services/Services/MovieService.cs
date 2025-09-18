@@ -32,7 +32,7 @@ namespace CineVibe.Services.Services
             {
                 Id = mpc.ProductionCompany.Id,
                 Name = mpc.ProductionCompany.Name,
-                Description = mpc.ProductionCompany.Description,
+                Description = mpc.ProductionCompany.Description,    
                 Country = mpc.ProductionCompany.Country,
                 IsActive = mpc.ProductionCompany.IsActive,
                 CreatedAt = mpc.ProductionCompany.CreatedAt,
@@ -180,7 +180,7 @@ namespace CineVibe.Services.Services
             {
                 MovieId = movieId,
                 ActorId = actorId,
-                DateAssigned = DateTime.UtcNow
+                DateAssigned = DateTime.Now
             };
 
             _context.MovieActors.Add(movieActor);

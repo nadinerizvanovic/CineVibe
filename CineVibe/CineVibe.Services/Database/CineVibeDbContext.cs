@@ -21,6 +21,9 @@ namespace CineVibe.Services.Database
         public DbSet<Director> Directors { get; set; }
         public DbSet<ProductionCompany> ProductionCompanies { get; set; }
         public DbSet<MovieProductionCompany> MovieProductionCompanies { get; set; }
+        public DbSet<Hall> Halls { get; set; }
+        public DbSet<SeatType> SeatTypes { get; set; }
+        public DbSet<Seat> Seats { get; set; }
     
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -160,6 +163,34 @@ namespace CineVibe.Services.Database
             // Create a unique constraint on MovieId and ProductionCompanyId to prevent duplicate assignments
             modelBuilder.Entity<MovieProductionCompany>()
                 .HasIndex(mpc => new { mpc.MovieId, mpc.ProductionCompanyId })
+                .IsUnique();
+
+            // Configure Hall entity
+            modelBuilder.Entity<Hall>()
+                .HasIndex(h => h.Name)
+                .IsUnique();
+
+            // Configure SeatType entity
+            modelBuilder.Entity<SeatType>()
+                .HasIndex(st => st.Name)
+                .IsUnique();
+
+            // Configure Seat relationships
+            modelBuilder.Entity<Seat>()
+                .HasOne(s => s.Hall)
+                .WithMany(h => h.Seats)
+                .HasForeignKey(s => s.HallId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Seat>()
+                .HasOne(s => s.SeatType)
+                .WithMany(st => st.Seats)
+                .HasForeignKey(s => s.SeatTypeId)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            // Create a unique constraint on SeatNumber and HallId to prevent duplicate seat numbers in the same hall
+            modelBuilder.Entity<Seat>()
+                .HasIndex(s => new { s.SeatNumber, s.HallId })
                 .IsUnique();
 
             // Seed initial data

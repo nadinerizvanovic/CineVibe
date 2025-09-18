@@ -472,6 +472,67 @@ namespace CineVibe.Services.Database
                 new MovieProductionCompany { Id = 15, MovieId = 8, ProductionCompanyId = 7, DateAssigned = fixedDate }, // 20th Century Studios
                 new MovieProductionCompany { Id = 16, MovieId = 8, ProductionCompanyId = 20, DateAssigned = fixedDate } // Amblin Entertainment
             );
+
+            // Seed Halls
+            modelBuilder.Entity<Hall>().HasData(
+                new Hall { Id = 1, Name = "Hall 1", IsActive = true, CreatedAt = fixedDate },
+                new Hall { Id = 2, Name = "Hall 2", IsActive = true, CreatedAt = fixedDate },
+                new Hall { Id = 3, Name = "4DX Hall", IsActive = true, CreatedAt = fixedDate },
+                new Hall { Id = 4, Name = "IMAX Hall", IsActive = true, CreatedAt = fixedDate }
+            );
+
+            // Seed SeatTypes
+            modelBuilder.Entity<SeatType>().HasData(
+                new SeatType { Id = 1, Name = "Standard", IsActive = true, CreatedAt = fixedDate },
+                new SeatType { Id = 2, Name = "Love Seat", IsActive = true, CreatedAt = fixedDate },
+                new SeatType { Id = 3, Name = "Wheelchair", IsActive = true, CreatedAt = fixedDate }
+            );
+
+            // Seed Seats for all halls (10x10 grid for each hall)
+            var seats = new List<Seat>();
+            int seatId = 1;
+
+            for (int hallId = 1; hallId <= 4; hallId++)
+            {
+                for (int row = 0; row < 10; row++)
+                {
+                    char rowLetter = (char)('A' + row);
+                    for (int seatNum = 1; seatNum <= 10; seatNum++)
+                    {
+                        int? seatTypeId = null;
+
+                        // Assign special seat types strategically
+                        // Wheelchair seats at the back row (J) positions 1-2
+                        if (rowLetter == 'J' && seatNum <= 2)
+                        {
+                            seatTypeId = 3; // Wheelchair
+                        }
+                        // Love seats in middle rows (E, F, G) at positions 4-5 and 6-7
+                        else if ((rowLetter == 'E' || rowLetter == 'F' || rowLetter == 'G') && 
+                                (seatNum == 4 || seatNum == 5 || seatNum == 6 || seatNum == 7))
+                        {
+                            seatTypeId = 2; // Love Seat
+                        }
+                        // All other seats are Standard (will be null initially as requested)
+                        else
+                        {
+                            seatTypeId = 1; // Standard
+                        }
+
+                        seats.Add(new Seat
+                        {
+                            Id = seatId++,
+                            SeatNumber = $"{rowLetter}{seatNum}",
+                            HallId = hallId,
+                            SeatTypeId = seatTypeId,
+                            IsActive = true,
+                            CreatedAt = fixedDate
+                        });
+                    }
+                }
+            }
+
+            modelBuilder.Entity<Seat>().HasData(seats);
         }
     }
 } 
