@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CineVibe.Services.Migrations
 {
     [DbContext(typeof(CineVibeDbContext))]
-    [Migration("20250918161840_InitialData")]
+    [Migration("20250920233738_InitialData")]
     partial class InitialData
     {
         /// <inheritdoc />
@@ -1696,6 +1696,1460 @@ namespace CineVibe.Services.Migrations
                             Description = "Regular user role",
                             IsActive = true,
                             Name = "User"
+                        });
+                });
+
+            modelBuilder.Entity("CineVibe.Services.Database.Screening", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("HallId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("MovieId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ScreeningTypeId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("StartTime")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MovieId");
+
+                    b.HasIndex("ScreeningTypeId");
+
+                    b.HasIndex("HallId", "StartTime");
+
+                    b.ToTable("Screenings");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 1,
+                            IsActive = true,
+                            MovieId = 1,
+                            ScreeningTypeId = 1,
+                            StartTime = new DateTime(2025, 10, 10, 13, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 2,
+                            IsActive = true,
+                            MovieId = 1,
+                            ScreeningTypeId = 1,
+                            StartTime = new DateTime(2025, 10, 10, 17, 30, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 1,
+                            IsActive = true,
+                            MovieId = 1,
+                            ScreeningTypeId = 1,
+                            StartTime = new DateTime(2025, 10, 10, 21, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 1,
+                            IsActive = true,
+                            MovieId = 1,
+                            ScreeningTypeId = 2,
+                            StartTime = new DateTime(2025, 10, 10, 13, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 2,
+                            IsActive = true,
+                            MovieId = 1,
+                            ScreeningTypeId = 2,
+                            StartTime = new DateTime(2025, 10, 10, 17, 30, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 6,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 1,
+                            IsActive = true,
+                            MovieId = 1,
+                            ScreeningTypeId = 2,
+                            StartTime = new DateTime(2025, 10, 10, 21, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 7,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 1,
+                            IsActive = true,
+                            MovieId = 2,
+                            ScreeningTypeId = 1,
+                            StartTime = new DateTime(2025, 10, 10, 13, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 8,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 2,
+                            IsActive = true,
+                            MovieId = 2,
+                            ScreeningTypeId = 1,
+                            StartTime = new DateTime(2025, 10, 10, 17, 30, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 9,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 1,
+                            IsActive = true,
+                            MovieId = 2,
+                            ScreeningTypeId = 1,
+                            StartTime = new DateTime(2025, 10, 10, 21, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 10,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 4,
+                            IsActive = true,
+                            MovieId = 2,
+                            ScreeningTypeId = 4,
+                            StartTime = new DateTime(2025, 10, 10, 13, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 11,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 4,
+                            IsActive = true,
+                            MovieId = 2,
+                            ScreeningTypeId = 4,
+                            StartTime = new DateTime(2025, 10, 10, 17, 30, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 12,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 4,
+                            IsActive = true,
+                            MovieId = 2,
+                            ScreeningTypeId = 4,
+                            StartTime = new DateTime(2025, 10, 10, 21, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 13,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 1,
+                            IsActive = true,
+                            MovieId = 3,
+                            ScreeningTypeId = 1,
+                            StartTime = new DateTime(2025, 10, 10, 13, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 14,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 2,
+                            IsActive = true,
+                            MovieId = 3,
+                            ScreeningTypeId = 1,
+                            StartTime = new DateTime(2025, 10, 10, 17, 30, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 15,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 1,
+                            IsActive = true,
+                            MovieId = 3,
+                            ScreeningTypeId = 1,
+                            StartTime = new DateTime(2025, 10, 10, 21, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 16,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 3,
+                            IsActive = true,
+                            MovieId = 3,
+                            ScreeningTypeId = 3,
+                            StartTime = new DateTime(2025, 10, 10, 13, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 17,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 3,
+                            IsActive = true,
+                            MovieId = 3,
+                            ScreeningTypeId = 3,
+                            StartTime = new DateTime(2025, 10, 10, 17, 30, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 18,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 3,
+                            IsActive = true,
+                            MovieId = 3,
+                            ScreeningTypeId = 3,
+                            StartTime = new DateTime(2025, 10, 10, 21, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 19,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 1,
+                            IsActive = true,
+                            MovieId = 4,
+                            ScreeningTypeId = 1,
+                            StartTime = new DateTime(2025, 10, 10, 13, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 20,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 2,
+                            IsActive = true,
+                            MovieId = 4,
+                            ScreeningTypeId = 1,
+                            StartTime = new DateTime(2025, 10, 10, 17, 30, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 21,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 1,
+                            IsActive = true,
+                            MovieId = 4,
+                            ScreeningTypeId = 1,
+                            StartTime = new DateTime(2025, 10, 10, 21, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 22,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 1,
+                            IsActive = true,
+                            MovieId = 4,
+                            ScreeningTypeId = 2,
+                            StartTime = new DateTime(2025, 10, 10, 13, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 23,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 2,
+                            IsActive = true,
+                            MovieId = 4,
+                            ScreeningTypeId = 2,
+                            StartTime = new DateTime(2025, 10, 10, 17, 30, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 24,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 1,
+                            IsActive = true,
+                            MovieId = 4,
+                            ScreeningTypeId = 2,
+                            StartTime = new DateTime(2025, 10, 10, 21, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 25,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 1,
+                            IsActive = true,
+                            MovieId = 5,
+                            ScreeningTypeId = 1,
+                            StartTime = new DateTime(2025, 10, 10, 13, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 26,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 2,
+                            IsActive = true,
+                            MovieId = 5,
+                            ScreeningTypeId = 1,
+                            StartTime = new DateTime(2025, 10, 10, 17, 30, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 27,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 1,
+                            IsActive = true,
+                            MovieId = 5,
+                            ScreeningTypeId = 1,
+                            StartTime = new DateTime(2025, 10, 10, 21, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 28,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 4,
+                            IsActive = true,
+                            MovieId = 5,
+                            ScreeningTypeId = 4,
+                            StartTime = new DateTime(2025, 10, 10, 13, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 29,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 4,
+                            IsActive = true,
+                            MovieId = 5,
+                            ScreeningTypeId = 4,
+                            StartTime = new DateTime(2025, 10, 10, 17, 30, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 30,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 4,
+                            IsActive = true,
+                            MovieId = 5,
+                            ScreeningTypeId = 4,
+                            StartTime = new DateTime(2025, 10, 10, 21, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 31,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 1,
+                            IsActive = true,
+                            MovieId = 6,
+                            ScreeningTypeId = 1,
+                            StartTime = new DateTime(2025, 10, 10, 13, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 32,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 2,
+                            IsActive = true,
+                            MovieId = 6,
+                            ScreeningTypeId = 1,
+                            StartTime = new DateTime(2025, 10, 10, 17, 30, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 33,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 1,
+                            IsActive = true,
+                            MovieId = 6,
+                            ScreeningTypeId = 1,
+                            StartTime = new DateTime(2025, 10, 10, 21, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 34,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 3,
+                            IsActive = true,
+                            MovieId = 6,
+                            ScreeningTypeId = 3,
+                            StartTime = new DateTime(2025, 10, 10, 13, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 35,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 3,
+                            IsActive = true,
+                            MovieId = 6,
+                            ScreeningTypeId = 3,
+                            StartTime = new DateTime(2025, 10, 10, 17, 30, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 36,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 3,
+                            IsActive = true,
+                            MovieId = 6,
+                            ScreeningTypeId = 3,
+                            StartTime = new DateTime(2025, 10, 10, 21, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 37,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 1,
+                            IsActive = true,
+                            MovieId = 7,
+                            ScreeningTypeId = 1,
+                            StartTime = new DateTime(2025, 10, 10, 13, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 38,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 2,
+                            IsActive = true,
+                            MovieId = 7,
+                            ScreeningTypeId = 1,
+                            StartTime = new DateTime(2025, 10, 10, 17, 30, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 39,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 1,
+                            IsActive = true,
+                            MovieId = 7,
+                            ScreeningTypeId = 1,
+                            StartTime = new DateTime(2025, 10, 10, 21, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 40,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 1,
+                            IsActive = true,
+                            MovieId = 7,
+                            ScreeningTypeId = 2,
+                            StartTime = new DateTime(2025, 10, 10, 13, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 41,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 2,
+                            IsActive = true,
+                            MovieId = 7,
+                            ScreeningTypeId = 2,
+                            StartTime = new DateTime(2025, 10, 10, 17, 30, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 42,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 1,
+                            IsActive = true,
+                            MovieId = 7,
+                            ScreeningTypeId = 2,
+                            StartTime = new DateTime(2025, 10, 10, 21, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 43,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 1,
+                            IsActive = true,
+                            MovieId = 8,
+                            ScreeningTypeId = 1,
+                            StartTime = new DateTime(2025, 10, 10, 13, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 44,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 2,
+                            IsActive = true,
+                            MovieId = 8,
+                            ScreeningTypeId = 1,
+                            StartTime = new DateTime(2025, 10, 10, 17, 30, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 45,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 1,
+                            IsActive = true,
+                            MovieId = 8,
+                            ScreeningTypeId = 1,
+                            StartTime = new DateTime(2025, 10, 10, 21, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 46,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 1,
+                            IsActive = true,
+                            MovieId = 1,
+                            ScreeningTypeId = 1,
+                            StartTime = new DateTime(2025, 10, 11, 13, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 47,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 2,
+                            IsActive = true,
+                            MovieId = 1,
+                            ScreeningTypeId = 1,
+                            StartTime = new DateTime(2025, 10, 11, 17, 30, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 48,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 1,
+                            IsActive = true,
+                            MovieId = 1,
+                            ScreeningTypeId = 1,
+                            StartTime = new DateTime(2025, 10, 11, 21, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 49,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 1,
+                            IsActive = true,
+                            MovieId = 1,
+                            ScreeningTypeId = 2,
+                            StartTime = new DateTime(2025, 10, 11, 13, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 50,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 2,
+                            IsActive = true,
+                            MovieId = 1,
+                            ScreeningTypeId = 2,
+                            StartTime = new DateTime(2025, 10, 11, 17, 30, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 51,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 1,
+                            IsActive = true,
+                            MovieId = 1,
+                            ScreeningTypeId = 2,
+                            StartTime = new DateTime(2025, 10, 11, 21, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 52,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 1,
+                            IsActive = true,
+                            MovieId = 2,
+                            ScreeningTypeId = 1,
+                            StartTime = new DateTime(2025, 10, 11, 13, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 53,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 2,
+                            IsActive = true,
+                            MovieId = 2,
+                            ScreeningTypeId = 1,
+                            StartTime = new DateTime(2025, 10, 11, 17, 30, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 54,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 1,
+                            IsActive = true,
+                            MovieId = 2,
+                            ScreeningTypeId = 1,
+                            StartTime = new DateTime(2025, 10, 11, 21, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 55,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 4,
+                            IsActive = true,
+                            MovieId = 2,
+                            ScreeningTypeId = 4,
+                            StartTime = new DateTime(2025, 10, 11, 13, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 56,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 4,
+                            IsActive = true,
+                            MovieId = 2,
+                            ScreeningTypeId = 4,
+                            StartTime = new DateTime(2025, 10, 11, 17, 30, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 57,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 4,
+                            IsActive = true,
+                            MovieId = 2,
+                            ScreeningTypeId = 4,
+                            StartTime = new DateTime(2025, 10, 11, 21, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 58,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 1,
+                            IsActive = true,
+                            MovieId = 3,
+                            ScreeningTypeId = 1,
+                            StartTime = new DateTime(2025, 10, 11, 13, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 59,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 2,
+                            IsActive = true,
+                            MovieId = 3,
+                            ScreeningTypeId = 1,
+                            StartTime = new DateTime(2025, 10, 11, 17, 30, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 60,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 1,
+                            IsActive = true,
+                            MovieId = 3,
+                            ScreeningTypeId = 1,
+                            StartTime = new DateTime(2025, 10, 11, 21, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 61,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 3,
+                            IsActive = true,
+                            MovieId = 3,
+                            ScreeningTypeId = 3,
+                            StartTime = new DateTime(2025, 10, 11, 13, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 62,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 3,
+                            IsActive = true,
+                            MovieId = 3,
+                            ScreeningTypeId = 3,
+                            StartTime = new DateTime(2025, 10, 11, 17, 30, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 63,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 3,
+                            IsActive = true,
+                            MovieId = 3,
+                            ScreeningTypeId = 3,
+                            StartTime = new DateTime(2025, 10, 11, 21, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 64,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 1,
+                            IsActive = true,
+                            MovieId = 4,
+                            ScreeningTypeId = 1,
+                            StartTime = new DateTime(2025, 10, 11, 13, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 65,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 2,
+                            IsActive = true,
+                            MovieId = 4,
+                            ScreeningTypeId = 1,
+                            StartTime = new DateTime(2025, 10, 11, 17, 30, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 66,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 1,
+                            IsActive = true,
+                            MovieId = 4,
+                            ScreeningTypeId = 1,
+                            StartTime = new DateTime(2025, 10, 11, 21, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 67,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 1,
+                            IsActive = true,
+                            MovieId = 4,
+                            ScreeningTypeId = 2,
+                            StartTime = new DateTime(2025, 10, 11, 13, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 68,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 2,
+                            IsActive = true,
+                            MovieId = 4,
+                            ScreeningTypeId = 2,
+                            StartTime = new DateTime(2025, 10, 11, 17, 30, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 69,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 1,
+                            IsActive = true,
+                            MovieId = 4,
+                            ScreeningTypeId = 2,
+                            StartTime = new DateTime(2025, 10, 11, 21, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 70,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 1,
+                            IsActive = true,
+                            MovieId = 5,
+                            ScreeningTypeId = 1,
+                            StartTime = new DateTime(2025, 10, 11, 13, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 71,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 2,
+                            IsActive = true,
+                            MovieId = 5,
+                            ScreeningTypeId = 1,
+                            StartTime = new DateTime(2025, 10, 11, 17, 30, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 72,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 1,
+                            IsActive = true,
+                            MovieId = 5,
+                            ScreeningTypeId = 1,
+                            StartTime = new DateTime(2025, 10, 11, 21, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 73,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 4,
+                            IsActive = true,
+                            MovieId = 5,
+                            ScreeningTypeId = 4,
+                            StartTime = new DateTime(2025, 10, 11, 13, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 74,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 4,
+                            IsActive = true,
+                            MovieId = 5,
+                            ScreeningTypeId = 4,
+                            StartTime = new DateTime(2025, 10, 11, 17, 30, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 75,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 4,
+                            IsActive = true,
+                            MovieId = 5,
+                            ScreeningTypeId = 4,
+                            StartTime = new DateTime(2025, 10, 11, 21, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 76,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 1,
+                            IsActive = true,
+                            MovieId = 6,
+                            ScreeningTypeId = 1,
+                            StartTime = new DateTime(2025, 10, 11, 13, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 77,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 2,
+                            IsActive = true,
+                            MovieId = 6,
+                            ScreeningTypeId = 1,
+                            StartTime = new DateTime(2025, 10, 11, 17, 30, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 78,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 1,
+                            IsActive = true,
+                            MovieId = 6,
+                            ScreeningTypeId = 1,
+                            StartTime = new DateTime(2025, 10, 11, 21, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 79,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 3,
+                            IsActive = true,
+                            MovieId = 6,
+                            ScreeningTypeId = 3,
+                            StartTime = new DateTime(2025, 10, 11, 13, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 80,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 3,
+                            IsActive = true,
+                            MovieId = 6,
+                            ScreeningTypeId = 3,
+                            StartTime = new DateTime(2025, 10, 11, 17, 30, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 81,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 3,
+                            IsActive = true,
+                            MovieId = 6,
+                            ScreeningTypeId = 3,
+                            StartTime = new DateTime(2025, 10, 11, 21, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 82,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 1,
+                            IsActive = true,
+                            MovieId = 7,
+                            ScreeningTypeId = 1,
+                            StartTime = new DateTime(2025, 10, 11, 13, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 83,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 2,
+                            IsActive = true,
+                            MovieId = 7,
+                            ScreeningTypeId = 1,
+                            StartTime = new DateTime(2025, 10, 11, 17, 30, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 84,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 1,
+                            IsActive = true,
+                            MovieId = 7,
+                            ScreeningTypeId = 1,
+                            StartTime = new DateTime(2025, 10, 11, 21, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 85,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 1,
+                            IsActive = true,
+                            MovieId = 7,
+                            ScreeningTypeId = 2,
+                            StartTime = new DateTime(2025, 10, 11, 13, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 86,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 2,
+                            IsActive = true,
+                            MovieId = 7,
+                            ScreeningTypeId = 2,
+                            StartTime = new DateTime(2025, 10, 11, 17, 30, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 87,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 1,
+                            IsActive = true,
+                            MovieId = 7,
+                            ScreeningTypeId = 2,
+                            StartTime = new DateTime(2025, 10, 11, 21, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 88,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 1,
+                            IsActive = true,
+                            MovieId = 8,
+                            ScreeningTypeId = 1,
+                            StartTime = new DateTime(2025, 10, 11, 13, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 89,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 2,
+                            IsActive = true,
+                            MovieId = 8,
+                            ScreeningTypeId = 1,
+                            StartTime = new DateTime(2025, 10, 11, 17, 30, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 90,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 1,
+                            IsActive = true,
+                            MovieId = 8,
+                            ScreeningTypeId = 1,
+                            StartTime = new DateTime(2025, 10, 11, 21, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 91,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 1,
+                            IsActive = true,
+                            MovieId = 1,
+                            ScreeningTypeId = 1,
+                            StartTime = new DateTime(2025, 10, 12, 13, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 92,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 2,
+                            IsActive = true,
+                            MovieId = 1,
+                            ScreeningTypeId = 1,
+                            StartTime = new DateTime(2025, 10, 12, 17, 30, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 93,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 1,
+                            IsActive = true,
+                            MovieId = 1,
+                            ScreeningTypeId = 1,
+                            StartTime = new DateTime(2025, 10, 12, 21, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 94,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 1,
+                            IsActive = true,
+                            MovieId = 1,
+                            ScreeningTypeId = 2,
+                            StartTime = new DateTime(2025, 10, 12, 13, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 95,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 2,
+                            IsActive = true,
+                            MovieId = 1,
+                            ScreeningTypeId = 2,
+                            StartTime = new DateTime(2025, 10, 12, 17, 30, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 96,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 1,
+                            IsActive = true,
+                            MovieId = 1,
+                            ScreeningTypeId = 2,
+                            StartTime = new DateTime(2025, 10, 12, 21, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 97,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 1,
+                            IsActive = true,
+                            MovieId = 2,
+                            ScreeningTypeId = 1,
+                            StartTime = new DateTime(2025, 10, 12, 13, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 98,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 2,
+                            IsActive = true,
+                            MovieId = 2,
+                            ScreeningTypeId = 1,
+                            StartTime = new DateTime(2025, 10, 12, 17, 30, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 99,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 1,
+                            IsActive = true,
+                            MovieId = 2,
+                            ScreeningTypeId = 1,
+                            StartTime = new DateTime(2025, 10, 12, 21, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 100,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 4,
+                            IsActive = true,
+                            MovieId = 2,
+                            ScreeningTypeId = 4,
+                            StartTime = new DateTime(2025, 10, 12, 13, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 101,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 4,
+                            IsActive = true,
+                            MovieId = 2,
+                            ScreeningTypeId = 4,
+                            StartTime = new DateTime(2025, 10, 12, 17, 30, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 102,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 4,
+                            IsActive = true,
+                            MovieId = 2,
+                            ScreeningTypeId = 4,
+                            StartTime = new DateTime(2025, 10, 12, 21, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 103,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 1,
+                            IsActive = true,
+                            MovieId = 3,
+                            ScreeningTypeId = 1,
+                            StartTime = new DateTime(2025, 10, 12, 13, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 104,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 2,
+                            IsActive = true,
+                            MovieId = 3,
+                            ScreeningTypeId = 1,
+                            StartTime = new DateTime(2025, 10, 12, 17, 30, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 105,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 1,
+                            IsActive = true,
+                            MovieId = 3,
+                            ScreeningTypeId = 1,
+                            StartTime = new DateTime(2025, 10, 12, 21, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 106,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 3,
+                            IsActive = true,
+                            MovieId = 3,
+                            ScreeningTypeId = 3,
+                            StartTime = new DateTime(2025, 10, 12, 13, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 107,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 3,
+                            IsActive = true,
+                            MovieId = 3,
+                            ScreeningTypeId = 3,
+                            StartTime = new DateTime(2025, 10, 12, 17, 30, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 108,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 3,
+                            IsActive = true,
+                            MovieId = 3,
+                            ScreeningTypeId = 3,
+                            StartTime = new DateTime(2025, 10, 12, 21, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 109,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 1,
+                            IsActive = true,
+                            MovieId = 4,
+                            ScreeningTypeId = 1,
+                            StartTime = new DateTime(2025, 10, 12, 13, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 110,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 2,
+                            IsActive = true,
+                            MovieId = 4,
+                            ScreeningTypeId = 1,
+                            StartTime = new DateTime(2025, 10, 12, 17, 30, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 111,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 1,
+                            IsActive = true,
+                            MovieId = 4,
+                            ScreeningTypeId = 1,
+                            StartTime = new DateTime(2025, 10, 12, 21, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 112,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 1,
+                            IsActive = true,
+                            MovieId = 4,
+                            ScreeningTypeId = 2,
+                            StartTime = new DateTime(2025, 10, 12, 13, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 113,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 2,
+                            IsActive = true,
+                            MovieId = 4,
+                            ScreeningTypeId = 2,
+                            StartTime = new DateTime(2025, 10, 12, 17, 30, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 114,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 1,
+                            IsActive = true,
+                            MovieId = 4,
+                            ScreeningTypeId = 2,
+                            StartTime = new DateTime(2025, 10, 12, 21, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 115,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 1,
+                            IsActive = true,
+                            MovieId = 5,
+                            ScreeningTypeId = 1,
+                            StartTime = new DateTime(2025, 10, 12, 13, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 116,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 2,
+                            IsActive = true,
+                            MovieId = 5,
+                            ScreeningTypeId = 1,
+                            StartTime = new DateTime(2025, 10, 12, 17, 30, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 117,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 1,
+                            IsActive = true,
+                            MovieId = 5,
+                            ScreeningTypeId = 1,
+                            StartTime = new DateTime(2025, 10, 12, 21, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 118,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 4,
+                            IsActive = true,
+                            MovieId = 5,
+                            ScreeningTypeId = 4,
+                            StartTime = new DateTime(2025, 10, 12, 13, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 119,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 4,
+                            IsActive = true,
+                            MovieId = 5,
+                            ScreeningTypeId = 4,
+                            StartTime = new DateTime(2025, 10, 12, 17, 30, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 120,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 4,
+                            IsActive = true,
+                            MovieId = 5,
+                            ScreeningTypeId = 4,
+                            StartTime = new DateTime(2025, 10, 12, 21, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 121,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 1,
+                            IsActive = true,
+                            MovieId = 6,
+                            ScreeningTypeId = 1,
+                            StartTime = new DateTime(2025, 10, 12, 13, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 122,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 2,
+                            IsActive = true,
+                            MovieId = 6,
+                            ScreeningTypeId = 1,
+                            StartTime = new DateTime(2025, 10, 12, 17, 30, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 123,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 1,
+                            IsActive = true,
+                            MovieId = 6,
+                            ScreeningTypeId = 1,
+                            StartTime = new DateTime(2025, 10, 12, 21, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 124,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 3,
+                            IsActive = true,
+                            MovieId = 6,
+                            ScreeningTypeId = 3,
+                            StartTime = new DateTime(2025, 10, 12, 13, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 125,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 3,
+                            IsActive = true,
+                            MovieId = 6,
+                            ScreeningTypeId = 3,
+                            StartTime = new DateTime(2025, 10, 12, 17, 30, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 126,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 3,
+                            IsActive = true,
+                            MovieId = 6,
+                            ScreeningTypeId = 3,
+                            StartTime = new DateTime(2025, 10, 12, 21, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 127,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 1,
+                            IsActive = true,
+                            MovieId = 7,
+                            ScreeningTypeId = 1,
+                            StartTime = new DateTime(2025, 10, 12, 13, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 128,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 2,
+                            IsActive = true,
+                            MovieId = 7,
+                            ScreeningTypeId = 1,
+                            StartTime = new DateTime(2025, 10, 12, 17, 30, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 129,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 1,
+                            IsActive = true,
+                            MovieId = 7,
+                            ScreeningTypeId = 1,
+                            StartTime = new DateTime(2025, 10, 12, 21, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 130,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 1,
+                            IsActive = true,
+                            MovieId = 7,
+                            ScreeningTypeId = 2,
+                            StartTime = new DateTime(2025, 10, 12, 13, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 131,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 2,
+                            IsActive = true,
+                            MovieId = 7,
+                            ScreeningTypeId = 2,
+                            StartTime = new DateTime(2025, 10, 12, 17, 30, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 132,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 1,
+                            IsActive = true,
+                            MovieId = 7,
+                            ScreeningTypeId = 2,
+                            StartTime = new DateTime(2025, 10, 12, 21, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 133,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 1,
+                            IsActive = true,
+                            MovieId = 8,
+                            ScreeningTypeId = 1,
+                            StartTime = new DateTime(2025, 10, 12, 13, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 134,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 2,
+                            IsActive = true,
+                            MovieId = 8,
+                            ScreeningTypeId = 1,
+                            StartTime = new DateTime(2025, 10, 12, 17, 30, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 135,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            HallId = 1,
+                            IsActive = true,
+                            MovieId = 8,
+                            ScreeningTypeId = 1,
+                            StartTime = new DateTime(2025, 10, 12, 21, 0, 0, 0, DateTimeKind.Utc)
+                        });
+                });
+
+            modelBuilder.Entity("CineVibe.Services.Database.ScreeningType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("ScreeningTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "Standard 2D screening",
+                            IsActive = true,
+                            Name = "2D"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "3D screening with special glasses",
+                            IsActive = true,
+                            Name = "3D"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "4DX experience with motion seats and environmental effects",
+                            IsActive = true,
+                            Name = "4DX"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "IMAX large format screening",
+                            IsActive = true,
+                            Name = "IMAX"
                         });
                 });
 
@@ -5648,6 +7102,33 @@ namespace CineVibe.Services.Migrations
                     b.Navigation("ProductionCompany");
                 });
 
+            modelBuilder.Entity("CineVibe.Services.Database.Screening", b =>
+                {
+                    b.HasOne("CineVibe.Services.Database.Hall", "Hall")
+                        .WithMany()
+                        .HasForeignKey("HallId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("CineVibe.Services.Database.Movie", "Movie")
+                        .WithMany()
+                        .HasForeignKey("MovieId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("CineVibe.Services.Database.ScreeningType", "ScreeningType")
+                        .WithMany("Screenings")
+                        .HasForeignKey("ScreeningTypeId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Hall");
+
+                    b.Navigation("Movie");
+
+                    b.Navigation("ScreeningType");
+                });
+
             modelBuilder.Entity("CineVibe.Services.Database.Seat", b =>
                 {
                     b.HasOne("CineVibe.Services.Database.Hall", "Hall")
@@ -5744,6 +7225,11 @@ namespace CineVibe.Services.Migrations
             modelBuilder.Entity("CineVibe.Services.Database.Role", b =>
                 {
                     b.Navigation("UserRoles");
+                });
+
+            modelBuilder.Entity("CineVibe.Services.Database.ScreeningType", b =>
+                {
+                    b.Navigation("Screenings");
                 });
 
             modelBuilder.Entity("CineVibe.Services.Database.SeatType", b =>

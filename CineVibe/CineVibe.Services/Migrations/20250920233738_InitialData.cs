@@ -153,6 +153,22 @@ namespace CineVibe.Services.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ScreeningTypes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ScreeningTypes", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "SeatTypes",
                 columns: table => new
                 {
@@ -353,6 +369,42 @@ namespace CineVibe.Services.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Screenings",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    StartTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    MovieId = table.Column<int>(type: "int", nullable: false),
+                    HallId = table.Column<int>(type: "int", nullable: false),
+                    ScreeningTypeId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Screenings", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Screenings_Halls_HallId",
+                        column: x => x.HallId,
+                        principalTable: "Halls",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Screenings_Movies_MovieId",
+                        column: x => x.MovieId,
+                        principalTable: "Movies",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Screenings_ScreeningTypes_ScreeningTypeId",
+                        column: x => x.ScreeningTypeId,
+                        principalTable: "ScreeningTypes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
             migrationBuilder.InsertData(
                 table: "Actors",
                 columns: new[] { "Id", "CreatedAt", "FirstName", "IsActive", "LastName" },
@@ -525,6 +577,17 @@ namespace CineVibe.Services.Migrations
                 {
                     { 1, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), "System administrator with full access", true, "Administrator" },
                     { 2, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), "Regular user role", true, "User" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "ScreeningTypes",
+                columns: new[] { "Id", "CreatedAt", "Description", "IsActive", "Name" },
+                values: new object[,]
+                {
+                    { 1, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), "Standard 2D screening", true, "2D" },
+                    { 2, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), "3D screening with special glasses", true, "3D" },
+                    { 3, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), "4DX experience with motion seats and environmental effects", true, "4DX" },
+                    { 4, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), "IMAX large format screening", true, "IMAX" }
                 });
 
             migrationBuilder.InsertData(
@@ -1026,6 +1089,148 @@ namespace CineVibe.Services.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "Screenings",
+                columns: new[] { "Id", "CreatedAt", "HallId", "IsActive", "MovieId", "ScreeningTypeId", "StartTime" },
+                values: new object[,]
+                {
+                    { 1, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, 1, 1, new DateTime(2025, 10, 10, 13, 0, 0, 0, DateTimeKind.Utc) },
+                    { 2, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, 1, 1, new DateTime(2025, 10, 10, 17, 30, 0, 0, DateTimeKind.Utc) },
+                    { 3, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, 1, 1, new DateTime(2025, 10, 10, 21, 0, 0, 0, DateTimeKind.Utc) },
+                    { 4, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, 1, 2, new DateTime(2025, 10, 10, 13, 0, 0, 0, DateTimeKind.Utc) },
+                    { 5, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, 1, 2, new DateTime(2025, 10, 10, 17, 30, 0, 0, DateTimeKind.Utc) },
+                    { 6, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, 1, 2, new DateTime(2025, 10, 10, 21, 0, 0, 0, DateTimeKind.Utc) },
+                    { 7, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, 2, 1, new DateTime(2025, 10, 10, 13, 0, 0, 0, DateTimeKind.Utc) },
+                    { 8, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, 2, 1, new DateTime(2025, 10, 10, 17, 30, 0, 0, DateTimeKind.Utc) },
+                    { 9, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, 2, 1, new DateTime(2025, 10, 10, 21, 0, 0, 0, DateTimeKind.Utc) },
+                    { 10, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, 2, 4, new DateTime(2025, 10, 10, 13, 0, 0, 0, DateTimeKind.Utc) },
+                    { 11, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, 2, 4, new DateTime(2025, 10, 10, 17, 30, 0, 0, DateTimeKind.Utc) },
+                    { 12, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, 2, 4, new DateTime(2025, 10, 10, 21, 0, 0, 0, DateTimeKind.Utc) },
+                    { 13, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, 3, 1, new DateTime(2025, 10, 10, 13, 0, 0, 0, DateTimeKind.Utc) },
+                    { 14, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, 3, 1, new DateTime(2025, 10, 10, 17, 30, 0, 0, DateTimeKind.Utc) },
+                    { 15, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, 3, 1, new DateTime(2025, 10, 10, 21, 0, 0, 0, DateTimeKind.Utc) },
+                    { 16, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, 3, 3, new DateTime(2025, 10, 10, 13, 0, 0, 0, DateTimeKind.Utc) },
+                    { 17, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, 3, 3, new DateTime(2025, 10, 10, 17, 30, 0, 0, DateTimeKind.Utc) },
+                    { 18, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, 3, 3, new DateTime(2025, 10, 10, 21, 0, 0, 0, DateTimeKind.Utc) },
+                    { 19, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, 4, 1, new DateTime(2025, 10, 10, 13, 0, 0, 0, DateTimeKind.Utc) },
+                    { 20, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, 4, 1, new DateTime(2025, 10, 10, 17, 30, 0, 0, DateTimeKind.Utc) },
+                    { 21, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, 4, 1, new DateTime(2025, 10, 10, 21, 0, 0, 0, DateTimeKind.Utc) },
+                    { 22, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, 4, 2, new DateTime(2025, 10, 10, 13, 0, 0, 0, DateTimeKind.Utc) },
+                    { 23, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, 4, 2, new DateTime(2025, 10, 10, 17, 30, 0, 0, DateTimeKind.Utc) },
+                    { 24, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, 4, 2, new DateTime(2025, 10, 10, 21, 0, 0, 0, DateTimeKind.Utc) },
+                    { 25, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, 5, 1, new DateTime(2025, 10, 10, 13, 0, 0, 0, DateTimeKind.Utc) },
+                    { 26, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, 5, 1, new DateTime(2025, 10, 10, 17, 30, 0, 0, DateTimeKind.Utc) },
+                    { 27, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, 5, 1, new DateTime(2025, 10, 10, 21, 0, 0, 0, DateTimeKind.Utc) },
+                    { 28, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, 5, 4, new DateTime(2025, 10, 10, 13, 0, 0, 0, DateTimeKind.Utc) },
+                    { 29, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, 5, 4, new DateTime(2025, 10, 10, 17, 30, 0, 0, DateTimeKind.Utc) },
+                    { 30, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, 5, 4, new DateTime(2025, 10, 10, 21, 0, 0, 0, DateTimeKind.Utc) },
+                    { 31, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, 6, 1, new DateTime(2025, 10, 10, 13, 0, 0, 0, DateTimeKind.Utc) },
+                    { 32, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, 6, 1, new DateTime(2025, 10, 10, 17, 30, 0, 0, DateTimeKind.Utc) },
+                    { 33, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, 6, 1, new DateTime(2025, 10, 10, 21, 0, 0, 0, DateTimeKind.Utc) },
+                    { 34, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, 6, 3, new DateTime(2025, 10, 10, 13, 0, 0, 0, DateTimeKind.Utc) },
+                    { 35, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, 6, 3, new DateTime(2025, 10, 10, 17, 30, 0, 0, DateTimeKind.Utc) },
+                    { 36, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, 6, 3, new DateTime(2025, 10, 10, 21, 0, 0, 0, DateTimeKind.Utc) },
+                    { 37, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, 7, 1, new DateTime(2025, 10, 10, 13, 0, 0, 0, DateTimeKind.Utc) },
+                    { 38, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, 7, 1, new DateTime(2025, 10, 10, 17, 30, 0, 0, DateTimeKind.Utc) },
+                    { 39, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, 7, 1, new DateTime(2025, 10, 10, 21, 0, 0, 0, DateTimeKind.Utc) },
+                    { 40, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, 7, 2, new DateTime(2025, 10, 10, 13, 0, 0, 0, DateTimeKind.Utc) },
+                    { 41, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, 7, 2, new DateTime(2025, 10, 10, 17, 30, 0, 0, DateTimeKind.Utc) },
+                    { 42, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, 7, 2, new DateTime(2025, 10, 10, 21, 0, 0, 0, DateTimeKind.Utc) },
+                    { 43, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, 8, 1, new DateTime(2025, 10, 10, 13, 0, 0, 0, DateTimeKind.Utc) },
+                    { 44, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, 8, 1, new DateTime(2025, 10, 10, 17, 30, 0, 0, DateTimeKind.Utc) },
+                    { 45, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, 8, 1, new DateTime(2025, 10, 10, 21, 0, 0, 0, DateTimeKind.Utc) },
+                    { 46, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, 1, 1, new DateTime(2025, 10, 11, 13, 0, 0, 0, DateTimeKind.Utc) },
+                    { 47, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, 1, 1, new DateTime(2025, 10, 11, 17, 30, 0, 0, DateTimeKind.Utc) },
+                    { 48, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, 1, 1, new DateTime(2025, 10, 11, 21, 0, 0, 0, DateTimeKind.Utc) },
+                    { 49, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, 1, 2, new DateTime(2025, 10, 11, 13, 0, 0, 0, DateTimeKind.Utc) },
+                    { 50, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, 1, 2, new DateTime(2025, 10, 11, 17, 30, 0, 0, DateTimeKind.Utc) },
+                    { 51, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, 1, 2, new DateTime(2025, 10, 11, 21, 0, 0, 0, DateTimeKind.Utc) },
+                    { 52, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, 2, 1, new DateTime(2025, 10, 11, 13, 0, 0, 0, DateTimeKind.Utc) },
+                    { 53, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, 2, 1, new DateTime(2025, 10, 11, 17, 30, 0, 0, DateTimeKind.Utc) },
+                    { 54, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, 2, 1, new DateTime(2025, 10, 11, 21, 0, 0, 0, DateTimeKind.Utc) },
+                    { 55, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, 2, 4, new DateTime(2025, 10, 11, 13, 0, 0, 0, DateTimeKind.Utc) },
+                    { 56, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, 2, 4, new DateTime(2025, 10, 11, 17, 30, 0, 0, DateTimeKind.Utc) },
+                    { 57, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, 2, 4, new DateTime(2025, 10, 11, 21, 0, 0, 0, DateTimeKind.Utc) },
+                    { 58, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, 3, 1, new DateTime(2025, 10, 11, 13, 0, 0, 0, DateTimeKind.Utc) },
+                    { 59, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, 3, 1, new DateTime(2025, 10, 11, 17, 30, 0, 0, DateTimeKind.Utc) },
+                    { 60, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, 3, 1, new DateTime(2025, 10, 11, 21, 0, 0, 0, DateTimeKind.Utc) },
+                    { 61, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, 3, 3, new DateTime(2025, 10, 11, 13, 0, 0, 0, DateTimeKind.Utc) },
+                    { 62, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, 3, 3, new DateTime(2025, 10, 11, 17, 30, 0, 0, DateTimeKind.Utc) },
+                    { 63, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, 3, 3, new DateTime(2025, 10, 11, 21, 0, 0, 0, DateTimeKind.Utc) },
+                    { 64, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, 4, 1, new DateTime(2025, 10, 11, 13, 0, 0, 0, DateTimeKind.Utc) },
+                    { 65, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, 4, 1, new DateTime(2025, 10, 11, 17, 30, 0, 0, DateTimeKind.Utc) },
+                    { 66, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, 4, 1, new DateTime(2025, 10, 11, 21, 0, 0, 0, DateTimeKind.Utc) },
+                    { 67, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, 4, 2, new DateTime(2025, 10, 11, 13, 0, 0, 0, DateTimeKind.Utc) },
+                    { 68, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, 4, 2, new DateTime(2025, 10, 11, 17, 30, 0, 0, DateTimeKind.Utc) },
+                    { 69, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, 4, 2, new DateTime(2025, 10, 11, 21, 0, 0, 0, DateTimeKind.Utc) },
+                    { 70, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, 5, 1, new DateTime(2025, 10, 11, 13, 0, 0, 0, DateTimeKind.Utc) },
+                    { 71, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, 5, 1, new DateTime(2025, 10, 11, 17, 30, 0, 0, DateTimeKind.Utc) },
+                    { 72, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, 5, 1, new DateTime(2025, 10, 11, 21, 0, 0, 0, DateTimeKind.Utc) },
+                    { 73, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, 5, 4, new DateTime(2025, 10, 11, 13, 0, 0, 0, DateTimeKind.Utc) },
+                    { 74, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, 5, 4, new DateTime(2025, 10, 11, 17, 30, 0, 0, DateTimeKind.Utc) },
+                    { 75, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, 5, 4, new DateTime(2025, 10, 11, 21, 0, 0, 0, DateTimeKind.Utc) },
+                    { 76, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, 6, 1, new DateTime(2025, 10, 11, 13, 0, 0, 0, DateTimeKind.Utc) },
+                    { 77, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, 6, 1, new DateTime(2025, 10, 11, 17, 30, 0, 0, DateTimeKind.Utc) },
+                    { 78, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, 6, 1, new DateTime(2025, 10, 11, 21, 0, 0, 0, DateTimeKind.Utc) },
+                    { 79, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, 6, 3, new DateTime(2025, 10, 11, 13, 0, 0, 0, DateTimeKind.Utc) },
+                    { 80, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, 6, 3, new DateTime(2025, 10, 11, 17, 30, 0, 0, DateTimeKind.Utc) },
+                    { 81, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, 6, 3, new DateTime(2025, 10, 11, 21, 0, 0, 0, DateTimeKind.Utc) },
+                    { 82, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, 7, 1, new DateTime(2025, 10, 11, 13, 0, 0, 0, DateTimeKind.Utc) },
+                    { 83, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, 7, 1, new DateTime(2025, 10, 11, 17, 30, 0, 0, DateTimeKind.Utc) },
+                    { 84, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, 7, 1, new DateTime(2025, 10, 11, 21, 0, 0, 0, DateTimeKind.Utc) },
+                    { 85, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, 7, 2, new DateTime(2025, 10, 11, 13, 0, 0, 0, DateTimeKind.Utc) },
+                    { 86, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, 7, 2, new DateTime(2025, 10, 11, 17, 30, 0, 0, DateTimeKind.Utc) },
+                    { 87, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, 7, 2, new DateTime(2025, 10, 11, 21, 0, 0, 0, DateTimeKind.Utc) },
+                    { 88, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, 8, 1, new DateTime(2025, 10, 11, 13, 0, 0, 0, DateTimeKind.Utc) },
+                    { 89, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, 8, 1, new DateTime(2025, 10, 11, 17, 30, 0, 0, DateTimeKind.Utc) },
+                    { 90, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, 8, 1, new DateTime(2025, 10, 11, 21, 0, 0, 0, DateTimeKind.Utc) },
+                    { 91, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, 1, 1, new DateTime(2025, 10, 12, 13, 0, 0, 0, DateTimeKind.Utc) },
+                    { 92, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, 1, 1, new DateTime(2025, 10, 12, 17, 30, 0, 0, DateTimeKind.Utc) },
+                    { 93, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, 1, 1, new DateTime(2025, 10, 12, 21, 0, 0, 0, DateTimeKind.Utc) },
+                    { 94, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, 1, 2, new DateTime(2025, 10, 12, 13, 0, 0, 0, DateTimeKind.Utc) },
+                    { 95, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, 1, 2, new DateTime(2025, 10, 12, 17, 30, 0, 0, DateTimeKind.Utc) },
+                    { 96, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, 1, 2, new DateTime(2025, 10, 12, 21, 0, 0, 0, DateTimeKind.Utc) },
+                    { 97, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, 2, 1, new DateTime(2025, 10, 12, 13, 0, 0, 0, DateTimeKind.Utc) },
+                    { 98, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, 2, 1, new DateTime(2025, 10, 12, 17, 30, 0, 0, DateTimeKind.Utc) },
+                    { 99, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, 2, 1, new DateTime(2025, 10, 12, 21, 0, 0, 0, DateTimeKind.Utc) },
+                    { 100, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, 2, 4, new DateTime(2025, 10, 12, 13, 0, 0, 0, DateTimeKind.Utc) },
+                    { 101, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, 2, 4, new DateTime(2025, 10, 12, 17, 30, 0, 0, DateTimeKind.Utc) },
+                    { 102, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, 2, 4, new DateTime(2025, 10, 12, 21, 0, 0, 0, DateTimeKind.Utc) },
+                    { 103, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, 3, 1, new DateTime(2025, 10, 12, 13, 0, 0, 0, DateTimeKind.Utc) },
+                    { 104, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, 3, 1, new DateTime(2025, 10, 12, 17, 30, 0, 0, DateTimeKind.Utc) },
+                    { 105, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, 3, 1, new DateTime(2025, 10, 12, 21, 0, 0, 0, DateTimeKind.Utc) },
+                    { 106, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, 3, 3, new DateTime(2025, 10, 12, 13, 0, 0, 0, DateTimeKind.Utc) },
+                    { 107, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, 3, 3, new DateTime(2025, 10, 12, 17, 30, 0, 0, DateTimeKind.Utc) },
+                    { 108, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, 3, 3, new DateTime(2025, 10, 12, 21, 0, 0, 0, DateTimeKind.Utc) },
+                    { 109, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, 4, 1, new DateTime(2025, 10, 12, 13, 0, 0, 0, DateTimeKind.Utc) },
+                    { 110, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, 4, 1, new DateTime(2025, 10, 12, 17, 30, 0, 0, DateTimeKind.Utc) },
+                    { 111, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, 4, 1, new DateTime(2025, 10, 12, 21, 0, 0, 0, DateTimeKind.Utc) },
+                    { 112, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, 4, 2, new DateTime(2025, 10, 12, 13, 0, 0, 0, DateTimeKind.Utc) },
+                    { 113, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, 4, 2, new DateTime(2025, 10, 12, 17, 30, 0, 0, DateTimeKind.Utc) },
+                    { 114, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, 4, 2, new DateTime(2025, 10, 12, 21, 0, 0, 0, DateTimeKind.Utc) },
+                    { 115, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, 5, 1, new DateTime(2025, 10, 12, 13, 0, 0, 0, DateTimeKind.Utc) },
+                    { 116, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, 5, 1, new DateTime(2025, 10, 12, 17, 30, 0, 0, DateTimeKind.Utc) },
+                    { 117, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, 5, 1, new DateTime(2025, 10, 12, 21, 0, 0, 0, DateTimeKind.Utc) },
+                    { 118, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, 5, 4, new DateTime(2025, 10, 12, 13, 0, 0, 0, DateTimeKind.Utc) },
+                    { 119, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, 5, 4, new DateTime(2025, 10, 12, 17, 30, 0, 0, DateTimeKind.Utc) },
+                    { 120, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 4, true, 5, 4, new DateTime(2025, 10, 12, 21, 0, 0, 0, DateTimeKind.Utc) },
+                    { 121, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, 6, 1, new DateTime(2025, 10, 12, 13, 0, 0, 0, DateTimeKind.Utc) },
+                    { 122, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, 6, 1, new DateTime(2025, 10, 12, 17, 30, 0, 0, DateTimeKind.Utc) },
+                    { 123, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, 6, 1, new DateTime(2025, 10, 12, 21, 0, 0, 0, DateTimeKind.Utc) },
+                    { 124, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, 6, 3, new DateTime(2025, 10, 12, 13, 0, 0, 0, DateTimeKind.Utc) },
+                    { 125, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, 6, 3, new DateTime(2025, 10, 12, 17, 30, 0, 0, DateTimeKind.Utc) },
+                    { 126, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 3, true, 6, 3, new DateTime(2025, 10, 12, 21, 0, 0, 0, DateTimeKind.Utc) },
+                    { 127, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, 7, 1, new DateTime(2025, 10, 12, 13, 0, 0, 0, DateTimeKind.Utc) },
+                    { 128, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, 7, 1, new DateTime(2025, 10, 12, 17, 30, 0, 0, DateTimeKind.Utc) },
+                    { 129, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, 7, 1, new DateTime(2025, 10, 12, 21, 0, 0, 0, DateTimeKind.Utc) },
+                    { 130, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, 7, 2, new DateTime(2025, 10, 12, 13, 0, 0, 0, DateTimeKind.Utc) },
+                    { 131, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, 7, 2, new DateTime(2025, 10, 12, 17, 30, 0, 0, DateTimeKind.Utc) },
+                    { 132, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, 7, 2, new DateTime(2025, 10, 12, 21, 0, 0, 0, DateTimeKind.Utc) },
+                    { 133, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, 8, 1, new DateTime(2025, 10, 12, 13, 0, 0, 0, DateTimeKind.Utc) },
+                    { 134, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, true, 8, 1, new DateTime(2025, 10, 12, 17, 30, 0, 0, DateTimeKind.Utc) },
+                    { 135, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 1, true, 8, 1, new DateTime(2025, 10, 12, 21, 0, 0, 0, DateTimeKind.Utc) }
+                });
+
+            migrationBuilder.InsertData(
                 table: "UserRoles",
                 columns: new[] { "Id", "DateAssigned", "RoleId", "UserId" },
                 values: new object[,]
@@ -1122,6 +1327,27 @@ namespace CineVibe.Services.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Screenings_HallId_StartTime",
+                table: "Screenings",
+                columns: new[] { "HallId", "StartTime" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Screenings_MovieId",
+                table: "Screenings",
+                column: "MovieId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Screenings_ScreeningTypeId",
+                table: "Screenings",
+                column: "ScreeningTypeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ScreeningTypes_Name",
+                table: "ScreeningTypes",
+                column: "Name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Seats_HallId",
                 table: "Seats",
                 column: "HallId");
@@ -1187,6 +1413,9 @@ namespace CineVibe.Services.Migrations
                 name: "MovieProductionCompanies");
 
             migrationBuilder.DropTable(
+                name: "Screenings");
+
+            migrationBuilder.DropTable(
                 name: "Seats");
 
             migrationBuilder.DropTable(
@@ -1196,10 +1425,13 @@ namespace CineVibe.Services.Migrations
                 name: "Actors");
 
             migrationBuilder.DropTable(
+                name: "ProductionCompanies");
+
+            migrationBuilder.DropTable(
                 name: "Movies");
 
             migrationBuilder.DropTable(
-                name: "ProductionCompanies");
+                name: "ScreeningTypes");
 
             migrationBuilder.DropTable(
                 name: "Halls");

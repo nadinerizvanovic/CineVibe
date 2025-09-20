@@ -27,6 +27,8 @@ builder.Services.AddTransient<IProductionCompanyService, ProductionCompanyServic
 builder.Services.AddTransient<IHallService, HallService>();
 builder.Services.AddTransient<ISeatTypeService, SeatTypeService>();
 builder.Services.AddTransient<ISeatService, SeatService>();
+builder.Services.AddTransient<IScreeningTypeService, ScreeningTypeService>();
+builder.Services.AddTransient<IScreeningService, ScreeningService>();
 
 
 // Configure database

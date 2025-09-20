@@ -533,6 +533,86 @@ namespace CineVibe.Services.Database
             }
 
             modelBuilder.Entity<Seat>().HasData(seats);
+
+            // Seed ScreeningTypes
+            modelBuilder.Entity<ScreeningType>().HasData(
+                new ScreeningType { Id = 1, Name = "2D", Description = "Standard 2D screening", IsActive = true, CreatedAt = fixedDate },
+                new ScreeningType { Id = 2, Name = "3D", Description = "3D screening with special glasses", IsActive = true, CreatedAt = fixedDate },
+                new ScreeningType { Id = 3, Name = "4DX", Description = "4DX experience with motion seats and environmental effects", IsActive = true, CreatedAt = fixedDate },
+                new ScreeningType { Id = 4, Name = "IMAX", Description = "IMAX large format screening", IsActive = true, CreatedAt = fixedDate }
+            );
+
+            // Seed Screenings for next 3 days (3 screenings per movie per day)
+            var screenings = new List<Screening>();
+            int screeningId = 1;
+            var today = fixedDate.Date; // Use fixed date for consistency
+
+            // Screening times: 13:00, 17:30, 21:00
+            var screeningTimes = new TimeSpan[] 
+            {
+                new TimeSpan(13, 0, 0), // 1:00 PM
+                new TimeSpan(17, 30, 0), // 5:30 PM
+                new TimeSpan(21, 0, 0)   // 9:00 PM
+            };
+
+            // Hall assignments based on screening type
+            var hallAssignments = new Dictionary<int, int[]>
+            {
+                { 1, new[] { 1, 2 } }, // 2D -> Hall 1, Hall 2
+                { 2, new[] { 1, 2 } }, // 3D -> Hall 1, Hall 2  
+                { 3, new[] { 3 } },    // 4DX -> 4DX Hall
+                { 4, new[] { 4 } }     // IMAX -> IMAX Hall
+            };
+
+            // Movie to screening type mapping (varied for each movie)
+            var movieScreeningTypes = new Dictionary<int, int[]>
+            {
+                { 1, new[] { 1, 2 } }, // Fantastic Four: 2D, 3D
+                { 2, new[] { 1, 4 } }, // Superman: 2D, IMAX
+                { 3, new[] { 1, 3 } }, // F1: 2D, 4DX
+                { 4, new[] { 1, 2 } }, // Elio: 2D, 3D
+                { 5, new[] { 1, 4 } }, // Spider-Man: 2D, IMAX
+                { 6, new[] { 1, 3 } }, // Avatar: 2D, 4DX
+                { 7, new[] { 1, 2 } }, // Titanic: 2D, 3D
+                { 8, new[] { 1 } }     // Cast Away: 2D only
+            };
+
+            for (int day = 0; day < 3; day++) // Next 3 days
+            {
+                var currentDate = today.AddDays(day);
+                
+                foreach (var movieEntry in movieScreeningTypes)
+                {
+                    int movieId = movieEntry.Key;
+                    int[] screeningTypeIds = movieEntry.Value;
+
+                    foreach (int screeningTypeId in screeningTypeIds)
+                    {
+                        int[] availableHalls = hallAssignments[screeningTypeId];
+                        
+                        for (int timeIndex = 0; timeIndex < screeningTimes.Length; timeIndex++)
+                        {
+                            // Distribute across available halls to avoid conflicts
+                            int hallId = availableHalls[timeIndex % availableHalls.Length];
+                            
+                            var startTime = currentDate.Add(screeningTimes[timeIndex]);
+                            
+                            screenings.Add(new Screening
+                            {
+                                Id = screeningId++,
+                                MovieId = movieId,
+                                HallId = hallId,
+                                ScreeningTypeId = screeningTypeId,
+                                StartTime = startTime,
+                                IsActive = true,
+                                CreatedAt = fixedDate
+                            });
+                        }
+                    }
+                }
+            }
+
+            modelBuilder.Entity<Screening>().HasData(screenings);
         }
     }
 } 

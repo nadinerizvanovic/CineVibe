@@ -24,6 +24,8 @@ namespace CineVibe.Services.Database
         public DbSet<Hall> Halls { get; set; }
         public DbSet<SeatType> SeatTypes { get; set; }
         public DbSet<Seat> Seats { get; set; }
+        public DbSet<ScreeningType> ScreeningTypes { get; set; }
+        public DbSet<Screening> Screenings { get; set; }
     
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -192,6 +194,34 @@ namespace CineVibe.Services.Database
             modelBuilder.Entity<Seat>()
                 .HasIndex(s => new { s.SeatNumber, s.HallId })
                 .IsUnique();
+
+            // Configure ScreeningType entity
+            modelBuilder.Entity<ScreeningType>()
+                .HasIndex(st => st.Name)
+                .IsUnique();
+
+            // Configure Screening relationships
+            modelBuilder.Entity<Screening>()
+                .HasOne(s => s.Movie)
+                .WithMany()
+                .HasForeignKey(s => s.MovieId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Screening>()
+                .HasOne(s => s.Hall)
+                .WithMany()
+                .HasForeignKey(s => s.HallId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Screening>()
+                .HasOne(s => s.ScreeningType)
+                .WithMany(st => st.Screenings)
+                .HasForeignKey(s => s.ScreeningTypeId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Create an index on StartTime and HallId for efficient conflict checking
+            modelBuilder.Entity<Screening>()
+                .HasIndex(s => new { s.HallId, s.StartTime });
 
             // Seed initial data
             modelBuilder.SeedData();
