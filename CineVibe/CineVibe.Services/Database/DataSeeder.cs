@@ -613,6 +613,51 @@ namespace CineVibe.Services.Database
             }
 
             modelBuilder.Entity<Screening>().HasData(screenings);
+
+            // Seed Tickets for users with User role (3 tickets each)
+            // Based on seeding: User IDs 3 and 4 have User role (Role ID 2)
+            var tickets = new List<Ticket>();
+            int ticketId = 1;
+            var userIds = new[] { 3, 4 }; // Users with User role
+
+            foreach (int userId in userIds)
+            {
+                // Give each user 3 tickets for different screenings
+                // Ticket 1: First screening of first movie
+                tickets.Add(new Ticket
+                {
+                    Id = ticketId++,
+                    UserId = userId,
+                    ScreeningId = 1, // First screening in the list
+                    SeatId = userId == 3 ? 1 : 2, // Different seats (A1, A2)
+                    IsActive = true,
+                    CreatedAt = fixedDate
+                });
+
+                // Ticket 2: Different screening
+                tickets.Add(new Ticket
+                {
+                    Id = ticketId++,
+                    UserId = userId,
+                    ScreeningId = userId == 3 ? 10 : 15, // Different screenings
+                    SeatId = userId == 3 ? 11 : 12, // Different seats (B1, B2)
+                    IsActive = true,
+                    CreatedAt = fixedDate
+                });
+
+                // Ticket 3: Another different screening
+                tickets.Add(new Ticket
+                {
+                    Id = ticketId++,
+                    UserId = userId,
+                    ScreeningId = userId == 3 ? 25 : 30, // Different screenings
+                    SeatId = userId == 3 ? 21 : 22, // Different seats (C1, C2)
+                    IsActive = true,
+                    CreatedAt = fixedDate
+                });
+            }
+
+            modelBuilder.Entity<Ticket>().HasData(tickets);
         }
     }
 } 

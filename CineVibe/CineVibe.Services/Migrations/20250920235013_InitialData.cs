@@ -405,6 +405,41 @@ namespace CineVibe.Services.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Tickets",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    SeatId = table.Column<int>(type: "int", nullable: false),
+                    ScreeningId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Tickets", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Tickets_Screenings_ScreeningId",
+                        column: x => x.ScreeningId,
+                        principalTable: "Screenings",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Tickets_Seats_SeatId",
+                        column: x => x.SeatId,
+                        principalTable: "Seats",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Tickets_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
             migrationBuilder.InsertData(
                 table: "Actors",
                 columns: new[] { "Id", "CreatedAt", "FirstName", "IsActive", "LastName" },
@@ -1241,6 +1276,19 @@ namespace CineVibe.Services.Migrations
                     { 4, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 2, 4 }
                 });
 
+            migrationBuilder.InsertData(
+                table: "Tickets",
+                columns: new[] { "Id", "CreatedAt", "IsActive", "ScreeningId", "SeatId", "UserId" },
+                values: new object[,]
+                {
+                    { 1, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), true, 1, 1, 3 },
+                    { 2, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), true, 10, 11, 3 },
+                    { 3, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), true, 25, 21, 3 },
+                    { 4, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), true, 1, 2, 4 },
+                    { 5, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), true, 15, 12, 4 },
+                    { 6, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), true, 30, 22, 4 }
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Categories_Name",
                 table: "Categories",
@@ -1370,6 +1418,22 @@ namespace CineVibe.Services.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Tickets_ScreeningId",
+                table: "Tickets",
+                column: "ScreeningId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tickets_SeatId_ScreeningId",
+                table: "Tickets",
+                columns: new[] { "SeatId", "ScreeningId" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tickets_UserId",
+                table: "Tickets",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_UserRoles_RoleId",
                 table: "UserRoles",
                 column: "RoleId");
@@ -1413,10 +1477,7 @@ namespace CineVibe.Services.Migrations
                 name: "MovieProductionCompanies");
 
             migrationBuilder.DropTable(
-                name: "Screenings");
-
-            migrationBuilder.DropTable(
-                name: "Seats");
+                name: "Tickets");
 
             migrationBuilder.DropTable(
                 name: "UserRoles");
@@ -1426,6 +1487,18 @@ namespace CineVibe.Services.Migrations
 
             migrationBuilder.DropTable(
                 name: "ProductionCompanies");
+
+            migrationBuilder.DropTable(
+                name: "Screenings");
+
+            migrationBuilder.DropTable(
+                name: "Seats");
+
+            migrationBuilder.DropTable(
+                name: "Roles");
+
+            migrationBuilder.DropTable(
+                name: "Users");
 
             migrationBuilder.DropTable(
                 name: "Movies");
@@ -1440,10 +1513,10 @@ namespace CineVibe.Services.Migrations
                 name: "SeatTypes");
 
             migrationBuilder.DropTable(
-                name: "Roles");
+                name: "Cities");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "Genders");
 
             migrationBuilder.DropTable(
                 name: "Categories");
@@ -1453,12 +1526,6 @@ namespace CineVibe.Services.Migrations
 
             migrationBuilder.DropTable(
                 name: "Genres");
-
-            migrationBuilder.DropTable(
-                name: "Cities");
-
-            migrationBuilder.DropTable(
-                name: "Genders");
         }
     }
 }

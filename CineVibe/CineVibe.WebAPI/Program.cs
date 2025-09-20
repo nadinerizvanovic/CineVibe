@@ -29,6 +29,7 @@ builder.Services.AddTransient<ISeatTypeService, SeatTypeService>();
 builder.Services.AddTransient<ISeatService, SeatService>();
 builder.Services.AddTransient<IScreeningTypeService, ScreeningTypeService>();
 builder.Services.AddTransient<IScreeningService, ScreeningService>();
+builder.Services.AddTransient<ITicketService, TicketService>();
 
 
 // Configure database

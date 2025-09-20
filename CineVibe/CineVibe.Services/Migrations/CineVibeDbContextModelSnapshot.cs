@@ -6839,6 +6839,97 @@ namespace CineVibe.Services.Migrations
                         });
                 });
 
+            modelBuilder.Entity("CineVibe.Services.Database.Ticket", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("ScreeningId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SeatId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ScreeningId");
+
+                    b.HasIndex("UserId");
+
+                    b.HasIndex("SeatId", "ScreeningId")
+                        .IsUnique();
+
+                    b.ToTable("Tickets");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsActive = true,
+                            ScreeningId = 1,
+                            SeatId = 1,
+                            UserId = 3
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsActive = true,
+                            ScreeningId = 10,
+                            SeatId = 11,
+                            UserId = 3
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsActive = true,
+                            ScreeningId = 25,
+                            SeatId = 21,
+                            UserId = 3
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsActive = true,
+                            ScreeningId = 1,
+                            SeatId = 2,
+                            UserId = 4
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsActive = true,
+                            ScreeningId = 15,
+                            SeatId = 12,
+                            UserId = 4
+                        },
+                        new
+                        {
+                            Id = 6,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsActive = true,
+                            ScreeningId = 30,
+                            SeatId = 22,
+                            UserId = 4
+                        });
+                });
+
             modelBuilder.Entity("CineVibe.Services.Database.User", b =>
                 {
                     b.Property<int>("Id")
@@ -7142,6 +7233,33 @@ namespace CineVibe.Services.Migrations
                     b.Navigation("Hall");
 
                     b.Navigation("SeatType");
+                });
+
+            modelBuilder.Entity("CineVibe.Services.Database.Ticket", b =>
+                {
+                    b.HasOne("CineVibe.Services.Database.Screening", "Screening")
+                        .WithMany()
+                        .HasForeignKey("ScreeningId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("CineVibe.Services.Database.Seat", "Seat")
+                        .WithMany()
+                        .HasForeignKey("SeatId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("CineVibe.Services.Database.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Screening");
+
+                    b.Navigation("Seat");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("CineVibe.Services.Database.User", b =>

@@ -26,6 +26,7 @@ namespace CineVibe.Services.Database
         public DbSet<Seat> Seats { get; set; }
         public DbSet<ScreeningType> ScreeningTypes { get; set; }
         public DbSet<Screening> Screenings { get; set; }
+        public DbSet<Ticket> Tickets { get; set; }
     
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -222,6 +223,30 @@ namespace CineVibe.Services.Database
             // Create an index on StartTime and HallId for efficient conflict checking
             modelBuilder.Entity<Screening>()
                 .HasIndex(s => new { s.HallId, s.StartTime });
+
+            // Configure Ticket relationships
+            modelBuilder.Entity<Ticket>()
+                .HasOne(t => t.Seat)
+                .WithMany()
+                .HasForeignKey(t => t.SeatId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Ticket>()
+                .HasOne(t => t.Screening)
+                .WithMany()
+                .HasForeignKey(t => t.ScreeningId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Ticket>()
+                .HasOne(t => t.User)
+                .WithMany()
+                .HasForeignKey(t => t.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Create a unique constraint on SeatId and ScreeningId to prevent duplicate bookings
+            modelBuilder.Entity<Ticket>()
+                .HasIndex(t => new { t.SeatId, t.ScreeningId })
+                .IsUnique();
 
             // Seed initial data
             modelBuilder.SeedData();
