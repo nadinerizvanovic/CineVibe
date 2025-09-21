@@ -32,6 +32,8 @@ builder.Services.AddTransient<IScreeningService, ScreeningService>();
 builder.Services.AddTransient<ITicketService, TicketService>();
 builder.Services.AddTransient<IReviewService, ReviewService>();
 builder.Services.AddTransient<IProductService, ProductService>();
+builder.Services.AddTransient<ICartService, CartService>();
+builder.Services.AddTransient<ICartItemService, CartItemService>();
 
 
 // Configure database

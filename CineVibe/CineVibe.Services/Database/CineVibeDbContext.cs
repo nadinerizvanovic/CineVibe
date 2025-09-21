@@ -29,6 +29,8 @@ namespace CineVibe.Services.Database
         public DbSet<Ticket> Tickets { get; set; }
         public DbSet<Review> Reviews { get; set; }
         public DbSet<Product> Products { get; set; }
+        public DbSet<Cart> Carts { get; set; }
+        public DbSet<CartItem> CartItems { get; set; }
     
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -271,6 +273,36 @@ namespace CineVibe.Services.Database
             // Configure Product entity
             modelBuilder.Entity<Product>()
                 .HasIndex(p => p.Name)
+                .IsUnique();
+
+            // Configure Cart relationships
+            modelBuilder.Entity<Cart>()
+                .HasOne(c => c.User)
+                .WithMany()
+                .HasForeignKey(c => c.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Create a unique constraint on UserId to ensure one cart per user
+            modelBuilder.Entity<Cart>()
+                .HasIndex(c => c.UserId)
+                .IsUnique();
+
+            // Configure CartItem relationships
+            modelBuilder.Entity<CartItem>()
+                .HasOne(ci => ci.Cart)
+                .WithMany(c => c.CartItems)
+                .HasForeignKey(ci => ci.CartId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<CartItem>()
+                .HasOne(ci => ci.Product)
+                .WithMany()
+                .HasForeignKey(ci => ci.ProductId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Create a unique constraint on CartId and ProductId to prevent duplicate items
+            modelBuilder.Entity<CartItem>()
+                .HasIndex(ci => new { ci.CartId, ci.ProductId })
                 .IsUnique();
 
             // Seed initial data
