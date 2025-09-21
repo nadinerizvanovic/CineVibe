@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CineVibe.Services.Migrations
 {
     [DbContext(typeof(CineVibeDbContext))]
-    [Migration("20250921010546_InitialData")]
+    [Migration("20250921014704_InitialData")]
     partial class InitialData
     {
         /// <inheritdoc />
@@ -294,6 +294,70 @@ namespace CineVibe.Services.Migrations
                             IsActive = true,
                             LastName = "Stone"
                         });
+                });
+
+            modelBuilder.Entity("CineVibe.Services.Database.Cart", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("ExpiresAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("Carts");
+                });
+
+            modelBuilder.Entity("CineVibe.Services.Database.CartItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CartId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("CartId", "ProductId")
+                        .IsUnique();
+
+                    b.ToTable("CartItems");
                 });
 
             modelBuilder.Entity("CineVibe.Services.Database.Category", b =>
@@ -1444,6 +1508,250 @@ namespace CineVibe.Services.Migrations
                             DateAssigned = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
                             MovieId = 8,
                             ProductionCompanyId = 20
+                        });
+                });
+
+            modelBuilder.Entity("CineVibe.Services.Database.Order", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<decimal>("TotalAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Orders");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsActive = true,
+                            TotalAmount = 3.00m,
+                            UserId = 3
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsActive = true,
+                            TotalAmount = 18.00m,
+                            UserId = 3
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsActive = true,
+                            TotalAmount = 15.00m,
+                            UserId = 3
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsActive = true,
+                            TotalAmount = 18.50m,
+                            UserId = 4
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsActive = true,
+                            TotalAmount = 18.50m,
+                            UserId = 4
+                        },
+                        new
+                        {
+                            Id = 6,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsActive = true,
+                            TotalAmount = 31.00m,
+                            UserId = 4
+                        });
+                });
+
+            modelBuilder.Entity("CineVibe.Services.Database.OrderItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("TotalPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("UnitPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("OrderItems");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            OrderId = 1,
+                            ProductId = 2,
+                            Quantity = 1,
+                            TotalPrice = 3.00m,
+                            UnitPrice = 3.00m
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            OrderId = 2,
+                            ProductId = 5,
+                            Quantity = 1,
+                            TotalPrice = 5.00m,
+                            UnitPrice = 5.00m
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            OrderId = 2,
+                            ProductId = 2,
+                            Quantity = 1,
+                            TotalPrice = 3.00m,
+                            UnitPrice = 3.00m
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            OrderId = 2,
+                            ProductId = 10,
+                            Quantity = 2,
+                            TotalPrice = 10.00m,
+                            UnitPrice = 5.00m
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            OrderId = 3,
+                            ProductId = 7,
+                            Quantity = 2,
+                            TotalPrice = 15.00m,
+                            UnitPrice = 7.50m
+                        },
+                        new
+                        {
+                            Id = 6,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            OrderId = 4,
+                            ProductId = 10,
+                            Quantity = 1,
+                            TotalPrice = 5.00m,
+                            UnitPrice = 5.00m
+                        },
+                        new
+                        {
+                            Id = 7,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            OrderId = 4,
+                            ProductId = 6,
+                            Quantity = 1,
+                            TotalPrice = 3.50m,
+                            UnitPrice = 3.50m
+                        },
+                        new
+                        {
+                            Id = 8,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            OrderId = 4,
+                            ProductId = 5,
+                            Quantity = 2,
+                            TotalPrice = 10.00m,
+                            UnitPrice = 5.00m
+                        },
+                        new
+                        {
+                            Id = 9,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            OrderId = 5,
+                            ProductId = 3,
+                            Quantity = 1,
+                            TotalPrice = 3.50m,
+                            UnitPrice = 3.50m
+                        },
+                        new
+                        {
+                            Id = 10,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            OrderId = 5,
+                            ProductId = 7,
+                            Quantity = 2,
+                            TotalPrice = 15.00m,
+                            UnitPrice = 7.50m
+                        },
+                        new
+                        {
+                            Id = 11,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            OrderId = 6,
+                            ProductId = 6,
+                            Quantity = 2,
+                            TotalPrice = 7.00m,
+                            UnitPrice = 3.50m
+                        },
+                        new
+                        {
+                            Id = 12,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            OrderId = 6,
+                            ProductId = 10,
+                            Quantity = 2,
+                            TotalPrice = 10.00m,
+                            UnitPrice = 5.00m
+                        },
+                        new
+                        {
+                            Id = 13,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            OrderId = 6,
+                            ProductId = 9,
+                            Quantity = 2,
+                            TotalPrice = 14.00m,
+                            UnitPrice = 7.00m
                         });
                 });
 
@@ -7374,6 +7682,36 @@ namespace CineVibe.Services.Migrations
                         });
                 });
 
+            modelBuilder.Entity("CineVibe.Services.Database.Cart", b =>
+                {
+                    b.HasOne("CineVibe.Services.Database.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("CineVibe.Services.Database.CartItem", b =>
+                {
+                    b.HasOne("CineVibe.Services.Database.Cart", "Cart")
+                        .WithMany("CartItems")
+                        .HasForeignKey("CartId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CineVibe.Services.Database.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Cart");
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("CineVibe.Services.Database.Movie", b =>
                 {
                     b.HasOne("CineVibe.Services.Database.Category", "Category")
@@ -7437,6 +7775,36 @@ namespace CineVibe.Services.Migrations
                     b.Navigation("Movie");
 
                     b.Navigation("ProductionCompany");
+                });
+
+            modelBuilder.Entity("CineVibe.Services.Database.Order", b =>
+                {
+                    b.HasOne("CineVibe.Services.Database.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("CineVibe.Services.Database.OrderItem", b =>
+                {
+                    b.HasOne("CineVibe.Services.Database.Order", "Order")
+                        .WithMany("OrderItems")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CineVibe.Services.Database.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Order");
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("CineVibe.Services.Database.Review", b =>
@@ -7573,6 +7941,11 @@ namespace CineVibe.Services.Migrations
                     b.Navigation("MovieActors");
                 });
 
+            modelBuilder.Entity("CineVibe.Services.Database.Cart", b =>
+                {
+                    b.Navigation("CartItems");
+                });
+
             modelBuilder.Entity("CineVibe.Services.Database.Category", b =>
                 {
                     b.Navigation("Movies");
@@ -7598,6 +7971,11 @@ namespace CineVibe.Services.Migrations
                     b.Navigation("MovieActors");
 
                     b.Navigation("MovieProductionCompanies");
+                });
+
+            modelBuilder.Entity("CineVibe.Services.Database.Order", b =>
+                {
+                    b.Navigation("OrderItems");
                 });
 
             modelBuilder.Entity("CineVibe.Services.Database.ProductionCompany", b =>

@@ -731,6 +731,86 @@ namespace CineVibe.Services.Database
                 new Product { Id = 9, Name = "Movie Night Combo - Large Popcorn + Large Soda", Price = 7.00m, IsActive = true, CreatedAt = fixedDate, Picture = ImageConversion.ConvertImageToByteArray("Assets", "M9.jpg") },
                 new Product { Id = 10, Name = "Classic Combo - Small Popcorn + Small Soda", Price = 5.00m, IsActive = true, CreatedAt = fixedDate, Picture = ImageConversion.ConvertImageToByteArray("Assets", "M10.jpg") }
             );
+
+            // Seed Orders for every ticket (representing snacks bought with screenings)
+            var orders = new List<Order>();
+            var orderItems = new List<OrderItem>();
+            int orderId = 1;
+            int orderItemId = 1;
+
+            // Create an order for each ticket (representing snacks bought with movie tickets)
+            foreach (var ticket in tickets)
+            {
+                var random = new Random(ticket.Id); // Use ticket ID as seed for consistent results
+                
+                // Randomly select 1-3 products for each order
+                var numberOfProducts = random.Next(1, 4); // 1 to 3 products
+                var selectedProducts = new List<int>();
+                var totalOrderAmount = 0m;
+
+                for (int i = 0; i < numberOfProducts; i++)
+                {
+                    int productId;
+                    do
+                    {
+                        productId = random.Next(1, 11); // Product IDs 1-10
+                    }
+                    while (selectedProducts.Contains(productId)); // Avoid duplicates
+                    
+                    selectedProducts.Add(productId);
+                }
+
+                // Create order
+                var order = new Order
+                {
+                    Id = orderId++,
+                    UserId = ticket.UserId,
+                    TotalAmount = 0, // Will be calculated below
+                    CreatedAt = fixedDate,
+                    IsActive = true
+                };
+
+                // Create order items
+                foreach (var productId in selectedProducts)
+                {
+                    var quantity = random.Next(1, 3); // 1 or 2 quantity
+                    decimal unitPrice = productId switch
+                    {
+                        1 => 4.50m, // Large Gourmet Popcorn
+                        2 => 3.00m, // Small Classic Popcorn
+                        3 => 3.50m, // Large Premium Soda
+                        4 => 2.50m, // Small Refreshing Soda
+                        5 => 5.00m, // Large Loaded Nachos
+                        6 => 3.50m, // Small Crispy Nachos
+                        7 => 7.50m, // Ultimate Combo
+                        8 => 5.50m, // Snack Combo
+                        9 => 7.00m, // Movie Night Combo
+                        10 => 5.00m, // Classic Combo
+                        _ => 3.00m
+                    };
+
+                    var totalPrice = unitPrice * quantity;
+                    totalOrderAmount += totalPrice;
+
+                    orderItems.Add(new OrderItem
+                    {
+                        Id = orderItemId++,
+                        OrderId = order.Id,
+                        ProductId = productId,
+                        Quantity = quantity,
+                        UnitPrice = unitPrice,
+                        TotalPrice = totalPrice,
+                        CreatedAt = fixedDate
+                    });
+                }
+
+                // Set the calculated total amount
+                order.TotalAmount = totalOrderAmount;
+                orders.Add(order);
+            }
+
+            modelBuilder.Entity<Order>().HasData(orders);
+            modelBuilder.Entity<OrderItem>().HasData(orderItems);
         }
     }
 } 
