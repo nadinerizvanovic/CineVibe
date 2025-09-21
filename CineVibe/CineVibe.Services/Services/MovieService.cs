@@ -6,6 +6,8 @@ using CineVibe.Services.Interfaces;
 using MapsterMapper;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using EasyNetQ;
+using CineVibe.Subscriber.Models;
 
 namespace CineVibe.Services.Services
 {
@@ -255,6 +257,66 @@ namespace CineVibe.Services.Services
             await _context.SaveChangesAsync();
 
             return true;
+        }
+
+        public override async Task<MovieResponse> CreateAsync(MovieUpsertRequest request)
+        {
+            // Create the movie first
+            var movieResponse = await base.CreateAsync(request);
+
+            try
+            {
+                // Get all user emails with User role for notification
+                var userEmails = await _context.Users
+                    .Where(u => u.UserRoles.Any(ur => ur.Role.Name == "User") && u.IsActive)
+                    .Select(u => u.Email)
+                    .ToListAsync();
+
+                // Get the full movie entity with all relationships for notification
+                var movieEntity = await _context.Movies
+                    .Include(m => m.Director)
+                    .Include(m => m.Genre)
+                    .Include(m => m.Category)
+                    .FirstOrDefaultAsync(m => m.Id == movieResponse.Id);
+
+                if (movieEntity != null && userEmails.Any())
+                {
+                    // Setup RabbitMQ connection
+                    var host = Environment.GetEnvironmentVariable("RABBITMQ_HOST") ?? "localhost";
+                    var username = Environment.GetEnvironmentVariable("RABBITMQ_USERNAME") ?? "guest";
+                    var password = Environment.GetEnvironmentVariable("RABBITMQ_PASSWORD") ?? "guest";
+                    var virtualhost = Environment.GetEnvironmentVariable("RABBITMQ_VIRTUALHOST") ?? "/";
+                    
+                    using var bus = RabbitHutch.CreateBus($"host={host};virtualHost={virtualhost};username={username};password={password}");
+
+                    // Create RabbitMQ notification DTO
+                    var notificationDto = new MovieNotificationDto
+                    {
+                        Title = movieEntity.Title,
+                        Description = movieEntity.Description ?? "An exciting new movie is coming to theaters!",
+                        ReleaseDate = movieEntity.ReleaseDate,
+                        DirectorName = $"{movieEntity.Director?.FirstName} {movieEntity.Director?.LastName}".Trim(),
+                        GenreName = movieEntity.Genre?.Name ?? "---",
+                        CategoryName = movieEntity.Category?.Name ?? "---",
+                        UserEmails = userEmails
+                    };
+
+                    var movieNotification = new MovieNotification
+                    {
+                        Movie = notificationDto
+                    };
+
+                    await bus.PubSub.PublishAsync(movieNotification);
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log the error but don't fail the movie creation
+                // You might want to inject ILogger here for proper logging
+                Console.WriteLine($"Failed to send movie notification: {ex.Message}");
+            }
+
+            return movieResponse;
         }
     }
 }

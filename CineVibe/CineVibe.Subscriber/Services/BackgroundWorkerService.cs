@@ -63,10 +63,10 @@ namespace CineVibe.Subscriber.Services
                 {
                     using (var bus = RabbitHutch.CreateBus($"host={_host};virtualHost={_virtualhost};username={_username};password={_password}"))
                     {
-                        // Subscribe to vehicle notifications only
-                        bus.PubSub.Subscribe<VehicleNotification>("Vehicle_Notifications", HandleVehicleMessage);
+                        // Subscribe to movie notifications only
+                        bus.PubSub.Subscribe<MovieNotification>("Movie_Notifications", HandleMovieMessage);
 
-                        _logger.LogInformation("Waiting for vehicle notifications...");
+                        _logger.LogInformation("Waiting for movie notifications...");
                         await Task.Delay(TimeSpan.FromSeconds(5), stoppingToken);
                     }
                 }
@@ -81,26 +81,45 @@ namespace CineVibe.Subscriber.Services
             }
         }
 
-        private async Task HandleVehicleMessage(VehicleNotification notification)
+        private async Task HandleMovieMessage(MovieNotification notification)
         {
-            var vehicle = notification.Vehicle;
+            var movie = notification.Movie;
 
-            if (!vehicle.AdminEmails.Any())
+            if (!movie.UserEmails.Any())
             {
-                _logger.LogWarning("No admin emails provided in the notification");
+                _logger.LogWarning("No user emails provided in the notification");
                 return;
             }
 
-            var subject = "New Vehicle Pending Review";
-            var message = $"A new vehicle {vehicle.BrandName} {vehicle.Name} is ready to be accepted or rejected.\n" +
-                        $"Please review and take appropriate action.";
+            var subject = "🎬 New Movie Announcement - Coming Soon to CineVibe!";
+            var message = $@"
+🎭 Exciting News! A New Movie is Coming to CineVibe! 🎭
 
-            foreach (var email in vehicle.AdminEmails)
+📽️ Movie: {movie.Title}
+🎬 Director: {movie.DirectorName}
+🎪 Genre: {movie.GenreName}
+📅 Release Date: {movie.ReleaseDate:MMMM dd, yyyy}
+🏷️ Category: {movie.CategoryName}
+
+📖 Description:
+{movie.Description}
+
+🎟️ Get ready for an amazing cinematic experience! Tickets will be available soon.
+Visit CineVibe to book your seats and enjoy the latest blockbuster!
+
+🍿 Don't forget to check out our delicious concessions for the perfect movie night!
+
+---
+CineVibe Cinema
+Your Ultimate Movie Experience
+";
+
+            foreach (var email in movie.UserEmails)
             {
                 try
                 {
                     await _emailSender.SendEmailAsync(email, subject, message);
-                    _logger.LogInformation($"Notification sent to admin: {email}");
+                    _logger.LogInformation($"Movie notification sent to user: {email}");
                 }
                 catch (Exception ex)
                 {
