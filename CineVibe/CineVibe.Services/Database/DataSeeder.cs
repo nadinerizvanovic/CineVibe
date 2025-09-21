@@ -297,7 +297,9 @@ namespace CineVibe.Services.Database
                     CreatedAt = fixedDate,
                     CategoryId = 1, // In Theaters
                     GenreId = 1, // Action
-                    DirectorId = 1 // Matt Shakman
+                    DirectorId = 1, // Matt Shakman
+                    Poster = ImageConversion.ConvertImageToByteArray("Assets", "1.jpg"),
+                    Trailer = "https://www.youtube.com/watch?v=pAsmrKyMqaA"
                 },
                 new Movie 
                 { 
@@ -310,7 +312,9 @@ namespace CineVibe.Services.Database
                     CreatedAt = fixedDate,
                     CategoryId = 1, // In Theaters
                     GenreId = 1, // Action
-                    DirectorId = 2 // James Gunn
+                    DirectorId = 2, // James Gunn
+                    Poster = ImageConversion.ConvertImageToByteArray("Assets", "2.jpg"),
+                    Trailer = "https://www.youtube.com/watch?v=Ox8ZLF6cGM0"
                 },
                 new Movie 
                 { 
@@ -323,7 +327,9 @@ namespace CineVibe.Services.Database
                     CreatedAt = fixedDate,
                     CategoryId = 1, // In Theaters
                     GenreId = 19, // Sport
-                    DirectorId = 3 // Joseph Kosinski
+                    DirectorId = 3, // Joseph Kosinski
+                    Poster = ImageConversion.ConvertImageToByteArray("Assets", "3.jpg"),
+                    Trailer = "https://www.youtube.com/watch?v=69ffwl-8pCU"
                 },
                 new Movie 
                 { 
@@ -336,7 +342,10 @@ namespace CineVibe.Services.Database
                     CreatedAt = fixedDate,
                     CategoryId = 1, // In Theaters
                     GenreId = 10, // Animation
-                    DirectorId = 4 // Adrian Molina
+                    DirectorId = 4, // Adrian Molina
+                    Poster = ImageConversion.ConvertImageToByteArray("Assets", "4.jpg"),
+                    Trailer = "https://www.youtube.com/watch?v=ETVi5_cnnaE"
+
                 },
                 // Upcoming (Spider-Man and Avatar)
                 new Movie 
@@ -350,7 +359,8 @@ namespace CineVibe.Services.Database
                     CreatedAt = fixedDate,
                     CategoryId = 2, // Upcoming
                     GenreId = 1, // Action
-                    DirectorId = 5 // Jon Watts
+                    DirectorId = 5, // Jon Watts
+                    Poster = ImageConversion.ConvertImageToByteArray("Assets", "5.jpg")
                 },
                 new Movie 
                 { 
@@ -363,7 +373,9 @@ namespace CineVibe.Services.Database
                     CreatedAt = fixedDate,
                     CategoryId = 2, // Upcoming
                     GenreId = 8, // Science Fiction
-                    DirectorId = 6 // James Cameron
+                    DirectorId = 6, // James Cameron
+                    Poster = ImageConversion.ConvertImageToByteArray("Assets", "6.jpg"),
+                    Trailer = "https://www.youtube.com/watch?v=nb_fFj_0rq8"
                 },
                 // Classics (Titanic and Cast Away)
                 new Movie 
@@ -377,7 +389,9 @@ namespace CineVibe.Services.Database
                     CreatedAt = fixedDate,
                     CategoryId = 3, // Classics
                     GenreId = 6, // Romance
-                    DirectorId = 6 // James Cameron
+                    DirectorId = 6, // James Cameron
+                    Poster = ImageConversion.ConvertImageToByteArray("Assets", "7.jpg"),
+                    Trailer = "https://www.youtube.com/watch?v=kVrqfYjkTdQ"
                 },
                 new Movie 
                 { 
@@ -390,7 +404,9 @@ namespace CineVibe.Services.Database
                     CreatedAt = fixedDate,
                     CategoryId = 3, // Classics
                     GenreId = 4, // Drama
-                    DirectorId = 7 // Robert Zemeckis
+                    DirectorId = 7, // Robert Zemeckis
+                    Poster = ImageConversion.ConvertImageToByteArray("Assets", "8.jpg"),
+                    Trailer = "https://www.youtube.com/watch?v=qGuOZPwLayY"
                 }
             );
 
