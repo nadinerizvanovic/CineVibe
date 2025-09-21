@@ -15,6 +15,7 @@ namespace CineVibe.Model.Responses
         public string HallName { get; set; } = string.Empty;
         public int ScreeningTypeId { get; set; }
         public string ScreeningTypeName { get; set; } = string.Empty;
+        public decimal Price { get; set; } // Price from ScreeningType
         public DateTime EndTime => StartTime.AddMinutes(MovieDuration); // Calculated property
     }
 }

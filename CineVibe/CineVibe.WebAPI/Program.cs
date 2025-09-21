@@ -30,6 +30,8 @@ builder.Services.AddTransient<ISeatService, SeatService>();
 builder.Services.AddTransient<IScreeningTypeService, ScreeningTypeService>();
 builder.Services.AddTransient<IScreeningService, ScreeningService>();
 builder.Services.AddTransient<ITicketService, TicketService>();
+builder.Services.AddTransient<IReviewService, ReviewService>();
+builder.Services.AddTransient<IProductService, ProductService>();
 
 
 // Configure database

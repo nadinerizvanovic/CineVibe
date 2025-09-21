@@ -31,7 +31,8 @@ namespace CineVibe.Services.Services
                 HallId = entity.HallId,
                 HallName = entity.Hall?.Name ?? string.Empty,
                 ScreeningTypeId = entity.ScreeningTypeId,
-                ScreeningTypeName = entity.ScreeningType?.Name ?? string.Empty
+                ScreeningTypeName = entity.ScreeningType?.Name ?? string.Empty,
+                Price = entity.ScreeningType?.Price ?? 0
             };
         }
 

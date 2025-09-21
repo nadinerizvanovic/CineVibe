@@ -24,6 +24,7 @@ namespace CineVibe.Services.Services
                 Id = entity.Id,
                 Name = entity.Name,
                 Description = entity.Description,
+                Price = entity.Price,
                 IsActive = entity.IsActive,
                 CreatedAt = entity.CreatedAt,
                 ScreeningCount = entity.Screenings?.Count ?? 0

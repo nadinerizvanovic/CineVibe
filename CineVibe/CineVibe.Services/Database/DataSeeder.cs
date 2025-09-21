@@ -552,10 +552,10 @@ namespace CineVibe.Services.Database
 
             // Seed ScreeningTypes
             modelBuilder.Entity<ScreeningType>().HasData(
-                new ScreeningType { Id = 1, Name = "2D", Description = "Standard 2D screening", IsActive = true, CreatedAt = fixedDate },
-                new ScreeningType { Id = 2, Name = "3D", Description = "3D screening with special glasses", IsActive = true, CreatedAt = fixedDate },
-                new ScreeningType { Id = 3, Name = "4DX", Description = "4DX experience with motion seats and environmental effects", IsActive = true, CreatedAt = fixedDate },
-                new ScreeningType { Id = 4, Name = "IMAX", Description = "IMAX large format screening", IsActive = true, CreatedAt = fixedDate }
+                new ScreeningType { Id = 1, Name = "2D", Description = "Standard 2D screening", Price = 5.00m, IsActive = true, CreatedAt = fixedDate },
+                new ScreeningType { Id = 2, Name = "3D", Description = "3D screening with special glasses", Price = 8.00m, IsActive = true, CreatedAt = fixedDate },
+                new ScreeningType { Id = 3, Name = "4DX", Description = "4DX experience with motion seats and environmental effects", Price = 15.00m, IsActive = true, CreatedAt = fixedDate },
+                new ScreeningType { Id = 4, Name = "IMAX", Description = "IMAX large format screening", Price = 12.00m, IsActive = true, CreatedAt = fixedDate }
             );
 
             // Seed Screenings for next 3 days (3 screenings per movie per day)
@@ -674,6 +674,63 @@ namespace CineVibe.Services.Database
             }
 
             modelBuilder.Entity<Ticket>().HasData(tickets);
+
+            // Seed Reviews for every purchased ticket
+            var reviews = new List<Review>();
+            int reviewId = 1;
+            
+            // Sample review comments
+            var reviewComments = new[]
+            {
+                "Amazing movie! Great experience.",
+                "Loved the story and acting. Highly recommend!",
+                "Good movie, enjoyed it with family.",
+                "Excellent cinematography and sound quality.",
+                "Great entertainment, worth watching.",
+                "Fantastic visual effects and storyline."
+            };
+
+            // Create a review for each ticket
+            foreach (var ticket in tickets)
+            {
+                var random = new Random(ticket.Id); // Use ticket ID as seed for consistent results
+                var rating = random.Next(3, 6); // Random rating between 3-5 (positive reviews)
+                var comment = reviewComments[random.Next(reviewComments.Length)];
+
+                reviews.Add(new Review
+                {
+                    Id = reviewId++,
+                    UserId = ticket.UserId,
+                    ScreeningId = ticket.ScreeningId,
+                    Rating = rating,
+                    Comment = comment,
+                    IsActive = true,
+                    CreatedAt = fixedDate
+                });
+            }
+
+            modelBuilder.Entity<Review>().HasData(reviews);
+
+            // Seed Products (Cinema Concessions)
+            modelBuilder.Entity<Product>().HasData(
+                // Popcorn
+                new Product { Id = 1, Name = "Large Gourmet Popcorn", Price = 4.50m, IsActive = true, CreatedAt = fixedDate, Picture = ImageConversion.ConvertImageToByteArray("Assets", "M1.jpg") },
+                new Product { Id = 2, Name = "Small Classic Popcorn", Price = 3.00m, IsActive = true, CreatedAt = fixedDate, Picture = ImageConversion.ConvertImageToByteArray("Assets", "M2.jpg") },
+                
+                // Beverages
+                new Product { Id = 3, Name = "Large Premium Soda", Price = 3.50m, IsActive = true, CreatedAt = fixedDate, Picture = ImageConversion.ConvertImageToByteArray("Assets", "M3.jpg") },
+                new Product { Id = 4, Name = "Small Refreshing Soda", Price = 2.50m, IsActive = true, CreatedAt = fixedDate, Picture = ImageConversion.ConvertImageToByteArray("Assets", "M4.jpg") },
+                
+                // Nachos
+                new Product { Id = 5, Name = "Large Loaded Nachos", Price = 5.00m, IsActive = true, CreatedAt = fixedDate, Picture = ImageConversion.ConvertImageToByteArray("Assets", "M5.jpg") },
+                new Product { Id = 6, Name = "Small Crispy Nachos", Price = 3.50m, IsActive = true, CreatedAt = fixedDate, Picture = ImageConversion.ConvertImageToByteArray("Assets", "M6.jpg") },
+                
+                // Combo Deals
+                new Product { Id = 7, Name = "Ultimate Combo - Large Nachos + Large Soda", Price = 7.50m, IsActive = true, CreatedAt = fixedDate, Picture = ImageConversion.ConvertImageToByteArray("Assets", "M7.jpg") },
+                new Product { Id = 8, Name = "Snack Combo - Small Nachos + Small Soda", Price = 5.50m, IsActive = true, CreatedAt = fixedDate, Picture = ImageConversion.ConvertImageToByteArray("Assets", "M8.jpg") },
+                new Product { Id = 9, Name = "Movie Night Combo - Large Popcorn + Large Soda", Price = 7.00m, IsActive = true, CreatedAt = fixedDate, Picture = ImageConversion.ConvertImageToByteArray("Assets", "M9.jpg") },
+                new Product { Id = 10, Name = "Classic Combo - Small Popcorn + Small Soda", Price = 5.00m, IsActive = true, CreatedAt = fixedDate, Picture = ImageConversion.ConvertImageToByteArray("Assets", "M10.jpg") }
+            );
         }
     }
 } 
