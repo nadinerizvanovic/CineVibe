@@ -49,8 +49,9 @@ class _MasterScreenState extends State<MasterScreen>
 
   Widget _buildUserAvatar() {
     final user = UserProvider.currentUser;
-    final double radius = 20;
+    final double radius = 22;
     ImageProvider? imageProvider;
+    
     if (user?.picture != null && (user!.picture!.isNotEmpty)) {
       try {
         final sanitized = user.picture!.replaceAll(
@@ -63,20 +64,53 @@ class _MasterScreenState extends State<MasterScreen>
         imageProvider = null;
       }
     }
-    return CircleAvatar(
-      radius: radius,
-      backgroundColor: const Color(0xFF004AAD),
-      backgroundImage: imageProvider,
-      child: imageProvider == null
-          ? Text(
-              _getUserInitials(user?.firstName, user?.lastName),
-              style: const TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.w600,
-                fontSize: 14,
-              ),
-            )
-          : null,
+    
+    return Container(
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        border: Border.all(
+          color: Colors.white,
+          width: 2.5,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: const Color(0xFF004AAD).withOpacity(0.2),
+            blurRadius: 12,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: CircleAvatar(
+        radius: radius,
+        backgroundColor: const Color(0xFF004AAD),
+        backgroundImage: imageProvider,
+        child: imageProvider == null
+            ? Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      const Color(0xFF004AAD),
+                      const Color(0xFF1E40AF),
+                    ],
+                  ),
+                ),
+                child: Center(
+                  child: Text(
+                    _getUserInitials(user?.firstName, user?.lastName),
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w700,
+                      fontSize: 16,
+                      letterSpacing: 0.5,
+                    ),
+                  ),
+                ),
+              )
+            : null,
+      ),
     );
   }
 
@@ -95,153 +129,288 @@ class _MasterScreenState extends State<MasterScreen>
       context: context,
       barrierDismissible: true,
       barrierLabel: 'Profile',
-      barrierColor: Colors.black54.withOpacity(0.3),
-      transitionDuration: const Duration(milliseconds: 300),
+      barrierColor: Colors.black54.withOpacity(0.4),
+      transitionDuration: const Duration(milliseconds: 400),
       pageBuilder: (_, __, ___) => const SizedBox.shrink(),
       transitionBuilder: (context, animation, secondaryAnimation, child) {
         final curved = CurvedAnimation(
           parent: animation,
+          curve: Curves.easeOutCubic,
+        );
+        final slideCurved = CurvedAnimation(
+          parent: animation,
           curve: Curves.easeOutBack,
         );
+        
         return SafeArea(
           child: Align(
             alignment: Alignment.topRight,
             child: Padding(
               padding: const EdgeInsets.only(
-                top: kToolbarHeight + 12,
-                right: 16,
+                top: kToolbarHeight + 16,
+                right: 20,
               ),
               child: FadeTransition(
                 opacity: curved,
-                child: ScaleTransition(
-                  scale: Tween<double>(begin: 0.8, end: 1.0).animate(curved),
-                  child: Material(
-                    color: Colors.transparent,
-                    child: Container(
-                      width: 320,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(20),
-                        boxShadow: [
-                          BoxShadow(
-                            color: const Color(0xFF004AAD).withOpacity(0.1),
-                            blurRadius: 24,
-                            offset: const Offset(0, 12),
+                child: SlideTransition(
+                  position: Tween<Offset>(
+                    begin: const Offset(1.2, -0.2),
+                    end: Offset.zero,
+                  ).animate(slideCurved),
+                  child: ScaleTransition(
+                    scale: Tween<double>(begin: 0.9, end: 1.0).animate(curved),
+                    child: Material(
+                      color: Colors.transparent,
+                      child: Container(
+                        width: 380,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(24),
+                          border: Border.all(
+                            color: const Color(0xFFE2E8F0),
+                            width: 1.5,
                           ),
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.05),
-                            blurRadius: 8,
-                            offset: const Offset(0, 4),
-                          ),
-                        ],
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(20.0),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                Container(
-                                  padding: const EdgeInsets.all(3),
-                                  decoration: BoxDecoration(
-                                    color: const Color(0xFF004AAD).withOpacity(0.1),
-                                    borderRadius: BorderRadius.circular(16),
-                                  ),
-                                  child: _buildUserAvatar(),
-                                ),
-                                const SizedBox(width: 16),
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        user != null
-                                            ? '${user.firstName} ${user.lastName}'
-                                            : 'Guest User',
-                                        style: const TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.w700,
-                                          color: Color(0xFF1E293B),
-                                          letterSpacing: -0.2,
-                                        ),
-                                      ),
-                                      const SizedBox(height: 4),
-                                      Container(
-                                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                                        decoration: BoxDecoration(
-                                          color: const Color(0xFFF7B61B).withOpacity(0.1),
-                                          borderRadius: BorderRadius.circular(8),
-                                        ),
-                                        child: Text(
-                                          user?.username ?? 'guest',
-                                          style: const TextStyle(
-                                            fontSize: 12,
-                                            color: const Color(0xFF004AAD),
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                IconButton(
-                                  onPressed: () => Navigator.of(context).maybePop(),
-                                  icon: const Icon(
-                                    Icons.close_rounded,
-                                    size: 20,
-                                  ),
-                                  color: const Color(0xFF64748B),
-                                  tooltip: 'Close',
-                                ),
-                              ],
+                          boxShadow: [
+                            BoxShadow(
+                              color: const Color(0xFF004AAD).withOpacity(0.15),
+                              blurRadius: 32,
+                              offset: const Offset(0, 16),
+                              spreadRadius: 0,
                             ),
-                            const SizedBox(height: 20),
-                            Container(
-                              padding: const EdgeInsets.all(16),
-                              decoration: BoxDecoration(
-                                color: const Color(0xFFF8FAFC),
-                                borderRadius: BorderRadius.circular(12),
-                                border: Border.all(
-                                  color: const Color(0xFFE2E8F0),
-                                  width: 1,
-                                ),
-                              ),
-                              child: Column(
-                                children: [
-                                  Row(
-                                    children: [
-                                      Container(
-                                        padding: const EdgeInsets.all(8),
-                                        decoration: BoxDecoration(
-                                          color: const Color(0xFF004AAD).withOpacity(0.1),
-                                          borderRadius: BorderRadius.circular(8),
-                                        ),
-                                        child: const Icon(
-                                          Icons.email_outlined,
-                                          size: 16,
-                                          color: Color(0xFF004AAD),
-                                        ),
-                                      ),
-                                      const SizedBox(width: 12),
-                                      Expanded(
-                                        child: Text(
-                                          user?.email ?? 'No email provided',
-                                          style: const TextStyle(
-                                            fontSize: 14,
-                                            color: Color(0xFF1E293B),
-                                            fontWeight: FontWeight.w500,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                               
-                                ],
-                              ),
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.08),
+                              blurRadius: 16,
+                              offset: const Offset(0, 8),
+                              spreadRadius: 0,
                             ),
                           ],
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(24),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              // Header with gradient background
+                              Container(
+                                padding: const EdgeInsets.all(24),
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                    begin: Alignment.topLeft,
+                                    end: Alignment.bottomRight,
+                                    colors: [
+                                      const Color(0xFF004AAD).withOpacity(0.05),
+                                      const Color(0xFFF7B61B).withOpacity(0.03),
+                                    ],
+                                  ),
+                                  borderRadius: const BorderRadius.only(
+                                    topLeft: Radius.circular(24),
+                                    topRight: Radius.circular(24),
+                                  ),
+                                ),
+                                child: Row(
+                                  children: [
+                                    _buildUserAvatar(),
+                                    const SizedBox(width: 20),
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            user != null
+                                                ? '${user.firstName} ${user.lastName}'
+                                                : 'Guest User',
+                                            style: const TextStyle(
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.w800,
+                                              color: Color(0xFF1E293B),
+                                              letterSpacing: -0.3,
+                                            ),
+                                          ),
+                                          const SizedBox(height: 6),
+                                          Container(
+                                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                                            decoration: BoxDecoration(
+                                              gradient: LinearGradient(
+                                                colors: [
+                                                  const Color(0xFFF7B61B).withOpacity(0.15),
+                                                  const Color(0xFFF7B61B).withOpacity(0.08),
+                                                ],
+                                              ),
+                                              borderRadius: BorderRadius.circular(12),
+                                              border: Border.all(
+                                                color: const Color(0xFFF7B61B).withOpacity(0.3),
+                                                width: 1,
+                                              ),
+                                            ),
+                                            child: Text(
+                                              user?.username ?? 'guest',
+                                              style: const TextStyle(
+                                                fontSize: 13,
+                                                color: Color(0xFF004AAD),
+                                                fontWeight: FontWeight.w700,
+                                                letterSpacing: 0.3,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        color: const Color(0xFFF8FAFC),
+                                        borderRadius: BorderRadius.circular(12),
+                                        border: Border.all(
+                                          color: const Color(0xFFE2E8F0),
+                                          width: 1,
+                                        ),
+                                      ),
+                                      child: IconButton(
+                                        onPressed: () => Navigator.of(context).maybePop(),
+                                        icon: const Icon(
+                                          Icons.close_rounded,
+                                          size: 20,
+                                        ),
+                                        color: const Color(0xFF64748B),
+                                        tooltip: 'Close',
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              
+                              // Content section
+                              Padding(
+                                padding: const EdgeInsets.all(24),
+                                child: Column(
+                                  children: [
+                                    // Email info card
+                                    Container(
+                                      padding: const EdgeInsets.all(20),
+                                      decoration: BoxDecoration(
+                                        color: const Color(0xFFF8FAFC),
+                                        borderRadius: BorderRadius.circular(16),
+                                        border: Border.all(
+                                          color: const Color(0xFFE2E8F0),
+                                          width: 1,
+                                        ),
+                                      ),
+                                      child: Row(
+                                        children: [
+                                          Container(
+                                            padding: const EdgeInsets.all(12),
+                                            decoration: BoxDecoration(
+                                              gradient: LinearGradient(
+                                                colors: [
+                                                  const Color(0xFF004AAD).withOpacity(0.1),
+                                                  const Color(0xFF004AAD).withOpacity(0.05),
+                                                ],
+                                              ),
+                                              borderRadius: BorderRadius.circular(12),
+                                              border: Border.all(
+                                                color: const Color(0xFF004AAD).withOpacity(0.2),
+                                                width: 1,
+                                              ),
+                                            ),
+                                            child: const Icon(
+                                              Icons.email_outlined,
+                                              size: 20,
+                                              color: Color(0xFF004AAD),
+                                            ),
+                                          ),
+                                          const SizedBox(width: 16),
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  'Email Address',
+                                                  style: TextStyle(
+                                                    fontSize: 12,
+                                                    fontWeight: FontWeight.w600,
+                                                    color: const Color(0xFF64748B),
+                                                    letterSpacing: 0.5,
+                                                  ),
+                                                ),
+                                                const SizedBox(height: 4),
+                                                Text(
+                                                  user?.email ?? 'No email provided',
+                                                  style: const TextStyle(
+                                                    fontSize: 15,
+                                                    color: Color(0xFF1E293B),
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    
+                                    const SizedBox(height: 20),
+                                    
+                                    // Action buttons
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          child: Container(
+                                            height: 48,
+                                            decoration: BoxDecoration(
+                                              gradient: LinearGradient(
+                                                colors: [
+                                                  const Color(0xFF004AAD),
+                                                  const Color(0xFF1E40AF),
+                                                ],
+                                              ),
+                                              borderRadius: BorderRadius.circular(12),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: const Color(0xFF004AAD).withOpacity(0.3),
+                                                  blurRadius: 8,
+                                                  offset: const Offset(0, 4),
+                                                ),
+                                              ],
+                                            ),
+                                            child: Material(
+                                              color: Colors.transparent,
+                                              child: InkWell(
+                                                borderRadius: BorderRadius.circular(12),
+                                                onTap: () {
+                                                  Navigator.of(context).maybePop();
+                                                  // Add profile settings navigation here
+                                                },
+                                                child: const Center(
+                                                  child: Row(
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    children: [
+                                                      Icon(
+                                                        Icons.settings_rounded,
+                                                        color: Colors.white,
+                                                        size: 18,
+                                                      ),
+                                                      SizedBox(width: 8),
+                                                      Text(
+                                                        'Profile Settings',
+                                                        style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontWeight: FontWeight.w600,
+                                                          fontSize: 14,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -352,20 +521,27 @@ class _MasterScreenState extends State<MasterScreen>
         ),
         actions: [
           Container(
-            margin: const EdgeInsets.only(right: 20),
+            margin: const EdgeInsets.only(right: 24),
             child: MouseRegion(
               cursor: SystemMouseCursors.click,
               child: GestureDetector(
                 onTap: () => _showProfileOverlay(context),
                 child: Container(
-                  padding: const EdgeInsets.all(2),
+                  padding: const EdgeInsets.all(3),
                   decoration: BoxDecoration(
-                    color: const Color(0xFF004AAD).withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(16),
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20),
                     border: Border.all(
-                      color: const Color(0xFF004AAD).withOpacity(0.2),
-                      width: 1,
+                      color: const Color(0xFFE2E8F0),
+                      width: 1.5,
                     ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: const Color(0xFF004AAD).withOpacity(0.1),
+                        blurRadius: 12,
+                        offset: const Offset(0, 4),
+                      ),
+                    ],
                   ),
                   child: _buildUserAvatar(),
                 ),
