@@ -7610,7 +7610,7 @@ namespace CineVibe.Services.Migrations
                             Id = 4,
                             CityId = 1,
                             CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Email = "sender@gmail.com",
+                            Email = "receiver.manifest@gmail.com",
                             FirstName = "Nadine",
                             GenderId = 2,
                             IsActive = true,

@@ -8,8 +8,6 @@ namespace CineVibe.Services.Database
     {
         private const string DefaultPhoneNumber = "+387 00 000 000";
         
-        private const string TestMailSender = "sender@gmail.com";
-        private const string TestMailReceiver = "receiver@gmail.com";
 
         public static void SeedData(this ModelBuilder modelBuilder)
         {
@@ -43,7 +41,7 @@ namespace CineVibe.Services.Database
                     Id = 1,
                     FirstName = "Denis",
                     LastName = "Mušić",
-                    Email = TestMailReceiver,
+                    Email = "example@gmail.com",
                     Username = "admin",
                     PasswordHash = "3KbrBi5n9zdQnceWWOK5zaeAwfEjsluyhRQUbNkcgLQ=",
                     PasswordSalt = "6raKZCuEsvnBBxPKHGpRtA==",
@@ -91,7 +89,7 @@ namespace CineVibe.Services.Database
                     Id = 4, 
                     FirstName = "Nadine", 
                     LastName = "Rizvanović", 
-                    Email = TestMailSender, 
+                    Email = "cinevibe.reciever@gmail.com", 
                     Username = "user2", 
                     PasswordHash = "KUF0Jsocq9AqdwR9JnT2OrAqm5gDj7ecQvNwh6fW/Bs=", 
                     PasswordSalt = "c3ZKo0va3tYfnYuNKkHDbQ==", 
