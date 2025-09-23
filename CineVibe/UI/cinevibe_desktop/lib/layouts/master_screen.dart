@@ -65,14 +65,15 @@ class _MasterScreenState extends State<MasterScreen>
     }
     return CircleAvatar(
       radius: radius,
-      backgroundColor: const Color(0xFF6A1B9A),
+      backgroundColor: const Color(0xFF004AAD),
       backgroundImage: imageProvider,
       child: imageProvider == null
           ? Text(
               _getUserInitials(user?.firstName, user?.lastName),
               style: const TextStyle(
                 color: Colors.white,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w600,
+                fontSize: 14,
               ),
             )
           : null,
@@ -94,142 +95,181 @@ class _MasterScreenState extends State<MasterScreen>
       context: context,
       barrierDismissible: true,
       barrierLabel: 'Profile',
-      barrierColor: Colors.black54.withOpacity(0.2),
-      transitionDuration: const Duration(milliseconds: 250),
+      barrierColor: Colors.black54.withOpacity(0.3),
+      transitionDuration: const Duration(milliseconds: 300),
       pageBuilder: (_, __, ___) => const SizedBox.shrink(),
       transitionBuilder: (context, animation, secondaryAnimation, child) {
         final curved = CurvedAnimation(
           parent: animation,
-          curve: Curves.easeOutCubic,
+          curve: Curves.easeOutBack,
         );
         return SafeArea(
           child: Align(
             alignment: Alignment.topRight,
             child: Padding(
               padding: const EdgeInsets.only(
-                top: kToolbarHeight + 8,
-                right: 12,
+                top: kToolbarHeight + 12,
+                right: 16,
               ),
               child: FadeTransition(
                 opacity: curved,
                 child: ScaleTransition(
-                  scale: Tween<double>(begin: 0.9, end: 1.0).animate(curved),
+                  scale: Tween<double>(begin: 0.8, end: 1.0).animate(curved),
                   child: Material(
                     color: Colors.transparent,
                     child: Container(
-                      width: 300,
+                      width: 320,
                       decoration: BoxDecoration(
                         color: Colors.white,
-                        borderRadius: BorderRadius.circular(16),
+                        borderRadius: BorderRadius.circular(20),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withOpacity(0.1),
-                            blurRadius: 20,
-                            offset: const Offset(0, 10),
+                            color: const Color(0xFF004AAD).withOpacity(0.1),
+                            blurRadius: 24,
+                            offset: const Offset(0, 12),
+                          ),
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.05),
+                            blurRadius: 8,
+                            offset: const Offset(0, 4),
                           ),
                         ],
                       ),
                       child: Padding(
-                        padding: const EdgeInsets.all(16.0),
+                        padding: const EdgeInsets.all(20.0),
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Row(
                               children: [
-                                SizedBox(
-                                  width: 48,
-                                  height: 48,
+                                Container(
+                                  padding: const EdgeInsets.all(3),
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xFF004AAD).withOpacity(0.1),
+                                    borderRadius: BorderRadius.circular(16),
+                                  ),
                                   child: _buildUserAvatar(),
                                 ),
-                                const SizedBox(width: 12),
+                                const SizedBox(width: 16),
                                 Expanded(
                                   child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         user != null
                                             ? '${user.firstName} ${user.lastName}'
-                                            : 'Guest',
+                                            : 'Guest User',
                                         style: const TextStyle(
-                                          fontSize: 16,
+                                          fontSize: 18,
                                           fontWeight: FontWeight.w700,
-                                          color: Color(0xFF1F2937),
+                                          color: Color(0xFF1E293B),
+                                          letterSpacing: -0.2,
                                         ),
                                       ),
                                       const SizedBox(height: 4),
-                                      Text(
-                                        user?.username ?? '-',
-                                        style: TextStyle(
-                                          fontSize: 13,
-                                          color: Colors.grey[600],
-                                          fontWeight: FontWeight.w500,
+                                      Container(
+                                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                                        decoration: BoxDecoration(
+                                          color: const Color(0xFFF7B61B).withOpacity(0.1),
+                                          borderRadius: BorderRadius.circular(8),
+                                        ),
+                                        child: Text(
+                                          user?.username ?? 'guest',
+                                          style: const TextStyle(
+                                            fontSize: 12,
+                                            color: const Color(0xFF004AAD),
+                                            fontWeight: FontWeight.w600,
+                                          ),
                                         ),
                                       ),
                                     ],
                                   ),
                                 ),
                                 IconButton(
-                                  onPressed: () =>
-                                      Navigator.of(context).maybePop(),
+                                  onPressed: () => Navigator.of(context).maybePop(),
                                   icon: const Icon(
                                     Icons.close_rounded,
                                     size: 20,
                                   ),
-                                  color: Colors.grey[700],
+                                  color: const Color(0xFF64748B),
                                   tooltip: 'Close',
                                 ),
                               ],
                             ),
-                            const SizedBox(height: 12),
-                            const Divider(height: 1),
-                            const SizedBox(height: 12),
-                            Row(
-                              children: [
-                                const Icon(
-                                  Icons.email_outlined,
-                                  size: 18,
-                                  color: Color(0xFF6A1B9A),
+                            const SizedBox(height: 20),
+                            Container(
+                              padding: const EdgeInsets.all(16),
+                              decoration: BoxDecoration(
+                                color: const Color(0xFFF8FAFC),
+                                borderRadius: BorderRadius.circular(12),
+                                border: Border.all(
+                                  color: const Color(0xFFE2E8F0),
+                                  width: 1,
                                 ),
-                                const SizedBox(width: 8),
-                                Expanded(
-                                  child: Text(
-                                    user != null
-                                        ? 'Email: ${user.email}'
-                                        : 'Email: -',
-                                    style: const TextStyle(
-                                      fontSize: 13,
-                                      color: Color(0xFF374151),
-                                    ),
+                              ),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      Container(
+                                        padding: const EdgeInsets.all(8),
+                                        decoration: BoxDecoration(
+                                          color: const Color(0xFF004AAD).withOpacity(0.1),
+                                          borderRadius: BorderRadius.circular(8),
+                                        ),
+                                        child: const Icon(
+                                          Icons.email_outlined,
+                                          size: 16,
+                                          color: Color(0xFF004AAD),
+                                        ),
+                                      ),
+                                      const SizedBox(width: 12),
+                                      Expanded(
+                                        child: Text(
+                                          user?.email ?? 'No email provided',
+                                          style: const TextStyle(
+                                            fontSize: 14,
+                                            color: Color(0xFF1E293B),
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 8),
-
-                            Row(
-                              children: [
-                                const Icon(
-                                  Icons.location_city_outlined,
-                                  size: 18,
-                                  color: Color(0xFF6A1B9A),
-                                ),
-                                const SizedBox(width: 8),
-                                Expanded(
-                                  child: Text(
-                                    user != null
-                                        ? 'City: ${user.cityName}'
-                                        : 'City: -',
-                                    style: const TextStyle(
-                                      fontSize: 13,
-                                      color: Color(0xFF374151),
+                                  if (user?.cityName != null) ...[
+                                    const SizedBox(height: 12),
+                                    Row(
+                                      children: [
+                                        Container(
+                                          padding: const EdgeInsets.all(8),
+                                          decoration: BoxDecoration(
+                                            color: const Color(0xFFF7B61B).withOpacity(0.1),
+                                            borderRadius: BorderRadius.circular(8),
+                                          ),
+                                          child: const Icon(
+                                            Icons.location_city_outlined,
+                                            size: 16,
+                                            color: Color(0xFFF7B61B),
+                                          ),
+                                        ),
+                                        const SizedBox(width: 12),
+                                        Expanded(
+                                          child: Text(
+                                            user!.cityName!,
+                                            style: const TextStyle(
+                                              fontSize: 14,
+                                              color: Color(0xFF1E293B),
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                  ),
-                                ),
-                              ],
+                                  ],
+                                ],
+                              ),
                             ),
-                            const SizedBox(height: 4),
                           ],
                         ),
                       ),
@@ -252,40 +292,57 @@ class _MasterScreenState extends State<MasterScreen>
         elevation: 0,
         backgroundColor: Colors.white,
         surfaceTintColor: Colors.transparent,
-        shadowColor: Colors.grey.withOpacity(0.1),
+        shadowColor: const Color(0xFF004AAD).withOpacity(0.1),
         leading: Builder(
-          builder: (context) => IconButton(
-            icon: Container(
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                color: const Color(0xFF6A1B9A).withOpacity(0.1),
-                borderRadius: BorderRadius.circular(12),
+          builder: (context) => Container(
+            margin: const EdgeInsets.only(left: 8),
+            child: IconButton(
+              padding: EdgeInsets.zero,
+              constraints: const BoxConstraints(
+                minWidth: 40,
+                minHeight: 40,
               ),
-              child: const Icon(
-                Icons.menu_rounded,
-                color: Color(0xFF6A1B9A),
-                size: 20,
+              icon: Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  color: const Color(0xFF004AAD).withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(14),
+                  border: Border.all(
+                    color: const Color(0xFF004AAD).withOpacity(0.2),
+                    width: 1,
+                  ),
+                ),
+                child: const Icon(
+                  Icons.menu_rounded,
+                  color: Color(0xFF004AAD),
+                  size: 22,
+                ),
               ),
+              onPressed: () {
+                Scaffold.of(context).openDrawer();
+                _animationController?.forward();
+              },
             ),
-            onPressed: () {
-              Scaffold.of(context).openDrawer();
-              _animationController?.forward();
-            },
           ),
         ),
         title: Row(
           children: [
             if (widget.showBackButton) ...[
               Container(
-                margin: const EdgeInsets.only(right: 12),
+                margin: const EdgeInsets.only(right: 16),
                 decoration: BoxDecoration(
-                  color: Colors.grey[100],
-                  borderRadius: BorderRadius.circular(12),
+                  color: const Color(0xFFF8FAFC),
+                  borderRadius: BorderRadius.circular(14),
+                  border: Border.all(
+                    color: const Color(0xFFE2E8F0),
+                    width: 1,
+                  ),
                 ),
                 child: IconButton(
                   icon: const Icon(
                     Icons.arrow_back_ios_new_rounded,
-                    color: Color(0xFF374151),
+                    color: Color(0xFF004AAD),
                     size: 18,
                   ),
                   onPressed: () => Navigator.of(context).pop(),
@@ -299,18 +356,22 @@ class _MasterScreenState extends State<MasterScreen>
                   Text(
                     widget.title,
                     style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w700,
-                      color: Color(0xFF1F2937),
-                      letterSpacing: -0.3,
+                      fontSize: 22,
+                      fontWeight: FontWeight.w800,
+                      color: Color(0xFF1E293B),
+                      letterSpacing: -0.4,
                     ),
                   ),
-                  Text(
-                    'ManiFest Admin Panel',
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.grey[600],
+                  const SizedBox(height: 2),
+                  Container(
+           
+                    child: Text(
+                      'Admin Dashboard',
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600,
+                        color: const  Color(0xFF004AAD), // blue
+                      ),
                     ),
                   ),
                 ],
@@ -320,12 +381,23 @@ class _MasterScreenState extends State<MasterScreen>
         ),
         actions: [
           Container(
-            margin: const EdgeInsets.only(right: 16),
+            margin: const EdgeInsets.only(right: 20),
             child: MouseRegion(
               cursor: SystemMouseCursors.click,
               child: GestureDetector(
                 onTap: () => _showProfileOverlay(context),
-                child: _buildUserAvatar(),
+                child: Container(
+                  padding: const EdgeInsets.all(2),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF004AAD).withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(
+                      color: const Color(0xFF004AAD).withOpacity(0.2),
+                      width: 1,
+                    ),
+                  ),
+                  child: _buildUserAvatar(),
+                ),
               ),
             ),
           ),
@@ -355,20 +427,28 @@ class _MasterScreenState extends State<MasterScreen>
     return Container(
       margin: const EdgeInsets.only(top: 16, bottom: 16, right: 8),
       decoration: BoxDecoration(
-        gradient: const LinearGradient(
+        gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [Color(0xFF6A1B9A), Color(0xFF8E24AA)],
+          colors: [
+            const Color(0xFF004AAD),
+            const Color(0xFF1E40AF),
+          ],
         ),
         borderRadius: const BorderRadius.only(
-          topRight: Radius.circular(24),
-          bottomRight: Radius.circular(24),
+          topRight: Radius.circular(28),
+          bottomRight: Radius.circular(28),
         ),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF6A1B9A).withOpacity(0.3),
-            blurRadius: 20,
-            offset: const Offset(4, 0),
+            color: const Color(0xFF004AAD).withOpacity(0.3),
+            blurRadius: 24,
+            offset: const Offset(6, 0),
+          ),
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            blurRadius: 8,
+            offset: const Offset(2, 0),
           ),
         ],
       ),
@@ -380,37 +460,57 @@ class _MasterScreenState extends State<MasterScreen>
             child: Column(
               children: [
                 Container(
-                  padding: const EdgeInsets.all(16),
+                  padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.2),
-                    borderRadius: BorderRadius.circular(20),
+                    color: Colors.white.withOpacity(0.15),
+                    borderRadius: BorderRadius.circular(24),
                     border: Border.all(
                       color: Colors.white.withOpacity(0.3),
                       width: 2,
                     ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.white.withOpacity(0.1),
+                        blurRadius: 12,
+                        offset: const Offset(0, 4),
+                      ),
+                    ],
                   ),
                   child: Image.asset(
                     "assets/images/logo_large.png",
-                    height: 50,
-                    width: 50,
+                    height: 56,
+                    width: 106,
                   ),
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 20),
                 const Text(
-                  'ManiFest',
+                  'CineVibe',
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: 0.5,
+                    fontSize: 28,
+                    fontWeight: FontWeight.w800,
+                    letterSpacing: 0.8,
                   ),
                 ),
-                Text(
-                  'Admin Dashboard',
-                  style: TextStyle(
-                    color: Colors.white.withOpacity(0.8),
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
+                const SizedBox(height: 4),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFF7B61B).withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(
+                      color: const Color(0xFFF7B61B).withOpacity(0.3),
+                      width: 1,
+                    ),
+                  ),
+                  child: Text(
+                    'Admin Dashboard',
+                    style: TextStyle(
+                      color: const Color(0xFFF7B61B), // blue
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      letterSpacing: 0.3,
+                    ),
                   ),
                 ),
               ],
@@ -521,11 +621,22 @@ class _MasterScreenState extends State<MasterScreen>
 
           // Bottom section
           Container(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.all(20),
             child: Column(
               children: [
-                Divider(color: Colors.white.withOpacity(0.2), thickness: 1),
-                const SizedBox(height: 8),
+                Container(
+                  height: 1,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        Colors.transparent,
+                        Colors.white.withOpacity(0.3),
+                        Colors.transparent,
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 12),
                 _modernLogoutTile(context),
               ],
             ),
@@ -595,12 +706,12 @@ Widget _modernDrawerTile(
   }
 
   return Container(
-    margin: const EdgeInsets.symmetric(vertical: 2),
+    margin: const EdgeInsets.symmetric(vertical: 3),
     child: Material(
       color: Colors.transparent,
-      borderRadius: BorderRadius.circular(16),
+      borderRadius: BorderRadius.circular(18),
       child: InkWell(
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(18),
         onTap: () {
           Navigator.pushReplacement(
             context,
@@ -611,50 +722,61 @@ Widget _modernDrawerTile(
           );
         },
         child: AnimatedContainer(
-          duration: const Duration(milliseconds: 200),
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          duration: const Duration(milliseconds: 250),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
           decoration: BoxDecoration(
             color: isSelected
-                ? Colors.white.withOpacity(0.2)
+                ? Colors.white.withOpacity(0.25)
                 : Colors.transparent,
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(18),
             border: isSelected
-                ? Border.all(color: Colors.white.withOpacity(0.3), width: 1)
+                ? Border.all(color: Colors.white.withOpacity(0.4), width: 1.5)
                 : null,
+            boxShadow: isSelected ? [
+              BoxShadow(
+                color: Colors.white.withOpacity(0.1),
+                blurRadius: 8,
+                offset: const Offset(0, 2),
+              ),
+            ] : null,
           ),
           child: Row(
             children: [
               AnimatedSwitcher(
-                duration: const Duration(milliseconds: 200),
+                duration: const Duration(milliseconds: 250),
                 child: Icon(
                   isSelected ? activeIcon : icon,
                   key: ValueKey(isSelected),
-                  color: Colors.white,
-                  size: 22,
+                  color: isSelected ? Colors.white : Colors.white.withOpacity(0.8),
+                  size: 24,
                 ),
               ),
-              const SizedBox(width: 16),
+              const SizedBox(width: 18),
               Expanded(
                 child: Text(
                   label,
                   style: TextStyle(
-                    color: Colors.white,
+                    color: isSelected ? Colors.white : Colors.white.withOpacity(0.9),
                     fontSize: 16,
-                    fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
-                    letterSpacing: 0.2,
+                    fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
+                    letterSpacing: 0.3,
                   ),
                 ),
               ),
               if (isSelected)
                 Container(
-                  padding: const EdgeInsets.all(4),
+                  padding: const EdgeInsets.all(6),
                   decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.2),
-                    borderRadius: BorderRadius.circular(6),
+                    color: const Color(0xFFF7B61B).withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(
+                      color: const Color(0xFFF7B61B).withOpacity(0.3),
+                      width: 1,
+                    ),
                   ),
                   child: const Icon(
                     Icons.arrow_forward_ios_rounded,
-                    color: Colors.white,
+                    color: Color(0xFFF7B61B),
                     size: 12,
                   ),
                 ),
@@ -671,35 +793,46 @@ Widget _modernLogoutTile(BuildContext context) {
     width: double.infinity,
     child: Material(
       color: Colors.transparent,
-      borderRadius: BorderRadius.circular(16),
+      borderRadius: BorderRadius.circular(18),
       child: InkWell(
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(18),
         onTap: () {
           _showLogoutDialog(context);
         },
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
           decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: Colors.white.withOpacity(0.2), width: 1),
+            color: const Color(0xFFE53E3E).withOpacity(0.15),
+            borderRadius: BorderRadius.circular(18),
+            border: Border.all(
+              color: const Color(0xFFE53E3E).withOpacity(0.3),
+              width: 1.5,
+            ),
           ),
           child: const Row(
             children: [
-              Icon(Icons.logout_rounded, color: Colors.white, size: 22),
-              SizedBox(width: 16),
+              Icon(
+                Icons.logout_rounded,
+                color: Color(0xFFE53E3E),
+                size: 24,
+              ),
+              SizedBox(width: 18),
               Expanded(
                 child: Text(
                   'Logout',
                   style: TextStyle(
-                    color: Colors.white,
+                    color: Color(0xFFE53E3E),
                     fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                    letterSpacing: 0.2,
+                    fontWeight: FontWeight.w600,
+                    letterSpacing: 0.3,
                   ),
                 ),
               ),
-              Icon(Icons.exit_to_app_rounded, color: Colors.white, size: 18),
+              Icon(
+                Icons.exit_to_app_rounded,
+                color: Color(0xFFE53E3E),
+                size: 20,
+              ),
             ],
           ),
         ),
@@ -713,23 +846,51 @@ void _showLogoutDialog(BuildContext context) {
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        title: const Row(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+        title: Row(
           children: [
-            Icon(Icons.logout_rounded, color: Color(0xFF6A1B9A)),
-            SizedBox(width: 12),
-            Text('Confirm Logout'),
+            Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: const Color(0xFFE53E3E).withOpacity(0.1),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: const Icon(
+                Icons.logout_rounded,
+                color: Color(0xFFE53E3E),
+                size: 24,
+              ),
+            ),
+            const SizedBox(width: 16),
+            const Text(
+              'Confirm Logout',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w700,
+                color: Color(0xFF1E293B),
+              ),
+            ),
           ],
         ),
         content: const Text(
-          'Are you sure you want to logout from your account?',
-          style: TextStyle(fontSize: 16),
+          'Are you sure you want to logout from your CineVibe account?',
+          style: TextStyle(
+            fontSize: 16,
+            color: Color(0xFF64748B),
+            height: 1.5,
+          ),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            style: TextButton.styleFrom(foregroundColor: Colors.grey[600]),
-            child: const Text('Cancel'),
+            style: TextButton.styleFrom(
+              foregroundColor: const Color(0xFF64748B),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+            ),
+            child: const Text(
+              'Cancel',
+              style: TextStyle(fontWeight: FontWeight.w600),
+            ),
           ),
           ElevatedButton(
             onPressed: () {
@@ -741,16 +902,27 @@ void _showLogoutDialog(BuildContext context) {
               );
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFF6A1B9A),
+              backgroundColor: const Color(0xFFE53E3E),
               foregroundColor: Colors.white,
+              elevation: 4,
+              shadowColor: const Color(0xFFE53E3E).withOpacity(0.3),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(14),
+              ),
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+            ),
+            child: const Text(
+              'Logout',
+              style: TextStyle(
+                fontWeight: FontWeight.w600,
+                fontSize: 15,
               ),
             ),
-            child: const Text('Logout'),
           ),
         ],
       );
     },
   );
 }
+
+
