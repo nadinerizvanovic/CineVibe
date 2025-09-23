@@ -1,6 +1,6 @@
 import 'package:cinevibe_desktop/model/search_result.dart';
 import 'package:cinevibe_desktop/utils/base_pagination.dart';
-import 'package:cinevibe_desktop/utils/base_table.dart';
+import 'package:cinevibe_desktop/utils/base_table_design.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cinevibe_desktop/providers/city_provider.dart';
@@ -127,16 +127,31 @@ class _CityListScreenState extends State<CityListScreen> {
     return SingleChildScrollView(
       child: Column(
         children: [
-          BaseTable(
-            icon: Icons.location_city_outlined,
-            title: "Cities",
-            width: 400,
-            height: 423,
+          BaseTableDesign(
+            icon: Icons.location_city_rounded,
+            title: "Cities Management",
+            width: 800,
+            height: 500,
+            columnWidths: [560, 150], // City Name: 400px, Actions: 150px
             columns: [
               DataColumn(
                 label: Text(
                   "City Name",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                  style: TextStyle(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 15,
+                    color: Color(0xFF004AAD),
+                  ),
+                ),
+              ),
+              DataColumn(
+                label: Text(
+                  "Actions",
+                  style: TextStyle(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 15,
+                    color: Color(0xFF004AAD),
+                  ),
                 ),
               ),
             ],
@@ -159,15 +174,81 @@ class _CityListScreenState extends State<CityListScreen> {
                           },
                           cells: [
                             DataCell(
-                              Text(e.name, style: TextStyle(fontSize: 15)),
+                              Row(
+                                children: [
+                                  Container(
+                                    padding: const EdgeInsets.all(8),
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xFF004AAD).withOpacity(0.1),
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: Icon(
+                                      Icons.location_city,
+                                      size: 16,
+                                      color: const Color(0xFF004AAD),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 12),
+                                  Expanded(
+                                    child: Text(
+                                      e.name,
+                                      style: const TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w600,
+                                        color: Color(0xFF1E293B),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            DataCell(
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xFF004AAD).withOpacity(0.1),
+                                      borderRadius: BorderRadius.circular(8),
+                                      border: Border.all(
+                                        color: const Color(0xFF004AAD).withOpacity(0.2),
+                                        width: 1,
+                                      ),
+                                    ),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: [
+                                        Icon(
+                                          Icons.edit_rounded,
+                                          size: 14,
+                                          color: const Color(0xFF004AAD),
+                                        ),
+                                        const SizedBox(width: 4),
+                                        Text(
+                                          'Edit',
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w600,
+                                            color: const Color(0xFF004AAD),
+                                            height: 1.0, // Remove extra line height
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ],
                         ),
                       )
                       .toList(),
-            emptyIcon: Icons.location_city,
-            emptyText: "No cities found.",
-            emptySubtext: "Try adjusting your search or add a new city.",
+            emptyIcon: Icons.location_city_outlined,
+            emptyText: "No cities found",
+            emptySubtext: "Try adjusting your search criteria or add a new city to get started.",
           ),
           SizedBox(height: 30),
           BasePagination(

@@ -135,6 +135,7 @@ class _CityDetailsScreenState extends State<CityDetailsScreen> {
         constraints: BoxConstraints(maxWidth: 400),
         child: customCard(
           padding: const EdgeInsets.all(32.0),
+          borderColor: const Color(0xFF004AAD).withOpacity(0.2),
           child: FormBuilder(
             key: formKey,
             initialValue: _initialValue,

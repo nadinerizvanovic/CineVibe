@@ -408,14 +408,25 @@ Widget customCard({
   Color? backgroundColor,
   double? elevation,
   double borderRadius = 16.0,
+  Color? borderColor,
 }) {
-  return Card(
-    elevation: elevation ?? 4,
-    shadowColor: CineVibeColors.textPrimary.withOpacity(0.1),
-    shape: RoundedRectangleBorder(
+  return Container(
+    decoration: BoxDecoration(
+      color: backgroundColor ?? CineVibeColors.surfaceLight,
       borderRadius: BorderRadius.circular(borderRadius),
+      border: Border.all(
+        color: borderColor ?? const Color(0xFFE2E8F0),
+        width: 1.5,
+      ),
+      boxShadow: [
+        BoxShadow(
+          color: CineVibeColors.textPrimary.withOpacity(0.1),
+          blurRadius: elevation ?? 8,
+          offset: const Offset(0, 4),
+          spreadRadius: 0,
+        ),
+      ],
     ),
-    color: backgroundColor ?? CineVibeColors.surfaceLight,
     child: Padding(
       padding: padding ?? const EdgeInsets.all(20),
       child: child,

@@ -237,36 +237,7 @@ class _MasterScreenState extends State<MasterScreen>
                                       ),
                                     ],
                                   ),
-                                  if (user?.cityName != null) ...[
-                                    const SizedBox(height: 12),
-                                    Row(
-                                      children: [
-                                        Container(
-                                          padding: const EdgeInsets.all(8),
-                                          decoration: BoxDecoration(
-                                            color: const Color(0xFFF7B61B).withOpacity(0.1),
-                                            borderRadius: BorderRadius.circular(8),
-                                          ),
-                                          child: const Icon(
-                                            Icons.location_city_outlined,
-                                            size: 16,
-                                            color: Color(0xFFF7B61B),
-                                          ),
-                                        ),
-                                        const SizedBox(width: 12),
-                                        Expanded(
-                                          child: Text(
-                                            user!.cityName!,
-                                            style: const TextStyle(
-                                              fontSize: 14,
-                                              color: Color(0xFF1E293B),
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
+                               
                                 ],
                               ),
                             ),
@@ -805,7 +776,7 @@ Widget _modernLogoutTile(BuildContext context) {
             color: const Color(0xFFE53E3E).withOpacity(0.15),
             borderRadius: BorderRadius.circular(18),
             border: Border.all(
-              color: const Color(0xFFE53E3E).withOpacity(0.3),
+              color: const Color(0xFFE53E3E),
               width: 1.5,
             ),
           ),
