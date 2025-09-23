@@ -24,22 +24,27 @@ class BasePagination extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final int divisions = pageSizeOptions.length > 1
-        ? pageSizeOptions.length - 1
-        : 1;
-    int sliderValueIndex = pageSizeOptions.indexOf(pageSize);
-    if (sliderValueIndex == -1) sliderValueIndex = 0;
-
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(
+          color: const Color(0xFFE2E8F0),
+          width: 1.5,
+        ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 10,
+            color: const Color(0xFF004AAD).withOpacity(0.08),
+            blurRadius: 24,
+            offset: const Offset(0, 8),
+            spreadRadius: 0,
+          ),
+          BoxShadow(
+            color: Colors.black.withOpacity(0.04),
+            blurRadius: 8,
             offset: const Offset(0, 2),
+            spreadRadius: 0,
           ),
         ],
       ),
@@ -49,28 +54,55 @@ class BasePagination extends StatelessWidget {
           // Left side: Page info and navigation
           Row(
             children: [
-              // Page info
+              // Page info with modern styling
               Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 8,
-                ),
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                 decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Text(
-                  'Page ${currentPage + 1} of ${totalPages == 0 ? 1 : totalPages}',
-                  style: TextStyle(
-                    fontWeight: FontWeight.w600,
-                    color: Theme.of(context).colorScheme.primary,
-                    fontSize: 14,
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      const Color(0xFF004AAD).withOpacity(0.1),
+                      const Color(0xFF004AAD).withOpacity(0.05),
+                    ],
                   ),
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(
+                    color: const Color(0xFF004AAD).withOpacity(0.2),
+                    width: 1,
+                  ),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(6),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF004AAD),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: const Icon(
+                        Icons.description_outlined,
+                        color: Colors.white,
+                        size: 16,
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Text(
+                      'Page ${currentPage + 1} of ${totalPages == 0 ? 1 : totalPages}',
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w700,
+                        color: Color(0xFF004AAD),
+                        fontSize: 15,
+                        letterSpacing: 0.3,
+                      ),
+                    ),
+                  ],
                 ),
               ),
               const SizedBox(width: 24),
 
-              // Previous button
+              // Navigation buttons
               _buildNavigationButton(
                 context,
                 icon: Icons.chevron_left_rounded,
@@ -81,7 +113,6 @@ class BasePagination extends StatelessWidget {
 
               const SizedBox(width: 12),
 
-              // Next button
               _buildNavigationButton(
                 context,
                 icon: Icons.chevron_right_rounded,
@@ -97,89 +128,123 @@ class BasePagination extends StatelessWidget {
 
           // Right side: Page size selector
           if (showPageSizeSelector)
-            _buildPageSizeSelector(context, sliderValueIndex, divisions),
+            _buildModernPageSizeSelector(context),
         ],
       ),
     );
   }
 
-  Widget _buildPageSizeSelector(
-    BuildContext context,
-    int sliderValueIndex,
-    int divisions,
-  ) {
+  Widget _buildModernPageSizeSelector(BuildContext context) {
+    int currentIndex = pageSizeOptions.indexOf(pageSize);
+    if (currentIndex == -1) currentIndex = 0;
+
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.grey[50],
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.grey[200]!),
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            const Color(0xFFF8FAFC),
+            const Color(0xFFF1F5F9),
+          ],
+        ),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: const Color(0xFFE2E8F0),
+          width: 1,
+        ),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          SizedBox(
-            width: 120,
-            child: SliderTheme(
-              data: SliderTheme.of(context).copyWith(
-                activeTrackColor: Theme.of(context).colorScheme.primary,
-                inactiveTrackColor: Colors.grey[300],
-                thumbColor: Theme.of(context).colorScheme.primary,
-                overlayColor: Theme.of(
-                  context,
-                ).colorScheme.primary.withOpacity(0.2),
-                valueIndicatorColor: Theme.of(context).colorScheme.primary,
-                trackHeight: 2,
-                thumbShape: const RoundSliderThumbShape(
-                  enabledThumbRadius: 8,
-                  elevation: 2,
+          // Items per page label
+          Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(6),
+                decoration: BoxDecoration(
+                  color: const Color(0xFF004AAD).withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(8),
                 ),
-                valueIndicatorShape: const PaddleSliderValueIndicatorShape(),
-                valueIndicatorTextStyle: const TextStyle(
-                  color: Colors.white,
+                child: const Icon(
+                  Icons.tune_rounded,
+                  color: Color(0xFF004AAD),
+                  size: 16,
+                ),
+              ),
+              const SizedBox(width: 8),
+              Text(
+                'Items per page:',
+                style: TextStyle(
+                  fontSize: 14,
                   fontWeight: FontWeight.w600,
-                  fontSize: 12,
+                  color: const Color(0xFF64748B),
                 ),
               ),
-              child: Slider(
-                min: 0,
-                max: (pageSizeOptions.length - 1).toDouble(),
-                divisions: divisions,
-                value: sliderValueIndex.toDouble(),
-                label: pageSizeOptions[sliderValueIndex].toString(),
-                onChanged: (double newIndex) {
-                  int idx = newIndex.round();
-                  if (onPageSizeChanged != null) {
-                    onPageSizeChanged!(pageSizeOptions[idx]);
-                  }
-                },
-              ),
-            ),
+            ],
           ),
           const SizedBox(width: 16),
-          Container(
-            width: 48,
-            height: 40,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.primary,
-              borderRadius: BorderRadius.circular(12),
-              boxShadow: [
-                BoxShadow(
-                  color: Theme.of(context).colorScheme.primary.withOpacity(0.3),
-                  blurRadius: 8,
-                  offset: const Offset(0, 2),
+
+          // Page size buttons
+          Row(
+            children: pageSizeOptions.map((size) {
+              bool isSelected = size == pageSize;
+              return Container(
+                margin: const EdgeInsets.only(right: 8),
+                child: Material(
+                  color: Colors.transparent,
+                  borderRadius: BorderRadius.circular(12),
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(12),
+                    onTap: () {
+                      if (onPageSizeChanged != null && !isSelected) {
+                        onPageSizeChanged!(size);
+                      }
+                    },
+                    child: AnimatedContainer(
+                      duration: const Duration(milliseconds: 200),
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                      decoration: BoxDecoration(
+                        gradient: isSelected
+                            ? LinearGradient(
+                                colors: [
+                                  const Color(0xFF004AAD),
+                                  const Color(0xFF1E40AF),
+                                ],
+                              )
+                            : null,
+                        color: isSelected ? null : Colors.white,
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(
+                          color: isSelected
+                              ? const Color(0xFF004AAD)
+                              : const Color(0xFFE2E8F0),
+                          width: isSelected ? 0 : 1,
+                        ),
+                        boxShadow: isSelected
+                            ? [
+                                BoxShadow(
+                                  color: const Color(0xFF004AAD).withOpacity(0.3),
+                                  blurRadius: 8,
+                                  offset: const Offset(0, 4),
+                                ),
+                              ]
+                            : null,
+                      ),
+                      child: Text(
+                        size.toString(),
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 14,
+                          color: isSelected ? Colors.white : const Color(0xFF64748B),
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
-              ],
-            ),
-            child: Text(
-              pageSizeOptions[sliderValueIndex].toString(),
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 12,
-                color: Colors.white,
-              ),
-            ),
+              );
+            }).toList(),
           ),
         ],
       ),
@@ -196,41 +261,77 @@ class BasePagination extends StatelessWidget {
   }) {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(16),
         boxShadow: isEnabled
             ? [
                 BoxShadow(
-                  color: Theme.of(context).colorScheme.primary.withOpacity(0.2),
-                  blurRadius: 8,
-                  offset: const Offset(0, 2),
+                  color: const Color(0xFF004AAD).withOpacity(0.2),
+                  blurRadius: 12,
+                  offset: const Offset(0, 6),
                 ),
               ]
             : null,
       ),
-      child: ElevatedButton(
-        onPressed: onPressed,
-        style: ElevatedButton.styleFrom(
-          backgroundColor: isEnabled
-              ? Theme.of(context).colorScheme.primary
-              : Colors.grey[300],
-          foregroundColor: isEnabled ? Colors.white : Colors.grey[500],
-          elevation: 0,
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-          minimumSize: const Size(120, 44),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            if (!isNext) ...[Icon(icon, size: 20), const SizedBox(width: 8)],
-            Text(
-              label,
-              style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
+      child: Material(
+        color: Colors.transparent,
+        borderRadius: BorderRadius.circular(16),
+        child: InkWell(
+          borderRadius: BorderRadius.circular(16),
+          onTap: onPressed,
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 200),
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
+            decoration: BoxDecoration(
+              gradient: isEnabled
+                  ? LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [
+                        const Color(0xFF004AAD),
+                        const Color(0xFF1E40AF),
+                      ],
+                    )
+                  : null,
+              color: isEnabled ? null : const Color(0xFFF1F5F9),
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(
+                color: isEnabled
+                    ? Colors.transparent
+                    : const Color(0xFFE2E8F0),
+                width: 1,
+              ),
             ),
-            if (isNext) ...[const SizedBox(width: 8), Icon(icon, size: 20)],
-          ],
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (!isNext) ...[
+                  Icon(
+                    icon,
+                    size: 20,
+                    color: isEnabled ? Colors.white : const Color(0xFF94A3B8),
+                  ),
+                  const SizedBox(width: 10),
+                ],
+                Text(
+                  label,
+                  style: TextStyle(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 15,
+                    color: isEnabled ? Colors.white : const Color(0xFF94A3B8),
+                    letterSpacing: 0.3,
+                  ),
+                ),
+                if (isNext) ...[
+                  const SizedBox(width: 10),
+                  Icon(
+                    icon,
+                    size: 20,
+                    color: isEnabled ? Colors.white : const Color(0xFF94A3B8),
+                  ),
+                ],
+              ],
+            ),
+          ),
         ),
       ),
     );

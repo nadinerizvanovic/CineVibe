@@ -17,7 +17,7 @@ void main() async {
   
   // Set initial window size and properties
   WindowOptions windowOptions = const WindowOptions(
-    size: Size(1200, 800), // Width: 1200, Height: 800
+    size: Size(1200, 850), // Width: 1200, Height: 800
     center: true,
     backgroundColor: Colors.transparent,
     skipTaskbar: false,
