@@ -3,6 +3,8 @@ import 'package:cinevibe_desktop/providers/user_provider.dart';
 import 'package:cinevibe_desktop/screens/city_list_screen.dart';
 import 'package:cinevibe_desktop/screens/actor_list_screen.dart';
 import 'package:cinevibe_desktop/screens/category_list_screen.dart';
+import 'package:cinevibe_desktop/screens/director_list_screen.dart';
+import 'package:cinevibe_desktop/screens/production_company_list_screen.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:flutter/services.dart';
@@ -776,6 +778,22 @@ class _MasterScreenState extends State<MasterScreen>
                       label: 'Categories',
                       screen: CategoryListScreen(),
                     ),
+                    const SizedBox(height: 8),
+                    _modernDrawerTile(
+                      context,
+                      icon: Icons.movie_creation_outlined,
+                      activeIcon: Icons.movie_creation_rounded,
+                      label: 'Directors',
+                      screen: DirectorListScreen(),
+                    ),
+                    const SizedBox(height: 8),
+                    _modernDrawerTile(
+                      context,
+                      icon: Icons.business_outlined,
+                      activeIcon: Icons.business_rounded,
+                      label: 'Production Companies',
+                      screen: ProductionCompanyListScreen(),
+                    ),
 
                     // Add more tiles here in the future
                   ],
@@ -840,6 +858,12 @@ Widget _modernDrawerTile(
   } else if (label == 'Categories') {
     isSelected =
         currentRoute == 'CategoryListScreen' || currentRoute == 'CategoryDetailsScreen';
+  } else if (label == 'Directors') {
+    isSelected =
+        currentRoute == 'DirectorListScreen' || currentRoute == 'DirectorDetailsScreen';
+  } else if (label == 'Production Companies') {
+    isSelected =
+        currentRoute == 'ProductionCompanyListScreen' || currentRoute == 'ProductionCompanyDetailsScreen';
   } else if (label == 'Countries') {
     isSelected =
         currentRoute == 'CountryListScreen' ||
