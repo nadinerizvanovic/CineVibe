@@ -92,6 +92,16 @@ namespace CineVibe.Services.Services
                 query = query.Where(r => r.IsActive == search.IsActive.Value);
             }
 
+            if (!string.IsNullOrEmpty(search.MovieName))
+            {
+                query = query.Where(r => r.Screening.Movie.Title.Contains(search.MovieName));
+            }
+
+            if (!string.IsNullOrEmpty(search.UserFullName))
+            {
+                query = query.Where(r => (r.User.FirstName + " " + r.User.LastName).Contains(search.UserFullName));
+            }
+
             return query;
         }
 

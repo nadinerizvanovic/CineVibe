@@ -10,6 +10,7 @@ import 'package:cinevibe_desktop/providers/user_provider.dart';
 import 'package:cinevibe_desktop/providers/role_provider.dart';
 import 'package:cinevibe_desktop/providers/ticket_provider.dart';
 import 'package:cinevibe_desktop/providers/hall_provider.dart';
+import 'package:cinevibe_desktop/providers/review_provider.dart';
 import 'package:cinevibe_desktop/screens/city_list_screen.dart';
 import 'package:cinevibe_desktop/utils/base_textfield.dart';
 import 'package:flutter/material.dart';
@@ -74,6 +75,9 @@ void main() async {
         ),
         ChangeNotifierProvider<HallProvider>(
           create: (context) => HallProvider(),
+        ),
+        ChangeNotifierProvider<ReviewProvider>(
+          create: (context) => ReviewProvider(),
         ),
       ],
       child: const MyApp(),

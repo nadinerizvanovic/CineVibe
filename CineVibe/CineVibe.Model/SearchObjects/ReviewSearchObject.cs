@@ -13,5 +13,7 @@ namespace CineVibe.Model.SearchObjects
         public DateTime? ScreeningDateFrom { get; set; }
         public DateTime? ScreeningDateTo { get; set; }
         public bool? IsActive { get; set; }
+        public string? MovieName { get; set; }
+        public string? UserFullName { get; set; }
     }
 }
