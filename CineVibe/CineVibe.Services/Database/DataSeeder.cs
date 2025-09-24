@@ -81,7 +81,7 @@ namespace CineVibe.Services.Database
                     CreatedAt = fixedDate,
                     PhoneNumber = DefaultPhoneNumber,
                     GenderId = 1, // Male
-                    CityId = 3, // Tuzla
+                    CityId = 5, // Mostar
                     Picture = ImageConversion.ConvertImageToByteArray("Assets", "adil.png")
                 },
                 new User 

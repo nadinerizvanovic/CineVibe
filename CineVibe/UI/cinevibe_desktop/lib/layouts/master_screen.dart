@@ -6,6 +6,7 @@ import 'package:cinevibe_desktop/screens/category_list_screen.dart';
 import 'package:cinevibe_desktop/screens/director_list_screen.dart';
 import 'package:cinevibe_desktop/screens/production_company_list_screen.dart';
 import 'package:cinevibe_desktop/screens/screening_type_list_screen.dart';
+import 'package:cinevibe_desktop/screens/user_list_screen.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:flutter/services.dart';
@@ -478,7 +479,7 @@ class _MasterScreenState extends State<MasterScreen>
                 margin: const EdgeInsets.only(right: 16),
                 decoration: BoxDecoration(
                   color: const Color(0xFFF8FAFC),
-                  borderRadius: BorderRadius.circular(14),
+                  borderRadius: BorderRadius.circular(24),
                   border: Border.all(
                     color: const Color(0xFFE2E8F0),
                     width: 1,
@@ -526,7 +527,7 @@ class _MasterScreenState extends State<MasterScreen>
         ),
         actions: [
           Container(
-            margin: const EdgeInsets.only(right: 24),
+            margin: const EdgeInsets.only(right: 24, top: 2, bottom: 2),
             child: MouseRegion(
               cursor: SystemMouseCursors.click,
               child: GestureDetector(
@@ -535,7 +536,7 @@ class _MasterScreenState extends State<MasterScreen>
                   padding: const EdgeInsets.all(3),
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(20),
+                    shape: BoxShape.circle,
                     border: Border.all(
                       color: const Color(0xFFE2E8F0),
                       width: 1.5,
@@ -802,6 +803,14 @@ class _MasterScreenState extends State<MasterScreen>
                       label: 'Screening Types',
                       screen: ScreeningTypeListScreen(),
                     ),
+                    const SizedBox(height: 8),
+                    _modernDrawerTile(
+                      context,
+                      icon: Icons.people_outlined,
+                      activeIcon: Icons.people_rounded,
+                      label: 'Users',
+                      screen: UserListScreen(),
+                    ),
 
                     // Add more tiles here in the future
                   ],
@@ -875,6 +884,9 @@ Widget _modernDrawerTile(
   } else if (label == 'Screening Types') {
     isSelected =
         currentRoute == 'ScreeningTypeListScreen' || currentRoute == 'ScreeningTypeDetailsScreen';
+  } else if (label == 'Users') {
+    isSelected =
+        currentRoute == 'UserListScreen' || currentRoute == 'UserDetailsScreen';
   } else if (label == 'Countries') {
     isSelected =
         currentRoute == 'CountryListScreen' ||
