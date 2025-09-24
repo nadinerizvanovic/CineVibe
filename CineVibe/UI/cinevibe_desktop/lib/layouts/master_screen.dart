@@ -2,6 +2,7 @@ import 'package:cinevibe_desktop/main.dart';
 import 'package:cinevibe_desktop/providers/user_provider.dart';
 import 'package:cinevibe_desktop/screens/city_list_screen.dart';
 import 'package:cinevibe_desktop/screens/actor_list_screen.dart';
+import 'package:cinevibe_desktop/screens/category_list_screen.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:flutter/services.dart';
@@ -767,6 +768,14 @@ class _MasterScreenState extends State<MasterScreen>
                       label: 'Actors',
                       screen: ActorListScreen(),
                     ),
+                    const SizedBox(height: 8),
+                    _modernDrawerTile(
+                      context,
+                      icon: Icons.category_outlined,
+                      activeIcon: Icons.category_rounded,
+                      label: 'Categories',
+                      screen: CategoryListScreen(),
+                    ),
 
                     // Add more tiles here in the future
                   ],
@@ -828,6 +837,9 @@ Widget _modernDrawerTile(
   } else if (label == 'Actors') {
     isSelected =
         currentRoute == 'ActorListScreen' || currentRoute == 'ActorDetailsScreen';
+  } else if (label == 'Categories') {
+    isSelected =
+        currentRoute == 'CategoryListScreen' || currentRoute == 'CategoryDetailsScreen';
   } else if (label == 'Countries') {
     isSelected =
         currentRoute == 'CountryListScreen' ||
