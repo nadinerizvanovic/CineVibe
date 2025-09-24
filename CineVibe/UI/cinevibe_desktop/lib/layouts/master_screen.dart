@@ -7,6 +7,7 @@ import 'package:cinevibe_desktop/screens/director_list_screen.dart';
 import 'package:cinevibe_desktop/screens/production_company_list_screen.dart';
 import 'package:cinevibe_desktop/screens/screening_type_list_screen.dart';
 import 'package:cinevibe_desktop/screens/user_list_screen.dart';
+import 'package:cinevibe_desktop/screens/ticket_list_screen.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:flutter/services.dart';
@@ -811,6 +812,14 @@ class _MasterScreenState extends State<MasterScreen>
                       label: 'Users',
                       screen: UserListScreen(),
                     ),
+                    const SizedBox(height: 8),
+                    _modernDrawerTile(
+                      context,
+                      icon: Icons.confirmation_number_outlined,
+                      activeIcon: Icons.confirmation_number_rounded,
+                      label: 'Tickets',
+                      screen: TicketListScreen(),
+                    ),
 
                     // Add more tiles here in the future
                   ],
@@ -887,6 +896,9 @@ Widget _modernDrawerTile(
   } else if (label == 'Users') {
     isSelected =
         currentRoute == 'UserListScreen' || currentRoute == 'UserDetailsScreen';
+  } else if (label == 'Tickets') {
+    isSelected =
+        currentRoute == 'TicketListScreen' || currentRoute == 'TicketDetailsScreen';
   } else if (label == 'Countries') {
     isSelected =
         currentRoute == 'CountryListScreen' ||
