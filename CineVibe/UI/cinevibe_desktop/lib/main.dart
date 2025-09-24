@@ -1,5 +1,6 @@
 import 'package:cinevibe_desktop/providers/auth_provider.dart';
 import 'package:cinevibe_desktop/providers/city_provider.dart';
+import 'package:cinevibe_desktop/providers/actor_provider.dart';
 import 'package:cinevibe_desktop/providers/gender_provider.dart';
 import 'package:cinevibe_desktop/providers/user_provider.dart';
 import 'package:cinevibe_desktop/screens/city_list_screen.dart';
@@ -42,6 +43,9 @@ void main() async {
         ),
         ChangeNotifierProvider<GenderProvider>(
           create: (context) => GenderProvider(),
+        ),
+        ChangeNotifierProvider<ActorProvider>(
+          create: (context) => ActorProvider(),
         ),
       ],
       child: const MyApp(),

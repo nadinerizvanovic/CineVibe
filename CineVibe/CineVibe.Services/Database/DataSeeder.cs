@@ -105,8 +105,8 @@ namespace CineVibe.Services.Database
             // Seed UserRoles
             modelBuilder.Entity<UserRole>().HasData(
                 new UserRole { Id = 1, UserId = 1, RoleId = 1, DateAssigned = fixedDate }, 
-                new UserRole { Id = 2, UserId = 2, RoleId = 1, DateAssigned = fixedDate }, 
-                new UserRole { Id = 3, UserId = 3, RoleId = 2, DateAssigned = fixedDate }, 
+                new UserRole { Id = 2, UserId = 2, RoleId = 2, DateAssigned = fixedDate }, 
+                new UserRole { Id = 3, UserId = 3, RoleId = 1, DateAssigned = fixedDate }, 
                 new UserRole { Id = 4, UserId = 4, RoleId = 2, DateAssigned = fixedDate }  
             );
 
