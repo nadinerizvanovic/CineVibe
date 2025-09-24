@@ -144,7 +144,7 @@ class _ProductionCompanyListScreenState extends State<ProductionCompanyListScree
             title: "Production Companies Management",
             width: 1400,
             height: 500,
-            columnWidths: [200, 250, 150, 140, 110, 120], // Name, Description, Country, Movies Count, Status, Actions
+            columnWidths: [180, 310, 130, 135, 105, 120], // Name, Description, Country, Movies Count, Status, Actions
             columns: [
               DataColumn(
                 label: Text(
