@@ -5,6 +5,7 @@ import 'package:cinevibe_desktop/providers/category_provider.dart';
 import 'package:cinevibe_desktop/providers/gender_provider.dart';
 import 'package:cinevibe_desktop/providers/director_provider.dart';
 import 'package:cinevibe_desktop/providers/production_company_provider.dart';
+import 'package:cinevibe_desktop/providers/screening_type_provider.dart';
 import 'package:cinevibe_desktop/providers/user_provider.dart';
 import 'package:cinevibe_desktop/screens/city_list_screen.dart';
 import 'package:cinevibe_desktop/utils/base_textfield.dart';
@@ -58,6 +59,9 @@ void main() async {
         ),
         ChangeNotifierProvider<ProductionCompanyProvider>(
           create: (context) => ProductionCompanyProvider(),
+        ),
+        ChangeNotifierProvider<ScreeningTypeProvider>(
+          create: (context) => ScreeningTypeProvider(),
         ),
       ],
       child: const MyApp(),

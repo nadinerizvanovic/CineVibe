@@ -53,7 +53,7 @@ namespace CineVibe.Services.Services
 
             if (!string.IsNullOrEmpty(search.Nationality))
             {
-                query = query.Where(d => d.Nationality != null && d.Nationality.Contains(search.Nationality));
+                query = query.Where(d => d.Nationality.Contains(search.Nationality));
             }
 
             if (search.IsActive.HasValue)

@@ -5,6 +5,7 @@ import 'package:cinevibe_desktop/screens/actor_list_screen.dart';
 import 'package:cinevibe_desktop/screens/category_list_screen.dart';
 import 'package:cinevibe_desktop/screens/director_list_screen.dart';
 import 'package:cinevibe_desktop/screens/production_company_list_screen.dart';
+import 'package:cinevibe_desktop/screens/screening_type_list_screen.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:flutter/services.dart';
@@ -794,6 +795,13 @@ class _MasterScreenState extends State<MasterScreen>
                       label: 'Production Companies',
                       screen: ProductionCompanyListScreen(),
                     ),
+                    _modernDrawerTile(
+                      context,
+                      icon: Icons.movie_filter_outlined,
+                      activeIcon: Icons.movie_filter_rounded,
+                      label: 'Screening Types',
+                      screen: ScreeningTypeListScreen(),
+                    ),
 
                     // Add more tiles here in the future
                   ],
@@ -864,6 +872,9 @@ Widget _modernDrawerTile(
   } else if (label == 'Production Companies') {
     isSelected =
         currentRoute == 'ProductionCompanyListScreen' || currentRoute == 'ProductionCompanyDetailsScreen';
+  } else if (label == 'Screening Types') {
+    isSelected =
+        currentRoute == 'ScreeningTypeListScreen' || currentRoute == 'ScreeningTypeDetailsScreen';
   } else if (label == 'Countries') {
     isSelected =
         currentRoute == 'CountryListScreen' ||
