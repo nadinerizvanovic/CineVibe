@@ -9,6 +9,7 @@ import 'package:cinevibe_desktop/providers/role_provider.dart';
 import 'package:cinevibe_desktop/model/user.dart';
 import 'package:cinevibe_desktop/model/role_response.dart';
 import 'package:cinevibe_desktop/utils/base_textfield.dart';
+import 'package:cinevibe_desktop/utils/base_dropdown.dart';
 import 'package:cinevibe_desktop/layouts/master_screen.dart';
 import 'package:cinevibe_desktop/screens/user_details_screen.dart';
 

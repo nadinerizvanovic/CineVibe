@@ -151,43 +151,29 @@ InputDecoration customTextFieldDecoration(
 }
 
 // ---------------------------
-// Modern Custom Text Field Helper
+// Modern Custom Dropdown Helper
 // ---------------------------
-Widget customTextField({
+Widget customDropdownField<T>({
   required String label,
-  required TextEditingController controller,
+  required T? value,
+  required List<DropdownMenuItem<T>> items,
+  required ValueChanged<T?> onChanged,
   IconData? prefixIcon,
-  IconData? suffixIcon,
   String? hintText,
   bool isError = false,
   bool isSuccess = false,
   double? width,
-  VoidCallback? onSubmitted,
-  VoidCallback? onChanged,
-  bool enabled = true,
-  bool obscureText = false,
-  TextInputType? keyboardType,
-  int? maxLines,
-  int? maxLength,
-  TextInputAction? textInputAction,
-  FocusNode? focusNode,
-  bool autofocus = false,
   String? errorText,
   String? helperText,
-  VoidCallback? onSuffixIconPressed,
+  bool enabled = true,
 }) {
-  Widget textField = TextField(
-    controller: controller,
-    focusNode: focusNode,
-    autofocus: autofocus,
+  Widget dropdown = DropdownButtonFormField<T>(
     decoration: customTextFieldDecoration(
       label,
       prefixIcon: prefixIcon,
-      suffixIcon: suffixIcon,
       hintText: hintText,
       isError: isError,
       isSuccess: isSuccess,
-      onSuffixIconPressed: onSuffixIconPressed,
     ).copyWith(
       errorText: errorText,
       helperText: helperText,
@@ -202,165 +188,35 @@ Widget customTextField({
         fontWeight: FontWeight.w500,
       ),
     ),
-    onSubmitted: (_) {
-      if (onSubmitted != null) {
-        onSubmitted();
-      }
-    },
-    onChanged: (_) {
-      if (onChanged != null) {
-        onChanged();
-      }
-    },
-    enabled: enabled,
-    obscureText: obscureText,
-    keyboardType: keyboardType,
-    textInputAction: textInputAction ?? (maxLines == null ? TextInputAction.done : TextInputAction.newline),
-    maxLines: maxLines ?? 1,
-    maxLength: maxLength,
+    value: value,
+    items: items,
+    onChanged: enabled ? onChanged : null,
     style: TextStyle(
-      color: CineVibeColors.textPrimary,
+      color: enabled ? CineVibeColors.textPrimary : CineVibeColors.textTertiary,
       fontSize: 15,
       fontWeight: FontWeight.w500,
       letterSpacing: 0.1,
     ),
-    cursorColor: CineVibeColors.seedBlue,
+    dropdownColor: CineVibeColors.surfaceLight,
+    icon: Icon(
+      Icons.keyboard_arrow_down_rounded,
+      color: isError 
+          ? CineVibeColors.errorRed 
+          : isSuccess 
+              ? CineVibeColors.successGreen 
+              : CineVibeColors.textSecondary,
+      size: 24,
+    ),
+    isExpanded: true,
+    menuMaxHeight: 300,
   );
 
-  // Force width if provided, even inside Expanded/Flexible
   if (width != null) {
     return Align(
       alignment: Alignment.centerLeft,
-      child: SizedBox(width: width, child: textField),
+      child: SizedBox(width: width, child: dropdown),
     );
   }
 
-  return textField;
-}
-
-
-// ---------------------------
-// Modern Button Helpers
-// ---------------------------
-Widget customElevatedButton({
-  required String text,
-  required VoidCallback? onPressed,
-  Color? backgroundColor,
-  Color? foregroundColor,
-  double? width,
-  double? height,
-  bool isLoading = false,
-  IconData? icon,
-  bool isOutlined = false,
-}) {
-  final Color bgColor = backgroundColor ?? CineVibeColors.seedBlue;
-  final Color fgColor = foregroundColor ?? Colors.white;
-  
-  Widget button = SizedBox(
-    width: width,
-    height: height ?? 50,
-    child: isOutlined
-        ? OutlinedButton(
-            onPressed: isLoading ? null : onPressed,
-            style: OutlinedButton.styleFrom(
-              foregroundColor: bgColor,
-              side: BorderSide(color: bgColor, width: 2),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
-              ),
-            ),
-            child: _buildButtonContent(text, isLoading, icon, fgColor),
-          )
-        : ElevatedButton(
-            onPressed: isLoading ? null : onPressed,
-            style: ElevatedButton.styleFrom(
-              backgroundColor: bgColor,
-              foregroundColor: fgColor,
-              elevation: 4,
-              shadowColor: bgColor.withOpacity(0.3),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
-              ),
-            ),
-            child: _buildButtonContent(text, isLoading, icon, fgColor),
-          ),
-  );
-
-  return button;
-}
-
-Widget _buildButtonContent(String text, bool isLoading, IconData? icon, Color color) {
-  if (isLoading) {
-    return SizedBox(
-      height: 20,
-      width: 20,
-      child: CircularProgressIndicator(
-        strokeWidth: 2,
-        valueColor: AlwaysStoppedAnimation<Color>(color),
-      ),
-    );
-  }
-
-  if (icon != null) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Icon(icon, size: 20),
-        const SizedBox(width: 8),
-        Text(
-          text,
-          style: TextStyle(
-            fontSize: 15,
-            fontWeight: FontWeight.w600,
-            letterSpacing: 0.3,
-          ),
-        ),
-      ],
-    );
-  }
-
-  return Text(
-    text,
-    style: TextStyle(
-      fontSize: 15,
-      fontWeight: FontWeight.w600,
-      letterSpacing: 0.3,
-    ),
-  );
-}
-
-
-// ---------------------------
-// Modern Card Helper
-// ---------------------------
-Widget customCard({
-  required Widget child,
-  EdgeInsetsGeometry? padding,
-  Color? backgroundColor,
-  double? elevation,
-  double borderRadius = 16.0,
-  Color? borderColor,
-}) {
-  return Container(
-    decoration: BoxDecoration(
-      color: backgroundColor ?? CineVibeColors.surfaceLight,
-      borderRadius: BorderRadius.circular(borderRadius),
-      border: Border.all(
-        color: borderColor ?? const Color(0xFFE2E8F0),
-        width: 1.5,
-      ),
-      boxShadow: [
-        BoxShadow(
-          color: CineVibeColors.textPrimary.withOpacity(0.1),
-          blurRadius: elevation ?? 8,
-          offset: const Offset(0, 4),
-          spreadRadius: 0,
-        ),
-      ],
-    ),
-    child: Padding(
-      padding: padding ?? const EdgeInsets.all(20),
-      child: child,
-    ),
-  );
+  return dropdown;
 }

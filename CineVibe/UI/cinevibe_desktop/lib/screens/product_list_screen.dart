@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:cinevibe_desktop/providers/product_provider.dart';
 import 'package:cinevibe_desktop/model/product.dart';
 import 'package:cinevibe_desktop/utils/base_textfield.dart';
+import 'package:cinevibe_desktop/utils/base_range_slider.dart';
 import 'package:cinevibe_desktop/layouts/master_screen.dart';
 import 'package:cinevibe_desktop/screens/product_add_edit_screen.dart';
 import 'package:cinevibe_desktop/screens/product_details_screen.dart';

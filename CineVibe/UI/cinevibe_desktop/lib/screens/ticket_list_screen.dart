@@ -8,6 +8,7 @@ import 'package:cinevibe_desktop/providers/hall_provider.dart';
 import 'package:cinevibe_desktop/model/ticket.dart';
 import 'package:cinevibe_desktop/model/hall.dart';
 import 'package:cinevibe_desktop/utils/base_textfield.dart';
+import 'package:cinevibe_desktop/utils/base_dropdown.dart';
 import 'package:cinevibe_desktop/layouts/master_screen.dart';
 import 'package:cinevibe_desktop/screens/ticket_details_screen.dart';
 
