@@ -400,6 +400,94 @@ Widget _buildButtonContent(String text, bool isLoading, IconData? icon, Color co
 }
 
 // ---------------------------
+// Modern Range Slider Helper
+// ---------------------------
+Widget customRangeSlider({
+  required BuildContext context,
+  required String label,
+  required double minValue,
+  required double maxValue,
+  required double currentMin,
+  required double currentMax,
+  required ValueChanged<double> onMinChanged,
+  required ValueChanged<double> onMaxChanged,
+  double? width,
+  int? divisions,
+}) {
+  Widget rangeSlider = Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      // Container with floating label
+      Container(
+        height: 50, // Match textfield height
+        decoration: BoxDecoration(
+          color: CineVibeColors.surfaceLight,
+          borderRadius: BorderRadius.circular(16.0),
+          border: Border.all(
+            color: CineVibeColors.surfaceMedium,
+            width: 1.5,
+          ),
+        ),
+        child: Stack(
+          children: [
+            // Slider container
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+              child: RangeSlider(
+                values: RangeValues(
+                  currentMin.clamp(minValue, maxValue),
+                  currentMax.clamp(minValue, maxValue),
+                ),
+                min: minValue,
+                max: maxValue,
+                divisions: divisions,
+                onChanged: (values) {
+                  onMinChanged(values.start);
+                  onMaxChanged(values.end);
+                },
+                activeColor: CineVibeColors.seedBlue,
+                inactiveColor: CineVibeColors.surfaceMedium,
+              ),
+            ),
+            // Floating label
+            Positioned(
+              left: 16,
+              top: -8,
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                decoration: BoxDecoration(
+                  color: CineVibeColors.surfaceLight,
+                ),
+                child: Text(
+                  label,
+                  style: TextStyle(
+                    color: CineVibeColors.textPrimary,
+                    fontSize: 13,
+                    fontWeight: FontWeight.w600,
+                    letterSpacing: 0.2,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+      
+   
+    
+  ]);
+
+  if (width != null) {
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: SizedBox(width: width, child: rangeSlider),
+    );
+  }
+
+  return rangeSlider;
+}
+
+// ---------------------------
 // Modern Card Helper
 // ---------------------------
 Widget customCard({
