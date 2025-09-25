@@ -223,17 +223,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
                 : products!.items!
                       .map(
                         (e) => DataRow(
-                          onSelectChanged: (value) {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => ProductDetailsScreen(product: e),
-                                settings: const RouteSettings(
-                                  name: 'ProductDetailsScreen',
-                                ),
-                              ),
-                            );
-                          },
+                        
                           cells: [
                             DataCell(
                               Center(
@@ -332,71 +322,105 @@ class _ProductListScreenState extends State<ProductListScreen> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Container(
-                                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                                    decoration: BoxDecoration(
-                                      color: const Color(0xFF10B981).withOpacity(0.1),
-                                      borderRadius: BorderRadius.circular(8),
-                                      border: Border.all(
-                                        color: const Color(0xFF10B981).withOpacity(0.2),
-                                        width: 1,
+                                  // Details Button
+                                  MouseRegion(
+                                    cursor: SystemMouseCursors.click,
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => ProductDetailsScreen(product: e),
+                                            settings: const RouteSettings(
+                                              name: 'ProductDetailsScreen',
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                      child: Container(
+                                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                                      decoration: BoxDecoration(
+                                        color: const Color(0xFF10B981).withOpacity(0.1),
+                                        borderRadius: BorderRadius.circular(8),
+                                        border: Border.all(
+                                          color: const Color(0xFF10B981).withOpacity(0.2),
+                                          width: 1,
+                                        ),
+                                      ),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        children: [
+                                          Icon(
+                                            Icons.visibility_rounded,
+                                            size: 14,
+                                            color: const Color(0xFF10B981),
+                                          ),
+                                          const SizedBox(width: 4),
+                                          Text(
+                                            'Details',
+                                            style: TextStyle(
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w600,
+                                              color: const Color(0xFF10B981),
+                                              height: 1.0,
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      children: [
-                                        Icon(
-                                          Icons.visibility_rounded,
-                                          size: 14,
-                                          color: const Color(0xFF10B981),
-                                        ),
-                                        const SizedBox(width: 4),
-                                        Text(
-                                          'Details',
-                                          style: TextStyle(
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w600,
-                                            color: const Color(0xFF10B981),
-                                            height: 1.0,
-                                          ),
-                                        ),
-                                      ],
                                     ),
                                   ),
                                   const SizedBox(width: 8),
-                                  Container(
-                                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                                    decoration: BoxDecoration(
-                                      color: const Color(0xFF004AAD).withOpacity(0.1),
-                                      borderRadius: BorderRadius.circular(8),
-                                      border: Border.all(
-                                        color: const Color(0xFF004AAD).withOpacity(0.2),
-                                        width: 1,
+                                  // Edit Button
+                                  MouseRegion(
+                                    cursor: SystemMouseCursors.click,
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => ProductAddEditScreen(product: e),
+                                            settings: const RouteSettings(
+                                              name: 'ProductAddEditScreen',
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                      child: Container(
+                                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                                      decoration: BoxDecoration(
+                                        color: const Color(0xFF004AAD).withOpacity(0.1),
+                                        borderRadius: BorderRadius.circular(8),
+                                        border: Border.all(
+                                          color: const Color(0xFF004AAD).withOpacity(0.2),
+                                          width: 1,
+                                        ),
+                                      ),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        children: [
+                                          Icon(
+                                            Icons.edit_rounded,
+                                            size: 14,
+                                            color: const Color(0xFF004AAD),
+                                          ),
+                                          const SizedBox(width: 4),
+                                          Text(
+                                            'Edit',
+                                            style: TextStyle(
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w600,
+                                              color: const Color(0xFF004AAD),
+                                              height: 1.0,
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      children: [
-                                        Icon(
-                                          Icons.edit_rounded,
-                                          size: 14,
-                                          color: const Color(0xFF004AAD),
-                                        ),
-                                        const SizedBox(width: 4),
-                                        Text(
-                                          'Edit',
-                                          style: TextStyle(
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w600,
-                                            color: const Color(0xFF004AAD),
-                                            height: 1.0,
-                                          ),
-                                        ),
-                                      ],
                                     ),
                                   ),
                                 ],
@@ -453,7 +477,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
 
     try {
       return Container(
-        width: 80,
+        width: 60,
         height: 80,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),

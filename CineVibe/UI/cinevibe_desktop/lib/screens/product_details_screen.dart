@@ -164,55 +164,56 @@ class ProductDetailsScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildProductIcon() {
-    return Container(
-      width: 120,
-      height: 120,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        border: Border.all(
-          color: Colors.white,
-          width: 4,
+ Widget _buildProductIcon() {
+  return Container(
+    width: 120,
+    height: 120,
+    decoration: BoxDecoration(
+      shape: BoxShape.rectangle,
+      borderRadius: BorderRadius.circular(15),
+      border: Border.all(
+        color: Colors.white,
+        width: 4,
+      ),
+      boxShadow: [
+        BoxShadow(
+          color: const Color(0xFF004AAD).withOpacity(0.2),
+          blurRadius: 20,
+          offset: const Offset(0, 8),
         ),
-        boxShadow: [
-          BoxShadow(
-            color: const Color(0xFF004AAD).withOpacity(0.2),
-            blurRadius: 20,
-            offset: const Offset(0, 8),
-          ),
-        ],
-      ),
-      child: ClipOval(
-        child: product.picture != null && product.picture!.isNotEmpty
-            ? Image.memory(
-                base64Decode(product.picture!),
-                width: 120,
-                height: 120,
-                fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) {
-                  return CircleAvatar(
-                    radius: 60,
-                    backgroundColor: const Color(0xFF004AAD),
-                    child: Icon(
-                      Icons.shopping_bag_rounded,
-                      size: 50,
-                      color: Colors.white,
-                    ),
-                  );
-                },
-              )
-            : CircleAvatar(
-                radius: 60,
-                backgroundColor: const Color(0xFF004AAD),
-                child: Icon(
-                  Icons.shopping_bag_rounded,
-                  size: 50,
-                  color: Colors.white,
-                ),
+      ],
+    ),
+    child: ClipRRect(
+      borderRadius: BorderRadius.circular(12), // same radius as container
+      child: product.picture != null && product.picture!.isNotEmpty
+          ? Image.memory(
+              base64Decode(product.picture!),
+              width: 120,
+              height: 120,
+              fit: BoxFit.cover,
+              errorBuilder: (context, error, stackTrace) {
+                return Container(
+                  color: const Color(0xFF004AAD),
+                  child: const Icon(
+                    Icons.shopping_bag_rounded,
+                    size: 50,
+                    color: Colors.white,
+                  ),
+                );
+              },
+            )
+          : Container(
+              color: const Color(0xFF004AAD),
+              child: const Icon(
+                Icons.shopping_bag_rounded,
+                size: 50,
+                color: Colors.white,
               ),
-      ),
-    );
-  }
+            ),
+    ),
+  );
+}
+
 
   Widget _buildProductInfo() {
     return Container(

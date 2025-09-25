@@ -27,7 +27,6 @@ class _ProductAddEditScreenState extends State<ProductAddEditScreen> {
   bool isLoading = true;
   bool _isSaving = false;
   String? _selectedImageBase64;
-  String? _currentImagePath;
 
   @override
   void initState() {
@@ -35,7 +34,7 @@ class _ProductAddEditScreenState extends State<ProductAddEditScreen> {
     productProvider = Provider.of<ProductProvider>(context, listen: false);
     _initialValue = {
       "name": widget.product?.name ?? '',
-      "price": widget.product?.price ?? 0.0,
+      "price": widget.product?.price.toString() ?? '0.0',
       "isActive": widget.product?.isActive ?? true,
     };
     if (widget.product?.picture != null) {
@@ -64,23 +63,23 @@ class _ProductAddEditScreenState extends State<ProductAddEditScreen> {
         
         setState(() {
           _selectedImageBase64 = base64String;
-          _currentImagePath = result.files.single.path;
         });
       }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Error picking image: $e'),
-          backgroundColor: Colors.red,
-        ),
-      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error picking image: $e'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
     }
   }
 
   void _removeImage() {
     setState(() {
       _selectedImageBase64 = null;
-      _currentImagePath = null;
     });
   }
 
@@ -114,6 +113,11 @@ class _ProductAddEditScreenState extends State<ProductAddEditScreen> {
                     setState(() => _isSaving = true);
                     var request = Map.from(formKey.currentState?.value ?? {});
                     
+                    // Convert price string to double
+                    if (request['price'] != null) {
+                      request['price'] = double.parse(request['price'].toString());
+                    }
+                    
                     // Add image to request if selected
                     if (_selectedImageBase64 != null) {
                       request['picture'] = _selectedImageBase64;
@@ -122,45 +126,53 @@ class _ProductAddEditScreenState extends State<ProductAddEditScreen> {
                     try {
                       if (widget.product == null) {
                         await productProvider.insert(request);
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Product created successfully'),
-                            backgroundColor: Colors.green,
-                            duration: Duration(seconds: 1),
-                          ),
-                        );
+                        if (mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Product created successfully'),
+                              backgroundColor: Colors.green,
+                              duration: Duration(seconds: 1),
+                            ),
+                          );
+                        }
                       } else {
                         await productProvider.update(widget.product!.id, request);
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Product updated successfully'),
-                            backgroundColor: Colors.green,
-                            duration: Duration(seconds: 1),
+                        if (mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Product updated successfully'),
+                              backgroundColor: Colors.green,
+                              duration: Duration(seconds: 1),
+                            ),
+                          );
+                        }
+                      }
+                      if (mounted) {
+                        Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(
+                            builder: (context) => const ProductListScreen(),
+                            settings: const RouteSettings(name: 'ProductListScreen'),
                           ),
                         );
                       }
-                      Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(
-                          builder: (context) => const ProductListScreen(),
-                          settings: const RouteSettings(name: 'ProductListScreen'),
-                        ),
-                      );
                     } catch (e) {
-                      showDialog(
-                        context: context,
-                        builder: (context) => AlertDialog(
-                          title: const Text('Error'),
-                          content: Text(
-                            e.toString().replaceFirst('Exception: ', ''),
-                          ),
-                          actions: [
-                            TextButton(
-                              onPressed: () => Navigator.of(context).pop(),
-                              child: const Text('OK'),
+                      if (mounted) {
+                        showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            title: const Text('Error'),
+                            content: Text(
+                              e.toString().replaceFirst('Exception: ', ''),
                             ),
-                          ],
-                        ),
-                      );
+                            actions: [
+                              TextButton(
+                                onPressed: () => Navigator.of(context).pop(),
+                                child: const Text('OK'),
+                              ),
+                            ],
+                          ),
+                        );
+                      }
                     } finally {
                       if (mounted) setState(() => _isSaving = false);
                     }
@@ -297,7 +309,7 @@ class _ProductAddEditScreenState extends State<ProductAddEditScreen> {
         ),
         SizedBox(height: 8),
         Container(
-          width: double.infinity,
+          width: 200,
           height: 200,
           decoration: BoxDecoration(
             border: Border.all(
