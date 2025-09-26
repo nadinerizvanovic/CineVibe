@@ -3,6 +3,7 @@ import 'package:cinevibe_desktop/providers/city_provider.dart';
 import 'package:cinevibe_desktop/providers/actor_provider.dart';
 import 'package:cinevibe_desktop/providers/category_provider.dart';
 import 'package:cinevibe_desktop/providers/gender_provider.dart';
+import 'package:cinevibe_desktop/providers/genre_provider.dart';
 import 'package:cinevibe_desktop/providers/director_provider.dart';
 import 'package:cinevibe_desktop/providers/production_company_provider.dart';
 import 'package:cinevibe_desktop/providers/screening_type_provider.dart';
@@ -12,6 +13,7 @@ import 'package:cinevibe_desktop/providers/ticket_provider.dart';
 import 'package:cinevibe_desktop/providers/hall_provider.dart';
 import 'package:cinevibe_desktop/providers/review_provider.dart';
 import 'package:cinevibe_desktop/providers/product_provider.dart';
+import 'package:cinevibe_desktop/providers/movie_provider.dart';
 import 'package:cinevibe_desktop/screens/city_list_screen.dart';
 import 'package:cinevibe_desktop/utils/base_textfield.dart';
 import 'package:flutter/material.dart';
@@ -53,6 +55,9 @@ void main() async {
         ChangeNotifierProvider<GenderProvider>(
           create: (context) => GenderProvider(),
         ),
+        ChangeNotifierProvider<GenreProvider>(
+          create: (context) => GenreProvider(),
+        ),
         ChangeNotifierProvider<ActorProvider>(
           create: (context) => ActorProvider(),
         ),
@@ -82,6 +87,9 @@ void main() async {
         ),
         ChangeNotifierProvider<ProductProvider>(
           create: (context) => ProductProvider(),
+        ),
+        ChangeNotifierProvider<MovieProvider>(
+          create: (context) => MovieProvider(),
         ),
       ],
       child: const MyApp(),

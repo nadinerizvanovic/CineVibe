@@ -79,10 +79,7 @@ namespace CineVibe.Services.Database
                 .HasIndex(g => g.Name)
                 .IsUnique();
 
-            // Configure City entity
-            modelBuilder.Entity<City>()
-                .HasIndex(c => c.Name)
-                .IsUnique();
+
 
             modelBuilder.Entity<User>()
                 .HasOne(u => u.Gender)
@@ -96,10 +93,6 @@ namespace CineVibe.Services.Database
                 .HasForeignKey(u => u.CityId)
                 .OnDelete(DeleteBehavior.NoAction);
 
-            // Configure Movie entity
-            modelBuilder.Entity<Movie>()
-                .HasIndex(m => m.Title)
-                .IsUnique();
 
             // Configure Actor entity - no unique constraints needed for names as multiple actors can have same names
 
@@ -116,20 +109,6 @@ namespace CineVibe.Services.Database
                 .HasForeignKey(ma => ma.ActorId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            // Create a unique constraint on MovieId and ActorId to prevent duplicate assignments
-            modelBuilder.Entity<MovieActor>()
-                .HasIndex(ma => new { ma.MovieId, ma.ActorId })
-                .IsUnique();
-
-            // Configure Category entity
-            modelBuilder.Entity<Category>()
-                .HasIndex(c => c.Name)
-                .IsUnique();
-
-            // Configure Genre entity
-            modelBuilder.Entity<Genre>()
-                .HasIndex(g => g.Name)
-                .IsUnique();
 
             // Configure Movie relationships with Category and Genre
             modelBuilder.Entity<Movie>()
@@ -170,19 +149,8 @@ namespace CineVibe.Services.Database
                 .OnDelete(DeleteBehavior.Cascade);
 
             // Create a unique constraint on MovieId and ProductionCompanyId to prevent duplicate assignments
-            modelBuilder.Entity<MovieProductionCompany>()
-                .HasIndex(mpc => new { mpc.MovieId, mpc.ProductionCompanyId })
-                .IsUnique();
+     
 
-            // Configure Hall entity
-            modelBuilder.Entity<Hall>()
-                .HasIndex(h => h.Name)
-                .IsUnique();
-
-            // Configure SeatType entity
-            modelBuilder.Entity<SeatType>()
-                .HasIndex(st => st.Name)
-                .IsUnique();
 
             // Configure Seat relationships
             modelBuilder.Entity<Seat>()
@@ -202,10 +170,7 @@ namespace CineVibe.Services.Database
                 .HasIndex(s => new { s.SeatNumber, s.HallId })
                 .IsUnique();
 
-            // Configure ScreeningType entity
-            modelBuilder.Entity<ScreeningType>()
-                .HasIndex(st => st.Name)
-                .IsUnique();
+
 
             // Configure Screening relationships
             modelBuilder.Entity<Screening>()
@@ -272,10 +237,6 @@ namespace CineVibe.Services.Database
                 .HasIndex(r => new { r.UserId, r.ScreeningId })
                 .IsUnique();
 
-            // Configure Product entity
-            modelBuilder.Entity<Product>()
-                .HasIndex(p => p.Name)
-                .IsUnique();
 
             // Configure Cart relationships
             modelBuilder.Entity<Cart>()

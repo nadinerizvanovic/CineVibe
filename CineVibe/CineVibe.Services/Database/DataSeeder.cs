@@ -230,7 +230,9 @@ namespace CineVibe.Services.Database
                 new Actor { Id = 27, FirstName = "Scarlett", LastName = "Johansson", IsActive = true, CreatedAt = fixedDate },
                 new Actor { Id = 28, FirstName = "Chris", LastName = "Evans", IsActive = true, CreatedAt = fixedDate },
                 new Actor { Id = 29, FirstName = "Ryan", LastName = "Reynolds", IsActive = true, CreatedAt = fixedDate },
-                new Actor { Id = 30, FirstName = "Emma", LastName = "Stone", IsActive = true, CreatedAt = fixedDate }
+                new Actor { Id = 30, FirstName = "Emma", LastName = "Stone", IsActive = true, CreatedAt = fixedDate },
+                new Actor { Id = 31, FirstName = "Jared", LastName = "Leto", IsActive = true, CreatedAt = fixedDate },
+                new Actor { Id = 32, FirstName = "Evan", LastName = "Peters", IsActive = true, CreatedAt = fixedDate }
             );
 
             // Seed Directors

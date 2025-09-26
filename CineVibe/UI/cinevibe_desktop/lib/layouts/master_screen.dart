@@ -10,6 +10,7 @@ import 'package:cinevibe_desktop/screens/user_list_screen.dart';
 import 'package:cinevibe_desktop/screens/ticket_list_screen.dart';
 import 'package:cinevibe_desktop/screens/review_list_screen.dart';
 import 'package:cinevibe_desktop/screens/product_list_screen.dart';
+import 'package:cinevibe_desktop/screens/movie_list_screen.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:flutter/services.dart';
@@ -838,6 +839,14 @@ class _MasterScreenState extends State<MasterScreen>
                       label: 'Products',
                       screen: ProductListScreen(),
                     ),
+                    const SizedBox(height: 8),
+                    _modernDrawerTile(
+                      context,
+                      icon: Icons.movie_outlined,
+                      activeIcon: Icons.movie_rounded,
+                      label: 'Movies',
+                      screen: MovieListScreen(),
+                    ),
 
                     // Add more tiles here in the future
                   ],
@@ -952,6 +961,13 @@ Widget _modernDrawerTile(
         currentRoute == 'ProductListScreen' ||
         currentRoute == 'ProductDetailsScreen' ||
         currentRoute == 'ProductAddEditScreen';
+  } else if (label == 'Movies') {
+    isSelected =
+        currentRoute == 'MovieListScreen' ||
+        currentRoute == 'MovieDetailsScreen' ||
+        currentRoute == 'MovieAddEditScreen' ||
+        currentRoute == 'MovieActorsScreen' ||
+        currentRoute == 'MovieProductionCompaniesScreen';
   } else if (label == 'Tickets') {
     isSelected =
         currentRoute == 'TicketListScreen' ||

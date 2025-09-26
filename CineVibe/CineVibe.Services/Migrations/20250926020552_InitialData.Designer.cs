@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CineVibe.Services.Migrations
 {
     [DbContext(typeof(CineVibeDbContext))]
-    [Migration("20250921122019_InitialData")]
+    [Migration("20250926020552_InitialData")]
     partial class InitialData
     {
         /// <inheritdoc />
@@ -293,6 +293,22 @@ namespace CineVibe.Services.Migrations
                             FirstName = "Emma",
                             IsActive = true,
                             LastName = "Stone"
+                        },
+                        new
+                        {
+                            Id = 31,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            FirstName = "Jared",
+                            IsActive = true,
+                            LastName = "Leto"
+                        },
+                        new
+                        {
+                            Id = 32,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            FirstName = "Evan",
+                            IsActive = true,
+                            LastName = "Peters"
                         });
                 });
 
@@ -385,9 +401,6 @@ namespace CineVibe.Services.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Name")
-                        .IsUnique();
-
                     b.ToTable("Categories");
 
                     b.HasData(
@@ -427,12 +440,9 @@ namespace CineVibe.Services.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Name")
-                        .IsUnique();
 
                     b.ToTable("Cities");
 
@@ -761,9 +771,6 @@ namespace CineVibe.Services.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Name")
-                        .IsUnique();
-
                     b.ToTable("Genres");
 
                     b.HasData(
@@ -950,9 +957,6 @@ namespace CineVibe.Services.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Name")
-                        .IsUnique();
-
                     b.ToTable("Halls");
 
                     b.HasData(
@@ -1038,9 +1042,6 @@ namespace CineVibe.Services.Migrations
                     b.HasIndex("DirectorId");
 
                     b.HasIndex("GenreId");
-
-                    b.HasIndex("Title")
-                        .IsUnique();
 
                     b.ToTable("Movies");
 
@@ -1187,8 +1188,7 @@ namespace CineVibe.Services.Migrations
 
                     b.HasIndex("ActorId");
 
-                    b.HasIndex("MovieId", "ActorId")
-                        .IsUnique();
+                    b.HasIndex("MovieId");
 
                     b.ToTable("MovieActors");
 
@@ -1389,10 +1389,9 @@ namespace CineVibe.Services.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProductionCompanyId");
+                    b.HasIndex("MovieId");
 
-                    b.HasIndex("MovieId", "ProductionCompanyId")
-                        .IsUnique();
+                    b.HasIndex("ProductionCompanyId");
 
                     b.ToTable("MovieProductionCompanies");
 
@@ -1781,9 +1780,6 @@ namespace CineVibe.Services.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Name")
-                        .IsUnique();
 
                     b.ToTable("Products");
 
@@ -3662,9 +3658,6 @@ namespace CineVibe.Services.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Name")
-                        .IsUnique();
 
                     b.ToTable("ScreeningTypes");
 
@@ -7367,9 +7360,6 @@ namespace CineVibe.Services.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Name")
-                        .IsUnique();
-
                     b.ToTable("SeatTypes");
 
                     b.HasData(
@@ -7565,7 +7555,7 @@ namespace CineVibe.Services.Migrations
                             Id = 1,
                             CityId = 5,
                             CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Email = "receiver@gmail.com",
+                            Email = "example@gmail.com",
                             FirstName = "Denis",
                             GenderId = 1,
                             IsActive = true,
@@ -7595,7 +7585,7 @@ namespace CineVibe.Services.Migrations
                         new
                         {
                             Id = 3,
-                            CityId = 3,
+                            CityId = 5,
                             CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
                             Email = "example2@gmail.com",
                             FirstName = "Adil",
@@ -7613,7 +7603,7 @@ namespace CineVibe.Services.Migrations
                             Id = 4,
                             CityId = 1,
                             CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Email = "receiver.manifest@gmail.com",
+                            Email = "cinevibe.reciever@gmail.com",
                             FirstName = "Nadine",
                             GenderId = 2,
                             IsActive = true,
@@ -7663,14 +7653,14 @@ namespace CineVibe.Services.Migrations
                         {
                             Id = 2,
                             DateAssigned = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
-                            RoleId = 1,
+                            RoleId = 2,
                             UserId = 2
                         },
                         new
                         {
                             Id = 3,
                             DateAssigned = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
-                            RoleId = 2,
+                            RoleId = 1,
                             UserId = 3
                         },
                         new
