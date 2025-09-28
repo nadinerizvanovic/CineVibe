@@ -6,6 +6,7 @@ import 'package:cinevibe_desktop/providers/gender_provider.dart';
 import 'package:cinevibe_desktop/providers/genre_provider.dart';
 import 'package:cinevibe_desktop/providers/director_provider.dart';
 import 'package:cinevibe_desktop/providers/production_company_provider.dart';
+import 'package:cinevibe_desktop/providers/screening_provider.dart';
 import 'package:cinevibe_desktop/providers/screening_type_provider.dart';
 import 'package:cinevibe_desktop/providers/user_provider.dart';
 import 'package:cinevibe_desktop/providers/role_provider.dart';
@@ -109,6 +110,9 @@ void main() async {
         ),
         ChangeNotifierProvider<AnalyticsProvider>(
           create: (context) => AnalyticsProvider(),
+        ),
+        ChangeNotifierProvider<ScreeningProvider>(
+          create: (context) => ScreeningProvider(),
         ),
       ],
       child: const MyApp(),

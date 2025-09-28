@@ -6,5 +6,6 @@ namespace CineVibe.Services.Interfaces
 {
     public interface IScreeningService : ICRUDService<ScreeningResponse, ScreeningSearchObject, ScreeningUpsertRequest, ScreeningUpsertRequest>
     {
+        Task<ScreeningWithSeatsResponse?> GetScreeningWithSeatsAsync(int id);
     }
 }

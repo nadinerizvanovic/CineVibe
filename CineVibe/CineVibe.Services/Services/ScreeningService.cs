@@ -32,7 +32,8 @@ namespace CineVibe.Services.Services
                 HallName = entity.Hall?.Name ?? string.Empty,
                 ScreeningTypeId = entity.ScreeningTypeId,
                 ScreeningTypeName = entity.ScreeningType?.Name ?? string.Empty,
-                Price = entity.ScreeningType?.Price ?? 0
+                Price = entity.ScreeningType?.Price ?? 0,
+                OccupiedSeatsCount = 0 // Will be set in ApplyFilter for list operations
             };
         }
 
@@ -78,9 +79,24 @@ namespace CineVibe.Services.Services
                 query = query.Where(s => s.StartTime.Date <= search.DateTo.Value.Date);
             }
 
+            if (search.DateOfScreening.HasValue)
+            {
+                query = query.Where(s => s.StartTime.Date == search.DateOfScreening.Value.Date);
+            }
+
             if (search.IsActive.HasValue)
             {
                 query = query.Where(s => s.IsActive == search.IsActive.Value);
+            }
+
+            if (!string.IsNullOrEmpty(search.MovieTitle))
+            {
+                query = query.Where(s => s.Movie.Title.Contains(search.MovieTitle));
+            }
+
+            if (!string.IsNullOrEmpty(search.HallName))
+            {
+                query = query.Where(s => s.Hall.Name.Contains(search.HallName));
             }
 
             return query;
@@ -97,7 +113,113 @@ namespace CineVibe.Services.Services
             if (entity == null)
                 return null;
 
-            return MapToResponse(entity);
+            var response = MapToResponse(entity);
+            response.OccupiedSeatsCount = await GetOccupiedSeatsCountAsync(id);
+            return response;
+        }
+
+        public override async Task<PagedResult<ScreeningResponse>> GetAsync(ScreeningSearchObject search)
+        {
+            var query = _context.Set<Screening>().AsQueryable();
+            query = ApplyFilter(query, search);
+
+            int? totalCount = null;
+            if (search.IncludeTotalCount)
+            {
+                totalCount = await query.CountAsync();
+            }
+
+            if (!search.RetrieveAll)
+            {
+                if (search.Page.HasValue)
+                {
+                    query = query.Skip(search.Page.Value * search.PageSize.Value);
+                }
+                if (search.PageSize.HasValue)
+                {
+                    query = query.Take(search.PageSize.Value);
+                }
+            }
+
+            var entities = await query.ToListAsync();
+            var responses = new List<ScreeningResponse>();
+            
+            foreach (var entity in entities)
+            {
+                var response = MapToResponse(entity);
+                response.OccupiedSeatsCount = await GetOccupiedSeatsCountAsync(entity.Id);
+                responses.Add(response);
+            }
+
+            return new PagedResult<ScreeningResponse>
+            {
+                Items = responses,
+                TotalCount = totalCount
+            };
+        }
+
+        private async Task<int> GetOccupiedSeatsCountAsync(int screeningId)
+        {
+            return await _context.Tickets
+                .Where(t => t.ScreeningId == screeningId && t.IsActive)
+                .CountAsync();
+        }
+
+        public async Task<ScreeningWithSeatsResponse?> GetScreeningWithSeatsAsync(int id)
+        {
+            var screening = await _context.Set<Screening>()
+                .Include(s => s.Movie)
+                .Include(s => s.Hall)
+                .Include(s => s.ScreeningType)
+                .FirstOrDefaultAsync(s => s.Id == id);
+
+            if (screening == null)
+                return null;
+
+            // Get all seats for the hall
+            var seats = await _context.Seats
+                .Include(s => s.SeatType)
+                .Where(s => s.HallId == screening.HallId)
+                .ToListAsync();
+
+            // Get all tickets for this screening
+            var tickets = await _context.Tickets
+                .Include(t => t.User)
+                .Where(t => t.ScreeningId == id && t.IsActive)
+                .ToListAsync();
+
+            // Create a map of occupied seats
+            var occupiedSeats = tickets.ToDictionary(t => t.SeatId, t => new { t.Id, UserFullName = $"{t.User.FirstName} {t.User.LastName}" });
+
+            var response = new ScreeningWithSeatsResponse
+            {
+                Id = screening.Id,
+                StartTime = screening.StartTime,
+                IsActive = screening.IsActive,
+                CreatedAt = screening.CreatedAt,
+                MovieId = screening.MovieId,
+                MovieTitle = screening.Movie?.Title ?? string.Empty,
+                MovieDuration = screening.Movie?.Duration ?? 0,
+                HallId = screening.HallId,
+                HallName = screening.Hall?.Name ?? string.Empty,
+                ScreeningTypeId = screening.ScreeningTypeId,
+                ScreeningTypeName = screening.ScreeningType?.Name ?? string.Empty,
+                Price = screening.ScreeningType?.Price ?? 0,
+                Seats = seats.Select(seat => new SeatWithTicketInfo
+                {
+                    Id = seat.Id,
+                    SeatNumber = seat.SeatNumber,
+                    IsActive = seat.IsActive,
+                    HallId = seat.HallId,
+                    SeatTypeId = seat.SeatTypeId,
+                    SeatTypeName = seat.SeatType?.Name,
+                    IsOccupied = occupiedSeats.ContainsKey(seat.Id),
+                    TicketId = occupiedSeats.ContainsKey(seat.Id) ? occupiedSeats[seat.Id].Id : null,
+                    UserFullName = occupiedSeats.ContainsKey(seat.Id) ? occupiedSeats[seat.Id].UserFullName : null
+                }).ToList()
+            };
+
+            return response;
         }
 
         private async Task<bool> CheckScreeningConflictAsync(int hallId, DateTime startTime, int movieDuration, int? excludeScreeningId = null)

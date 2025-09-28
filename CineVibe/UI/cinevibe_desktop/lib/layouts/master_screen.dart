@@ -15,6 +15,7 @@ import 'package:cinevibe_desktop/screens/movie_list_screen.dart';
 import 'package:cinevibe_desktop/screens/analytics_screen.dart';
 import 'package:cinevibe_desktop/screens/order_list_screen.dart';
 import 'package:cinevibe_desktop/screens/hall_list_screen.dart';
+import 'package:cinevibe_desktop/screens/screening_list_screen.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:flutter/services.dart';
@@ -791,6 +792,14 @@ class _MasterScreenState extends State<MasterScreen>
                     const SizedBox(height: 8),
                     _modernDrawerTile(
                       context,
+                      icon: Icons.movie_outlined,
+                      activeIcon: Icons.movie_rounded,
+                      label: 'Screenings',
+                      screen: ScreeningListScreen(),
+                    ),
+                    const SizedBox(height: 8),
+                    _modernDrawerTile(
+                      context,
                       icon: Icons.person_outline,
                       activeIcon: Icons.person_rounded,
                       label: 'Actors',
@@ -953,6 +962,10 @@ Widget _modernDrawerTile(
         currentRoute == 'HallSeatListScreen' ||
         currentRoute == 'HallSeatTypeScreen' ||
         currentRoute == 'HallAddEditScreen';
+  } else if (label == 'Screenings') {
+    isSelected =
+        currentRoute == 'ScreeningListScreen' ||
+        currentRoute == 'ScreeningDetailsScreen';
   } else if (label == 'Actors') {
     isSelected =
         currentRoute == 'ActorListScreen' || currentRoute == 'ActorDetailsScreen';

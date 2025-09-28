@@ -17,5 +17,6 @@ namespace CineVibe.Model.Responses
         public string ScreeningTypeName { get; set; } = string.Empty;
         public decimal Price { get; set; } // Price from ScreeningType
         public DateTime EndTime => StartTime.AddMinutes(MovieDuration); // Calculated property
+        public int OccupiedSeatsCount { get; set; } // Number of occupied seats
     }
 }
