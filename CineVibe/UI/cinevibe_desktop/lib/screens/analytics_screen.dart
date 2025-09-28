@@ -109,23 +109,25 @@ class _AnalyticsScreenState extends State<AnalyticsScreen>
               return const Center(child: Text('No analytics data available'));
             }
 
-            return SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Left Column - Top Movies Pie Chart
-                    Expanded(flex: 1, child: _buildMoviesPieChart(analytics)),
-                    const SizedBox(width: 24),
+            return Center(
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Left Column - Top Movies Pie Chart
+                      Expanded(flex: 1, child: _buildMoviesPieChart(analytics)),
+                      const SizedBox(width: 24),
 
-                    // Middle Column - 4 Data Cards (2x2)
-                    Expanded(flex: 1, child: _buildMiddleColumn(analytics)),
-                    const SizedBox(width: 24),
+                      // Middle Column - 4 Data Cards (2x2)
+                      Expanded(flex: 1, child: _buildMiddleColumn(analytics)),
+                      const SizedBox(width: 24),
 
-                    // Right Column - Top Products Pie Chart
-                    Expanded(flex: 1, child: _buildProductsPieChart(analytics)),
-                  ],
+                      // Right Column - Top Products Pie Chart
+                      Expanded(flex: 1, child: _buildProductsPieChart(analytics)),
+                    ],
+                  ),
                 ),
               ),
             );

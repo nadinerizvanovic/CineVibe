@@ -56,6 +56,11 @@ namespace CineVibe.Services.Services
                 query = query.Where(o => o.UserId == search.UserId.Value);
             }
 
+            if (!string.IsNullOrEmpty(search.UserFullName))
+            {
+                query = query.Where(o => (o.User.FirstName + " " + o.User.LastName).Contains(search.UserFullName));
+            }
+
             if (search.MinTotalAmount.HasValue)
             {
                 query = query.Where(o => o.TotalAmount >= search.MinTotalAmount.Value);
