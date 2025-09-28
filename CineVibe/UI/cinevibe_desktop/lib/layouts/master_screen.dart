@@ -3,6 +3,7 @@ import 'package:cinevibe_desktop/providers/user_provider.dart';
 import 'package:cinevibe_desktop/screens/city_list_screen.dart';
 import 'package:cinevibe_desktop/screens/actor_list_screen.dart';
 import 'package:cinevibe_desktop/screens/category_list_screen.dart';
+import 'package:cinevibe_desktop/screens/genre_list_screen.dart';
 import 'package:cinevibe_desktop/screens/director_list_screen.dart';
 import 'package:cinevibe_desktop/screens/production_company_list_screen.dart';
 import 'package:cinevibe_desktop/screens/screening_type_list_screen.dart';
@@ -789,6 +790,14 @@ class _MasterScreenState extends State<MasterScreen>
                       context,
                       icon: Icons.movie_creation_outlined,
                       activeIcon: Icons.movie_creation_rounded,
+                      label: 'Genres',
+                      screen: GenreListScreen(),
+                    ),
+                    const SizedBox(height: 8),
+                    _modernDrawerTile(
+                      context,
+                      icon: Icons.movie_creation_outlined,
+                      activeIcon: Icons.movie_creation_rounded,
                       label: 'Directors',
                       screen: DirectorListScreen(),
                     ),
@@ -902,6 +911,10 @@ Widget _modernDrawerTile(
     isSelected =
         currentRoute == 'CategoryListScreen' ||
         currentRoute == 'CategoryDetailsScreen';
+  } else if (label == 'Genres') {
+    isSelected =
+        currentRoute == 'GenreListScreen' ||
+        currentRoute == 'GenreDetailsScreen';
   } else if (label == 'Cities') {
     isSelected =
         currentRoute == 'CityListScreen' || currentRoute == 'CityDetailsScreen';
