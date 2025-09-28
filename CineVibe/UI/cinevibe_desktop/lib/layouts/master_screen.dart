@@ -12,6 +12,7 @@ import 'package:cinevibe_desktop/screens/ticket_list_screen.dart';
 import 'package:cinevibe_desktop/screens/review_list_screen.dart';
 import 'package:cinevibe_desktop/screens/product_list_screen.dart';
 import 'package:cinevibe_desktop/screens/movie_list_screen.dart';
+import 'package:cinevibe_desktop/screens/analytics_screen.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:flutter/services.dart';
@@ -764,6 +765,14 @@ class _MasterScreenState extends State<MasterScreen>
                     // const SizedBox(height: 8),
                     _modernDrawerTile(
                       context,
+                      icon: Icons.analytics_outlined,
+                      activeIcon: Icons.analytics_rounded,
+                      label: 'Analytics',
+                      screen: AnalyticsScreen(),
+                    ),
+                    const SizedBox(height: 8),
+                    _modernDrawerTile(
+                      context,
                       icon: Icons.location_city_outlined,
                       activeIcon: Icons.location_city_rounded,
                       label: 'Cities',
@@ -907,6 +916,8 @@ Widget _modernDrawerTile(
 
   if (label == 'Business Report') {
     isSelected = currentRoute == 'BusinessReportScreen';
+  } else if (label == 'Analytics') {
+    isSelected = currentRoute == 'AnalyticsScreen';
   } else if (label == 'Categories') {
     isSelected =
         currentRoute == 'CategoryListScreen' ||
