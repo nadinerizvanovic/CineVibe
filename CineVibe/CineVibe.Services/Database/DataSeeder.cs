@@ -554,7 +554,7 @@ namespace CineVibe.Services.Database
             modelBuilder.Entity<ScreeningType>().HasData(
                 new ScreeningType { Id = 1, Name = "2D", Description = "Standard 2D screening", Price = 5.00m, IsActive = true, CreatedAt = fixedDate },
                 new ScreeningType { Id = 2, Name = "3D", Description = "3D screening with special glasses", Price = 8.00m, IsActive = true, CreatedAt = fixedDate },
-                new ScreeningType { Id = 3, Name = "4DX", Description = "4DX experience with motion seats and environmental effects", Price = 15.00m, IsActive = true, CreatedAt = fixedDate },
+                new ScreeningType { Id = 3, Name = "4DX", Description = "4DX with motion seats and environmental effects", Price = 15.00m, IsActive = true, CreatedAt = fixedDate },
                 new ScreeningType { Id = 4, Name = "IMAX", Description = "IMAX large format screening", Price = 12.00m, IsActive = true, CreatedAt = fixedDate }
             );
 

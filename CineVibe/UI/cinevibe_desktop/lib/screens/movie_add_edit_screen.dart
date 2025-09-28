@@ -215,7 +215,9 @@ class _MovieAddEditScreenState extends State<MovieAddEditScreen> {
                   ? 'Movie updated successfully!'
                   : 'Movie created successfully!',
             ),
-            backgroundColor: Colors.green,
+            backgroundColor: const Color(0xFF10B981),
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           ),
         );
         Navigator.pop(context, true);
@@ -225,7 +227,9 @@ class _MovieAddEditScreenState extends State<MovieAddEditScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Error: ${e.toString()}'),
-            backgroundColor: Colors.red,
+            backgroundColor: const Color(0xFFEF4444),
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           ),
         );
       }
@@ -243,18 +247,135 @@ class _MovieAddEditScreenState extends State<MovieAddEditScreen> {
     return MasterScreen(
       title: _isEditing ? 'Edit Movie' : 'Add Movie',
       showBackButton: true,
-      child: SingleChildScrollView(
-        padding: const EdgeInsets.all(20),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildBasicInfoCard(),
+      child: Center(
+        child: SingleChildScrollView(
+          child: Container(
+            width: 900,
+            padding: const EdgeInsets.all(32),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(color: const Color(0xFFE2E8F0), width: 1),
+              boxShadow: [
+                BoxShadow(
+                  color: const Color(0xFF004AAD).withOpacity(0.1),
+                  blurRadius: 20,
+                  offset: const Offset(0, 8),
+                ),
+              ],
+            ),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Header
+                  Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF004AAD).withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        child: Icon(
+                          _isEditing ? Icons.edit : Icons.add_circle_outline,
+                          color: const Color(0xFF004AAD),
+                          size: 28,
+                        ),
+                      ),
+                      const SizedBox(width: 20),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              _isEditing ? 'Edit Movie' : 'Add New Movie',
+                              style: const TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.w700,
+                                color: Color(0xFF1E293B),
+                              ),
+                            ),
+                            Text(
+                              _isEditing 
+                                  ? 'Update movie information and settings'
+                                  : 'Create a new movie for the cinema system',
+                              style: const TextStyle(
+                                fontSize: 14,
+                                color: Color(0xFF64748B),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 40),
 
-              const SizedBox(height: 30),
-              _buildActionButtons(),
-            ],
+                  _buildBasicInfoCard(),
+                  const SizedBox(height: 40),
+
+                  // Action buttons
+                  Row(
+                    children: [
+                      Expanded(
+                        child: TextButton(
+                          onPressed: _isLoading ? null : () => Navigator.of(context).pop(),
+                          style: TextButton.styleFrom(
+                            foregroundColor: const Color(0xFF64748B),
+                            padding: const EdgeInsets.symmetric(vertical: 16),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                          child: const Text(
+                            'Cancel',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 16,
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 16),
+                      Expanded(
+                        flex: 2,
+                        child: ElevatedButton(
+                          onPressed: _isLoading ? null : _saveMovie,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color(0xFF004AAD),
+                            foregroundColor: Colors.white,
+                            elevation: 0,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            padding: const EdgeInsets.symmetric(vertical: 16),
+                          ),
+                          child: _isLoading
+                              ? const SizedBox(
+                                  height: 20,
+                                  width: 20,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                    valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                                  ),
+                                )
+                              : Text(
+                                  _isEditing ? 'Update Movie' : 'Create Movie',
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
           ),
         ),
       ),
@@ -262,21 +383,9 @@ class _MovieAddEditScreenState extends State<MovieAddEditScreen> {
   }
 
   Widget _buildBasicInfoCard() {
-    return Card(
-      elevation: 4,
-      child: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Movie Information',
-              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                color: Theme.of(context).colorScheme.primary,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 20),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
             // First two rows: Poster spans both rows, Title/Duration on first row, Description on second row
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -422,28 +531,58 @@ class _MovieAddEditScreenState extends State<MovieAddEditScreen> {
                 ),
               ],
             ),
-            const SizedBox(height: 20),
-            Row(
-              children: [
-                Switch(
+            const SizedBox(height: 24),
+            _buildFormField(
+              label: 'Status',
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: const Color(0xFFE2E8F0), width: 1),
+                ),
+                child: SwitchListTile(
+                  title: Text(
+                    "Active",
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: const Color(0xFF1E293B),
+                    ),
+                  ),
+                  subtitle: Text(
+                    "Movie is available for screening and booking",
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: const Color(0xFF64748B),
+                    ),
+                  ),
                   value: _isActive,
                   onChanged: (value) => setState(() => _isActive = value),
-                  activeColor: const Color(0xFF004AAD),
+                  activeColor: const Color(0xFF10B981),
+                  inactiveThumbColor: const Color(0xFFEF4444),
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 16),
                 ),
-                const SizedBox(width: 8),
-                Text(
-                  "Active",
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    color: const Color(0xFF1E293B),
-                  ),
-                ),
-              ],
+              ),
             ),
           ],
+    );
+  }
+
+  Widget _buildFormField({required String label, required Widget child}) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+            color: Color(0xFF1E293B),
+          ),
         ),
-      ),
+        const SizedBox(height: 8),
+        child,
+      ],
     );
   }
 
@@ -558,26 +697,6 @@ class _MovieAddEditScreenState extends State<MovieAddEditScreen> {
 
 
 
-  Widget _buildActionButtons() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        customElevatedButton(
-          text: "Cancel",
-          onPressed: _isLoading ? null : () => Navigator.of(context).pop(),
-          isOutlined: true,
-          backgroundColor: Colors.grey.shade600,
-        ),
-        const SizedBox(width: 16),
-        customElevatedButton(
-          text: _isEditing ? "Update Movie" : "Create Movie",
-          onPressed: _isLoading ? null : _saveMovie,
-          backgroundColor: const Color(0xFF004AAD),
-          isLoading: _isLoading,
-        ),
-      ],
-    );
-  }
 
   Widget _buildDateField(
     String label,

@@ -9,6 +9,7 @@ import 'package:cinevibe_desktop/utils/base_textfield.dart';
 import 'package:cinevibe_desktop/utils/base_date_picker.dart';
 import 'package:cinevibe_desktop/layouts/master_screen.dart';
 import 'package:cinevibe_desktop/screens/screening_details_screen.dart';
+import 'package:cinevibe_desktop/screens/screening_add_edit_screen.dart';
 
 class ScreeningListScreen extends StatefulWidget {
   const ScreeningListScreen({super.key});
@@ -121,6 +122,24 @@ class _ScreeningListScreenState extends State<ScreeningListScreen> {
             onPressed: _performSearch,
             icon: Icons.search,
           ),
+          SizedBox(width: 10),
+          customElevatedButton(
+            text: "Add Screening",
+            onPressed: () async {
+              final result = await Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ScreeningAddEditScreen(),
+                  settings: const RouteSettings(name: 'ScreeningAddEditScreen'),
+                ),
+              );
+              if (result == true) {
+                await _performSearch(page: 0);
+              }
+            },
+            icon: Icons.add,
+            backgroundColor: const Color(0xFF004AAD),
+          ),
         ],
       ),
     );
@@ -141,7 +160,7 @@ class _ScreeningListScreenState extends State<ScreeningListScreen> {
             title: "Screenings Management",
             width: 1400,
             height: 500,
-            columnWidths: [240, 100, 75, 130, 100, 80, 100, 110], // Movie, Hall, Type, Start Time, Duration, Price, Occupied, Status, Actions
+            columnWidths: [250, 110, 100, 130, 100, 100, 160], // Movie, Hall, Type, Start Time, Duration, Price, Occupied, Status, Actions
             columns: [
               DataColumn(
                 label: Text(
@@ -193,16 +212,7 @@ class _ScreeningListScreenState extends State<ScreeningListScreen> {
                   ),
                 ),
               ),
-              DataColumn(
-                label: Text(
-                  "Price",
-                  style: TextStyle(
-                    fontWeight: FontWeight.w700,
-                    fontSize: 15,
-                    color: Color(0xFF004AAD),
-                  ),
-                ),
-              ),
+       
               DataColumn(
                 label: Text(
                   "Occupied",
@@ -230,17 +240,6 @@ class _ScreeningListScreenState extends State<ScreeningListScreen> {
                 : screenings!.items!
                       .map(
                         (e) => DataRow(
-                          onSelectChanged: (value) {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => ScreeningDetailsScreen(screening: e),
-                                settings: const RouteSettings(
-                                  name: 'ScreeningDetailsScreen',
-                                ),
-                              ),
-                            );
-                          },
                           cells: [
                             DataCell(
                               Center(
@@ -325,18 +324,7 @@ class _ScreeningListScreenState extends State<ScreeningListScreen> {
                                 ),
                               ),
                             ),
-                            DataCell(
-                              Center(
-                                child: Text(
-                                  '\$${e.price.toStringAsFixed(2)}',
-                                  style: const TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w600,
-                                    color: Color(0xFF10B981),
-                                  ),
-                                ),
-                              ),
-                            ),
+              
                             DataCell(
                               Center(
                                 child: Container(
@@ -365,37 +353,108 @@ class _ScreeningListScreenState extends State<ScreeningListScreen> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Container(
-                                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                                    decoration: BoxDecoration(
-                                      color: const Color(0xFF10B981).withOpacity(0.1),
-                                      borderRadius: BorderRadius.circular(8),
-                                      border: Border.all(
-                                        color: const Color(0xFF10B981).withOpacity(0.3),
-                                        width: 1,
-                                      ),
-                                    ),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      children: [
-                                        Icon(
-                                          Icons.visibility_rounded,
-                                          size: 14,
-                                          color: const Color(0xFF10B981),
-                                        ),
-                                        const SizedBox(width: 4),
-                                        Text(
-                                          'Details',
-                                          style: TextStyle(
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w600,
-                                            color: const Color(0xFF10B981),
-                                            height: 1.0,
+                                  // Details Button
+                                  MouseRegion(
+                                    cursor: SystemMouseCursors.click,
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => ScreeningDetailsScreen(screening: e),
+                                            settings: const RouteSettings(
+                                              name: 'ScreeningDetailsScreen',
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                      child: Container(
+                                        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 5),
+                                        decoration: BoxDecoration(
+                                          color: const Color(0xFF10B981).withOpacity(0.1),
+                                          borderRadius: BorderRadius.circular(8),
+                                          border: Border.all(
+                                            color: const Color(0xFF10B981).withOpacity(0.2),
+                                            width: 1,
                                           ),
                                         ),
-                                      ],
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          children: [
+                                            Icon(
+                                              Icons.visibility_rounded,
+                                              size: 14,
+                                              color: const Color(0xFF10B981),
+                                            ),
+                                            const SizedBox(width: 4),
+                                            Text(
+                                              'Details',
+                                              style: TextStyle(
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w600,
+                                                color: const Color(0xFF10B981),
+                                                height: 1.0,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 8),
+                                  // Edit Button
+                                  MouseRegion(
+                                    cursor: SystemMouseCursors.click,
+                                    child: GestureDetector(
+                                      onTap: () async {
+                                        final result = await Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => ScreeningAddEditScreen(screening: e),
+                                            settings: const RouteSettings(
+                                              name: 'ScreeningAddEditScreen',
+                                            ),
+                                          ),
+                                        );
+                                        if (result == true) {
+                                          await _performSearch(page: _currentPage);
+                                        }
+                                      },
+                                      child: Container(
+                                        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 5),
+                                        decoration: BoxDecoration(
+                                          color: const Color(0xFF004AAD).withOpacity(0.1),
+                                          borderRadius: BorderRadius.circular(8),
+                                          border: Border.all(
+                                            color: const Color(0xFF004AAD).withOpacity(0.2),
+                                            width: 1,
+                                          ),
+                                        ),
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          children: [
+                                            Icon(
+                                              Icons.edit_rounded,
+                                              size: 14,
+                                              color: const Color(0xFF004AAD),
+                                            ),
+                                            const SizedBox(width: 4),
+                                            Text(
+                                              'Edit',
+                                              style: TextStyle(
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w600,
+                                                color: const Color(0xFF004AAD),
+                                                height: 1.0,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 ],
