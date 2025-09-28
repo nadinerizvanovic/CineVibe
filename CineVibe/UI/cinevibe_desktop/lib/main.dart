@@ -11,14 +11,16 @@ import 'package:cinevibe_desktop/providers/user_provider.dart';
 import 'package:cinevibe_desktop/providers/role_provider.dart';
 import 'package:cinevibe_desktop/providers/ticket_provider.dart';
 import 'package:cinevibe_desktop/providers/hall_provider.dart';
+import 'package:cinevibe_desktop/providers/seat_provider.dart';
+import 'package:cinevibe_desktop/providers/seat_type_provider.dart';
 import 'package:cinevibe_desktop/providers/review_provider.dart';
 import 'package:cinevibe_desktop/providers/product_provider.dart';
 import 'package:cinevibe_desktop/providers/movie_provider.dart';
 import 'package:cinevibe_desktop/providers/order_provider.dart';
 import 'package:cinevibe_desktop/providers/analytics_provider.dart';
 import 'package:cinevibe_desktop/screens/analytics_screen.dart';
-import 'package:cinevibe_desktop/screens/city_list_screen.dart';
 import 'package:cinevibe_desktop/utils/base_textfield.dart';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:window_manager/window_manager.dart';
@@ -96,6 +98,15 @@ void main() async {
         ),
         ChangeNotifierProvider<OrderProvider>(
           create: (context) => OrderProvider(),
+        ),
+        ChangeNotifierProvider<HallProvider>(
+          create: (context) => HallProvider(),
+        ),
+        ChangeNotifierProvider<SeatProvider>(
+          create: (context) => SeatProvider(),
+        ),
+        ChangeNotifierProvider<SeatTypeProvider>(
+          create: (context) => SeatTypeProvider(),
         ),
         ChangeNotifierProvider<AnalyticsProvider>(
           create: (context) => AnalyticsProvider(),

@@ -1,25 +1,23 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'hall.g.dart';
+part 'seat_type.g.dart';
 
 @JsonSerializable()
-class Hall {
+class SeatType {
   final int id;
   final String name;
   @JsonKey(name: 'isActive')
   final bool isActive;
   @JsonKey(name: 'createdAt')
   final DateTime createdAt;
-  final int seatCount;
 
-  const Hall({
+  const SeatType({
     required this.id,
     required this.name,
     required this.isActive,
     required this.createdAt,
-    required this.seatCount,
   });
 
-  factory Hall.fromJson(Map<String, dynamic> json) => _$HallFromJson(json);
-  Map<String, dynamic> toJson() => _$HallToJson(this);
+  factory SeatType.fromJson(Map<String, dynamic> json) => _$SeatTypeFromJson(json);
+  Map<String, dynamic> toJson() => _$SeatTypeToJson(this);
 }

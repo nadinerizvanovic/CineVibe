@@ -1,20 +1,19 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:cinevibe_desktop/model/hall.dart';
 import 'package:cinevibe_desktop/model/seat.dart';
 import 'package:cinevibe_desktop/providers/base_provider.dart';
 
-class HallProvider extends BaseProvider<Hall> {
-  HallProvider() : super("Hall");
+class SeatProvider extends BaseProvider<Seat> {
+  SeatProvider() : super("Seat");
 
   @override
-  Hall fromJson(dynamic json) {
-    return Hall.fromJson(json);
+  Seat fromJson(dynamic json) {
+    return Seat.fromJson(json);
   }
 
-  // Custom actions for hall management
-  Future<List<Seat>> getHallSeats(int hallId) async {
-    var url = "${BaseProvider.baseUrl}Hall/$hallId/seats";
+  // Custom actions for seat management
+  Future<List<Seat>> getSeatsByHall(int hallId) async {
+    var url = "${BaseProvider.baseUrl}Seat/by-hall/$hallId";
     var uri = Uri.parse(url);
     var headers = createHeaders();
 
@@ -32,7 +31,7 @@ class HallProvider extends BaseProvider<Hall> {
       } else if (response.statusCode == 404) {
         throw Exception("Hall not found");
       } else {
-        throw Exception("Failed to fetch hall seats. Status: ${response.statusCode}");
+        throw Exception("Failed to fetch seats by hall. Status: ${response.statusCode}");
       }
     } catch (e) {
       if (e.toString().contains("SocketException") ||
@@ -41,21 +40,18 @@ class HallProvider extends BaseProvider<Hall> {
           "Cannot connect to server. Please check:\n1. Your computer's IP address\n2. The server is running\n3. Both devices are on the same network",
         );
       }
-      throw Exception("Failed to fetch hall seats: $e");
+      throw Exception("Failed to fetch seats by hall: $e");
     }
   }
 
-  Future<bool> generateSeatsForHall(int hallId, int rows, int seatsPerRow) async {
-    var url = "${BaseProvider.baseUrl}Hall/$hallId/generate-seats";
+  Future<bool> updateSeatType(int seatId, int? seatTypeId) async {
+    var url = "${BaseProvider.baseUrl}Seat/$seatId/seat-type";
     var uri = Uri.parse(url);
     var headers = createHeaders();
-    var body = jsonEncode({
-      "rows": rows,
-      "seatsPerRow": seatsPerRow,
-    });
+    var body = jsonEncode({"seatTypeId": seatTypeId});
 
     try {
-      final response = await http.post(uri, headers: headers, body: body).timeout(
+      final response = await http.put(uri, headers: headers, body: body).timeout(
         Duration(seconds: 30),
         onTimeout: () {
           throw Exception("Request timed out. Please check your network connection.");
@@ -70,12 +66,12 @@ class HallProvider extends BaseProvider<Hall> {
           "Cannot connect to server. Please check:\n1. Your computer's IP address\n2. The server is running\n3. Both devices are on the same network",
         );
       }
-      throw Exception("Failed to generate seats for hall: $e");
+      throw Exception("Failed to update seat type: $e");
     }
   }
 
-  Future<bool> updateHallStatus(int hallId, bool isActive) async {
-    var url = "${BaseProvider.baseUrl}Hall/$hallId/status";
+  Future<bool> updateSeatStatus(int seatId, bool isActive) async {
+    var url = "${BaseProvider.baseUrl}Seat/$seatId/status";
     var uri = Uri.parse(url);
     var headers = createHeaders();
     var body = jsonEncode({"isActive": isActive});
@@ -96,7 +92,35 @@ class HallProvider extends BaseProvider<Hall> {
           "Cannot connect to server. Please check:\n1. Your computer's IP address\n2. The server is running\n3. Both devices are on the same network",
         );
       }
-      throw Exception("Failed to update hall status: $e");
+      throw Exception("Failed to update seat status: $e");
+    }
+  }
+
+  Future<Map<String, List<Seat>>> getSeatsGroupedByRow(int hallId) async {
+    try {
+      var seats = await getSeatsByHall(hallId);
+
+      Map<String, List<Seat>> groupedSeats = {};
+      for (var seat in seats) {
+        String row = seat.seatNumber.substring(0, 1); // Extract row letter
+        if (!groupedSeats.containsKey(row)) {
+          groupedSeats[row] = [];
+        }
+        groupedSeats[row]!.add(seat);
+      }
+
+      // Sort each row by seat number
+      groupedSeats.forEach((key, value) {
+        value.sort((a, b) {
+          int numA = int.parse(a.seatNumber.substring(1));
+          int numB = int.parse(b.seatNumber.substring(1));
+          return numA.compareTo(numB);
+        });
+      });
+
+      return groupedSeats;
+    } catch (e) {
+      throw Exception("Failed to group seats by row: $e");
     }
   }
 }
