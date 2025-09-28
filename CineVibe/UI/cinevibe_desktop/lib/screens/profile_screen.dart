@@ -11,6 +11,7 @@ import 'package:cinevibe_desktop/providers/user_provider.dart';
 import 'package:cinevibe_desktop/providers/gender_provider.dart';
 import 'package:cinevibe_desktop/providers/city_provider.dart';
 import 'package:cinevibe_desktop/utils/base_textfield.dart';
+import 'package:cinevibe_desktop/screens/analytics_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   final VoidCallback? onProfileUpdated;
@@ -169,8 +170,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
       // Update current user data
       UserProvider.currentUser = updatedUser;
       
-      // Reload user data to ensure we have the latest information
-      _loadUserData();
+      // Update form fields with the latest data from server response
+      setState(() {
+        _firstNameController.text = updatedUser.firstName;
+        _lastNameController.text = updatedUser.lastName;
+        _usernameController.text = updatedUser.username;
+        _emailController.text = updatedUser.email;
+        _phoneController.text = updatedUser.phoneNumber ?? '';
+        _selectedGenderId = updatedUser.genderId;
+        _selectedCityId = updatedUser.cityId;
+        _base64Image = updatedUser.picture;
+      });
 
       if (_usernameChanged) {
         _showUsernameChangeDialog();
@@ -206,6 +216,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           TextButton(
             onPressed: () {
               Navigator.of(context).pop();
+              widget.onProfileUpdated?.call(); // Notify parent of update before logout
               Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(builder: (context) => const LoginPage()),
@@ -240,7 +251,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
             onPressed: () {
               Navigator.of(context).pop(); // Close dialog
               widget.onProfileUpdated?.call(); // Notify parent of update
-              Navigator.of(context).pop(); // Go back to previous screen
+              // Navigate back to AnalyticsScreen instead of just popping
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => const AnalyticsScreen()),
+                (route) => false,
+              );
             },
             style: TextButton.styleFrom(
               foregroundColor: const Color(0xFF004AAD),
@@ -280,10 +296,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return MasterScreen(
-      title: "Profile Settings",
-      showBackButton: true,
-      child: Form(
+    return WillPopScope(
+      onWillPop: () async {
+        // Navigate back to AnalyticsScreen when going back
+        widget.onProfileUpdated?.call();
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => const AnalyticsScreen()),
+          (route) => false,
+        );
+        return false; // Prevent default back behavior
+      },
+      child: MasterScreen(
+        title: "Profile Settings",
+        showBackButton: true,
+        child: Form(
         key: _formKey,
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(24),
@@ -528,42 +555,72 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
               const SizedBox(height: 32),
 
-              // Action Buttons
+              // Action Buttons - Keep the new button styling
               Row(
                 children: [
                   Expanded(
-                    child: customElevatedButton(
-                      text: "Save Changes",
-                      onPressed: _isSaving ? null : _saveProfile,
-                      height: 48,
-                      isLoading: _isSaving,
-                      backgroundColor: const Color(0xFF004AAD),
+                        child: TextButton(
+                          onPressed: _isSaving ? null : () {
+                            widget.onProfileUpdated?.call();
+                            Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(builder: (context) => const AnalyticsScreen()),
+                              (route) => false,
+                            );
+                          },
+                      style: TextButton.styleFrom(
+                        foregroundColor: const Color(0xFF64748B),
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                      child: const Text(
+                        'Cancel',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16,
+                        ),
+                      ),
                     ),
                   ),
                   const SizedBox(width: 16),
                   Expanded(
-                    child: OutlinedButton(
-                      onPressed: _isSaving ? null : () => Navigator.of(context).pop(),
-                      style: OutlinedButton.styleFrom(
-                        side: const BorderSide(color: Color(0xFFE2E8F0)),
+                    flex: 2,
+                    child: ElevatedButton(
+                      onPressed: _isSaving ? null : _saveProfile,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF004AAD),
+                        foregroundColor: Colors.white,
+                        elevation: 0,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
                         padding: const EdgeInsets.symmetric(vertical: 16),
                       ),
-                      child: const Text(
-                        "Cancel",
-                        style: TextStyle(
-                          color: Color(0xFF64748B),
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
+                      child: _isSaving
+                          ? const SizedBox(
+                              height: 20,
+                              width: 20,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                              ),
+                            )
+                          : const Text(
+                              'Save Changes',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 16,
+                              ),
+                            ),
                     ),
                   ),
                 ],
               ),
             ],
           ),
+        ),
         ),
       ),
     );

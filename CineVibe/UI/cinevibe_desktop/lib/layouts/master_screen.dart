@@ -366,65 +366,120 @@ class _MasterScreenState extends State<MasterScreen>
                                     const SizedBox(height: 20),
                                     
                                     // Action buttons
-                                    Row(
+                                    Column(
                                       children: [
-                                        Expanded(
-                                          child: Container(
-                                            height: 48,
-                                            decoration: BoxDecoration(
-                                              gradient: LinearGradient(
-                                                colors: [
-                                                  const Color(0xFF004AAD),
-                                                  const Color(0xFF1E40AF),
-                                                ],
-                                              ),
-                                              borderRadius: BorderRadius.circular(12),
-                                              boxShadow: [
-                                                BoxShadow(
-                                                  color: const Color(0xFF004AAD).withOpacity(0.3),
-                                                  blurRadius: 8,
-                                                  offset: const Offset(0, 4),
-                                                ),
+                                        // Profile Settings Button
+                                        Container(
+                                          width: double.infinity,
+                                          height: 48,
+                                          decoration: BoxDecoration(
+                                            gradient: LinearGradient(
+                                              colors: [
+                                                const Color(0xFF004AAD),
+                                                const Color(0xFF1E40AF),
                                               ],
                                             ),
-                                            child: Material(
-                                              color: Colors.transparent,
-                                              child: InkWell(
-                                                borderRadius: BorderRadius.circular(12),
-                                                onTap: () {
-                                                  Navigator.of(context).maybePop();
-                                                  Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                      builder: (context) => ProfileScreen(
-                                                        onProfileUpdated: () {
-                                                          // Refresh the user avatar by triggering a rebuild
-                                                          setState(() {});
-                                                        },
+                                            borderRadius: BorderRadius.circular(12),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: const Color(0xFF004AAD).withOpacity(0.3),
+                                                blurRadius: 8,
+                                                offset: const Offset(0, 4),
+                                              ),
+                                            ],
+                                          ),
+                                          child: Material(
+                                            color: Colors.transparent,
+                                            child: InkWell(
+                                              borderRadius: BorderRadius.circular(12),
+                                              onTap: () {
+                                                Navigator.of(context).maybePop();
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) => ProfileScreen(
+                                                      onProfileUpdated: () {
+                                                        // Refresh the user avatar by triggering a rebuild
+                                                        setState(() {});
+                                                      },
+                                                    ),
+                                                  ),
+                                                );
+                                              },
+                                              child: const Center(
+                                                child: Row(
+                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  children: [
+                                                    Icon(
+                                                      Icons.settings_rounded,
+                                                      color: Colors.white,
+                                                      size: 18,
+                                                    ),
+                                                    SizedBox(width: 8),
+                                                    Text(
+                                                      'Profile Settings',
+                                                      style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontWeight: FontWeight.w600,
+                                                        fontSize: 14,
                                                       ),
                                                     ),
-                                                  );
-                                                },
-                                                child: const Center(
-                                                  child: Row(
-                                                    mainAxisAlignment: MainAxisAlignment.center,
-                                                    children: [
-                                                      Icon(
-                                                        Icons.settings_rounded,
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        
+                                        const SizedBox(height: 12),
+                                        
+                                        // Logout Button
+                                        Container(
+                                          width: double.infinity,
+                                          height: 48,
+                                          decoration: BoxDecoration(
+                                            gradient: LinearGradient(
+                                              colors: [
+                                                const Color(0xFFE53E3E),
+                                                const Color(0xFFDC2626),
+                                              ],
+                                            ),
+                                            borderRadius: BorderRadius.circular(12),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: const Color(0xFFE53E3E).withOpacity(0.3),
+                                                blurRadius: 8,
+                                                offset: const Offset(0, 4),
+                                              ),
+                                            ],
+                                          ),
+                                          child: Material(
+                                            color: Colors.transparent,
+                                            child: InkWell(
+                                              borderRadius: BorderRadius.circular(12),
+                                              onTap: () {
+                                                Navigator.of(context).maybePop();
+                                                _showLogoutDialog(context);
+                                              },
+                                              child: const Center(
+                                                child: Row(
+                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  children: [
+                                                    Icon(
+                                                      Icons.logout_rounded,
+                                                      color: Colors.white,
+                                                      size: 18,
+                                                    ),
+                                                    SizedBox(width: 8),
+                                                    Text(
+                                                      'Logout',
+                                                      style: TextStyle(
                                                         color: Colors.white,
-                                                        size: 18,
+                                                        fontWeight: FontWeight.w600,
+                                                        fontSize: 14,
                                                       ),
-                                                      SizedBox(width: 8),
-                                                      Text(
-                                                        'Profile Settings',
-                                                        style: TextStyle(
-                                                          color: Colors.white,
-                                                          fontWeight: FontWeight.w600,
-                                                          fontSize: 14,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
+                                                    ),
+                                                  ],
                                                 ),
                                               ),
                                             ),

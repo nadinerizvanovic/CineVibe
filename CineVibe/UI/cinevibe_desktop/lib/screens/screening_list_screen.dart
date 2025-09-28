@@ -1,10 +1,14 @@
 import 'package:cinevibe_desktop/model/search_result.dart';
+import 'package:cinevibe_desktop/utils/base_dropdown.dart';
+
 import 'package:cinevibe_desktop/utils/base_pagination.dart';
 import 'package:cinevibe_desktop/utils/base_table_design.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cinevibe_desktop/providers/screening_provider.dart';
+import 'package:cinevibe_desktop/providers/hall_provider.dart';
 import 'package:cinevibe_desktop/model/screening.dart';
+import 'package:cinevibe_desktop/model/hall.dart';
 import 'package:cinevibe_desktop/utils/base_textfield.dart';
 import 'package:cinevibe_desktop/utils/base_date_picker.dart';
 import 'package:cinevibe_desktop/layouts/master_screen.dart';
@@ -20,11 +24,13 @@ class ScreeningListScreen extends StatefulWidget {
 
 class _ScreeningListScreenState extends State<ScreeningListScreen> {
   late ScreeningProvider screeningProvider;
+  late HallProvider hallProvider;
 
   TextEditingController movieTitleController = TextEditingController();
-  TextEditingController hallNameController = TextEditingController();
+  int? selectedHallId;
   DateTime? selectedDateOfScreening;
   int? selectedScreeningTypeId;
+  List<Hall> halls = [];
 
   SearchResult<Screening>? screenings;
   int _currentPage = 0;
@@ -36,8 +42,21 @@ class _ScreeningListScreenState extends State<ScreeningListScreen> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       screeningProvider = context.read<ScreeningProvider>();
+      hallProvider = context.read<HallProvider>();
+      await _loadHalls();
       await _performSearch(page: 0);
     });
+  }
+
+  Future<void> _loadHalls() async {
+    try {
+      var hallsResult = await hallProvider.get();
+      setState(() {
+        halls = hallsResult.items ?? [];
+      });
+    } catch (e) {
+      print("Error loading halls: $e");
+    }
   }
 
   Future<void> _performSearch({int? page, int? pageSize}) async {
@@ -45,7 +64,7 @@ class _ScreeningListScreenState extends State<ScreeningListScreen> {
     final int pageSizeToUse = pageSize ?? _pageSize;
     var filter = {
       "MovieTitle": movieTitleController.text.isNotEmpty ? movieTitleController.text : null,
-      "HallName": hallNameController.text.isNotEmpty ? hallNameController.text : null,
+      "HallId": selectedHallId,
       "DateOfScreening": selectedDateOfScreening?.toIso8601String(),
       "ScreeningTypeId": selectedScreeningTypeId,
       "page": pageToFetch,
@@ -93,12 +112,27 @@ class _ScreeningListScreenState extends State<ScreeningListScreen> {
           ),
           SizedBox(width: 10),
           Expanded(
-            child: customTextField(
-              label: "Search by Hall",
-              controller: hallNameController,
-              prefixIcon: Icons.meeting_room,
-              hintText: "Enter hall name",
-              onSubmitted: _performSearch,
+            child: customDropdownField<int?>(
+              label: "Filter by Hall",
+              value: selectedHallId,
+              prefixIcon: Icons.location_on,
+              hintText: "Select a hall",
+              items: [
+                DropdownMenuItem<int?>(
+                  value: null,
+                  child: Text("All Halls"),
+                ),
+                ...(halls.map((hall) => DropdownMenuItem<int?>(
+                  value: hall.id,
+                  child: Text("${hall.name} (${hall.seatCount} seats)"),
+                ))),
+              ],
+              onChanged: (value) {
+                setState(() {
+                  selectedHallId = value;
+                });
+                _performSearch();
+              },
             ),
           ),
           SizedBox(width: 10),
@@ -160,7 +194,7 @@ class _ScreeningListScreenState extends State<ScreeningListScreen> {
             title: "Screenings Management",
             width: 1400,
             height: 500,
-            columnWidths: [250, 110, 100, 130, 100, 100, 160], // Movie, Hall, Type, Start Time, Duration, Price, Occupied, Status, Actions
+            columnWidths: [250, 110, 100, 140, 100, 100, 160], // Movie, Hall, Type, Start Time, Duration, Price, Occupied, Status, Actions
             columns: [
               DataColumn(
                 label: Text(

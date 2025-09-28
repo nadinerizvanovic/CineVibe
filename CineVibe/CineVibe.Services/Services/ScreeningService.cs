@@ -91,12 +91,7 @@ namespace CineVibe.Services.Services
 
             if (!string.IsNullOrEmpty(search.MovieTitle))
             {
-                query = query.Where(s => s.Movie.Title.Contains(search.MovieTitle));
-            }
-
-            if (!string.IsNullOrEmpty(search.HallName))
-            {
-                query = query.Where(s => s.Hall.Name.Contains(search.HallName));
+                query = query.Where(s => s.Movie.Title.ToLower().Contains(search.MovieTitle.ToLower()));
             }
 
             return query;
