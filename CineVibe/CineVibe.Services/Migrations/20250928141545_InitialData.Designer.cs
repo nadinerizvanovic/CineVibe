@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CineVibe.Services.Migrations
 {
     [DbContext(typeof(CineVibeDbContext))]
-    [Migration("20250926020552_InitialData")]
+    [Migration("20250928141545_InitialData")]
     partial class InitialData
     {
         /// <inheritdoc />
@@ -3684,7 +3684,7 @@ namespace CineVibe.Services.Migrations
                         {
                             Id = 3,
                             CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "4DX experience with motion seats and environmental effects",
+                            Description = "4DX with motion seats and environmental effects",
                             IsActive = true,
                             Name = "4DX",
                             Price = 15.00m

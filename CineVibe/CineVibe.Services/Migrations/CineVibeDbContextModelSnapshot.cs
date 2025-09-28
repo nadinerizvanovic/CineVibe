@@ -3681,7 +3681,7 @@ namespace CineVibe.Services.Migrations
                         {
                             Id = 3,
                             CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "4DX experience with motion seats and environmental effects",
+                            Description = "4DX with motion seats and environmental effects",
                             IsActive = true,
                             Name = "4DX",
                             Price = 15.00m

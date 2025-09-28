@@ -792,7 +792,7 @@ namespace CineVibe.Services.Migrations
                 {
                     { 1, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), "Standard 2D screening", true, "2D", 5.00m },
                     { 2, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), "3D screening with special glasses", true, "3D", 8.00m },
-                    { 3, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), "4DX experience with motion seats and environmental effects", true, "4DX", 15.00m },
+                    { 3, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), "4DX with motion seats and environmental effects", true, "4DX", 15.00m },
                     { 4, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), "IMAX large format screening", true, "IMAX", 12.00m }
                 });
 
