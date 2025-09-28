@@ -16,6 +16,7 @@ import 'package:cinevibe_desktop/screens/analytics_screen.dart';
 import 'package:cinevibe_desktop/screens/order_list_screen.dart';
 import 'package:cinevibe_desktop/screens/hall_list_screen.dart';
 import 'package:cinevibe_desktop/screens/screening_list_screen.dart';
+import 'package:cinevibe_desktop/screens/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:flutter/services.dart';
@@ -392,7 +393,17 @@ class _MasterScreenState extends State<MasterScreen>
                                                 borderRadius: BorderRadius.circular(12),
                                                 onTap: () {
                                                   Navigator.of(context).maybePop();
-                                                  // Add profile settings navigation here
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (context) => ProfileScreen(
+                                                        onProfileUpdated: () {
+                                                          // Refresh the user avatar by triggering a rebuild
+                                                          setState(() {});
+                                                        },
+                                                      ),
+                                                    ),
+                                                  );
                                                 },
                                                 child: const Center(
                                                   child: Row(

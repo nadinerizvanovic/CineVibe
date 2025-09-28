@@ -145,7 +145,7 @@ namespace CineVibe.Services.Services
                 GenderId = request.GenderId,
                 CityId = request.CityId,
                 IsActive = request.IsActive,
-                CreatedAt = DateTime.UtcNow,
+                CreatedAt = DateTime.Now,
                 Picture = request.Picture
             };
 
@@ -229,7 +229,7 @@ namespace CineVibe.Services.Services
                     {
                         UserId = user.Id,
                         RoleId = roleId,
-                        DateAssigned = DateTime.UtcNow
+                        DateAssigned = DateTime.Now
                     };
                     _context.UserRoles.Add(userRole);
                 }

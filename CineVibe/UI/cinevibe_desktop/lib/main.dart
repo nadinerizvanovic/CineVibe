@@ -20,8 +20,6 @@ import 'package:cinevibe_desktop/providers/movie_provider.dart';
 import 'package:cinevibe_desktop/providers/order_provider.dart';
 import 'package:cinevibe_desktop/providers/analytics_provider.dart';
 import 'package:cinevibe_desktop/screens/analytics_screen.dart';
-import 'package:cinevibe_desktop/screens/hall_seat_type_screen.dart';
-import 'package:cinevibe_desktop/screens/hall_add_edit_screen.dart';
 import 'package:cinevibe_desktop/utils/base_textfield.dart';
 
 import 'package:flutter/material.dart';
@@ -340,6 +338,7 @@ class _LoginPageState extends State<LoginPage> {
       // Set basic auth for subsequent requests
       AuthProvider.username = username;
       AuthProvider.password = password;
+
 
       // Authenticate and set current user
       final userProvider = context.read<UserProvider>();
