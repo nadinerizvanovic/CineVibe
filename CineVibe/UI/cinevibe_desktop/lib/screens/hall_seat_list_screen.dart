@@ -6,6 +6,7 @@ import 'package:cinevibe_desktop/model/seat_type.dart';
 import 'package:cinevibe_desktop/providers/seat_provider.dart';
 import 'package:cinevibe_desktop/providers/seat_type_provider.dart';
 import 'package:cinevibe_desktop/layouts/master_screen.dart';
+import 'package:cinevibe_desktop/screens/hall_seat_type_screen.dart';
 
 class HallSeatListScreen extends StatefulWidget {
   final Hall hall;
@@ -112,13 +113,7 @@ class _HallSeatListScreenState extends State<HallSeatListScreen> {
                         ),
                       ],
                     )
-                  : Column(
-                      children: [
-                        _buildLegend(),
-                        const SizedBox(height: 20),
-                        _buildSeatGrid(),
-                      ],
-                    ),
+                  : _buildSeatGrid(),
         ),
       ),
     );
@@ -126,44 +121,46 @@ class _HallSeatListScreenState extends State<HallSeatListScreen> {
 
   Widget _buildLegend() {
     return Container(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Colors.white.withOpacity(0.95),
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: const Color(0xFFE2E8F0), width: 1),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF004AAD).withOpacity(0.1),
-            blurRadius: 8,
-            offset: const Offset(0, 4),
+            color: const Color(0xFF004AAD).withOpacity(0.15),
+            blurRadius: 12,
+            offset: const Offset(0, 6),
           ),
         ],
       ),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
+            mainAxisSize: MainAxisSize.min,
             children: [
               Icon(
                 Icons.info_outline,
                 color: const Color(0xFF004AAD),
-                size: 20,
+                size: 18,
               ),
               const SizedBox(width: 8),
               Text(
-                'Seat Types Legend',
+                'Legend',
                 style: TextStyle(
-                  fontSize: 16,
+                  fontSize: 14,
                   fontWeight: FontWeight.w700,
                   color: const Color(0xFF004AAD),
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 12),
           Wrap(
-            spacing: 20,
-            runSpacing: 12,
+            spacing: 12,
+            runSpacing: 8,
             children: seatTypes.map((seatType) => _buildLegendItem(seatType)).toList(),
           ),
         ],
@@ -178,20 +175,32 @@ class _HallSeatListScreenState extends State<HallSeatListScreen> {
       mainAxisSize: MainAxisSize.min,
       children: [
         Container(
-          width: 24,
-          height: 24,
+          width: 20,
+          height: 20,
           decoration: BoxDecoration(
             color: seatColor,
             borderRadius: BorderRadius.circular(6),
             border: Border.all(color: Colors.black26, width: 1),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.1),
+                blurRadius: 2,
+                offset: const Offset(0, 1),
+              ),
+            ],
+          ),
+          child: Icon(
+            Icons.chair_rounded,
+            size: 12,
+            color: _getTextColorForSeat(seatColor),
           ),
         ),
-        const SizedBox(width: 8),
+        const SizedBox(width: 6),
         Text(
           seatType.name,
           style: const TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
+            fontSize: 12,
+            fontWeight: FontWeight.w600,
             color: Color(0xFF1E293B),
           ),
         ),
@@ -205,23 +214,37 @@ class _HallSeatListScreenState extends State<HallSeatListScreen> {
         padding: const EdgeInsets.all(40),
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(20),
           border: Border.all(color: const Color(0xFFE2E8F0), width: 1),
+          boxShadow: [
+            BoxShadow(
+              color: const Color(0xFF004AAD).withOpacity(0.1),
+              blurRadius: 20,
+              offset: const Offset(0, 8),
+            ),
+          ],
         ),
         child: Column(
           children: [
-            Icon(
-              Icons.chair_outlined,
-              size: 64,
-              color: const Color(0xFF64748B),
+            Container(
+              padding: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                color: const Color(0xFFF8FAFC),
+                borderRadius: BorderRadius.circular(50),
+              ),
+              child: Icon(
+                Icons.chair_outlined,
+                size: 64,
+                color: const Color(0xFF64748B),
+              ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 24),
             Text(
               'No seats found',
               style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w600,
-                color: const Color(0xFF64748B),
+                fontSize: 20,
+                fontWeight: FontWeight.w700,
+                color: const Color(0xFF1E293B),
               ),
             ),
             const SizedBox(height: 8),
@@ -229,8 +252,9 @@ class _HallSeatListScreenState extends State<HallSeatListScreen> {
               'This hall doesn\'t have any seats configured.',
               style: TextStyle(
                 fontSize: 14,
-                color: const Color(0xFF94A3B8),
+                color: const Color(0xFF64748B),
               ),
+              textAlign: TextAlign.center,
             ),
           ],
         ),
@@ -238,56 +262,78 @@ class _HallSeatListScreenState extends State<HallSeatListScreen> {
     }
 
     return Container(
-      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(20),
         border: Border.all(color: const Color(0xFFE2E8F0), width: 1),
         boxShadow: [
           BoxShadow(
             color: const Color(0xFF004AAD).withOpacity(0.1),
-            blurRadius: 8,
-            offset: const Offset(0, 4),
+            blurRadius: 20,
+            offset: const Offset(0, 8),
           ),
         ],
       ),
-      child: Column(
+      child: Stack(
         children: [
-          // Screen representation
-          Container(
-            width: double.infinity,
-            height: 60,
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  const Color(0xFF004AAD).withOpacity(0.1),
-                  const Color(0xFF004AAD).withOpacity(0.05),
-                ],
-                begin: Alignment.centerLeft,
-                end: Alignment.centerRight,
-              ),
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(
-                color: const Color(0xFF004AAD).withOpacity(0.3),
-                width: 2,
-              ),
-            ),
-            child: const Center(
-              child: Text(
-                'SCREEN',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w800,
-                  color: Color(0xFF004AAD),
-                  letterSpacing: 2,
+          Column(
+            children: [
+              // Screen representation
+              Container(
+                width: double.infinity,
+                height: 80,
+                margin: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      const Color(0xFF004AAD).withOpacity(0.15),
+                      const Color(0xFF004AAD).withOpacity(0.05),
+                    ],
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
+                  ),
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(
+                    color: const Color(0xFF004AAD).withOpacity(0.3),
+                    width: 2,
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: const Color(0xFF004AAD).withOpacity(0.2),
+                      blurRadius: 8,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
+                ),
+                child: const Center(
+                  child: Text(
+                    'SCREEN',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w800,
+                      color: Color(0xFF004AAD),
+                      letterSpacing: 3,
+                    ),
+                  ),
                 ),
               ),
-            ),
+              const SizedBox(height: 2),
+              
+              // Seat grid
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: _buildSeatRows(),
+              ),
+              const SizedBox(height: 20),
+            ],
           ),
-          const SizedBox(height: 30),
           
-          // Seat grid
-          _buildSeatRows(),
+          // Legend positioned at top right
+          Positioned(
+            top: 20,
+            right: 20,
+            child: _buildLegend(),
+          ),
         ],
       ),
     );
@@ -304,38 +350,52 @@ class _HallSeatListScreenState extends State<HallSeatListScreen> {
 
   Widget _buildSeatRow(String rowLetter, List<Seat> rowSeats) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4),
+      padding: const EdgeInsets.symmetric(vertical: 6),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           // Row letter label
           Container(
-            width: 30,
-            height: 40,
+            width: 36,
+            height: 48,
             decoration: BoxDecoration(
-              color: const Color(0xFF004AAD).withOpacity(0.1),
-              borderRadius: BorderRadius.circular(8),
+              gradient: LinearGradient(
+                colors: [
+                  const Color(0xFF004AAD).withOpacity(0.15),
+                  const Color(0xFF004AAD).withOpacity(0.05),
+                ],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+              borderRadius: BorderRadius.circular(12),
               border: Border.all(
                 color: const Color(0xFF004AAD).withOpacity(0.3),
-                width: 1,
+                width: 1.5,
               ),
+              boxShadow: [
+                BoxShadow(
+                  color: const Color(0xFF004AAD).withOpacity(0.2),
+                  blurRadius: 4,
+                  offset: const Offset(0, 2),
+                ),
+              ],
             ),
             child: Center(
               child: Text(
                 rowLetter,
                 style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w800,
                   color: Color(0xFF004AAD),
                 ),
               ),
             ),
           ),
-          const SizedBox(width: 8),
+          const SizedBox(width: 12),
           
           // Seats in this row
           ...rowSeats.map((seat) => Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 2),
+            padding: const EdgeInsets.symmetric(horizontal: 3),
             child: _buildSeat(seat),
           )).toList(),
         ],
@@ -348,33 +408,90 @@ class _HallSeatListScreenState extends State<HallSeatListScreen> {
     String seatNumber = seat.seatNumber.substring(1); // Remove row letter, keep number
     
     return Tooltip(
-      message: '${seat.seatNumber} - ${seat.seatTypeName ?? "Standard"}',
-      child: Container(
-        width: 40,
-        height: 40,
-        decoration: BoxDecoration(
-          color: seatColor,
-          borderRadius: BorderRadius.circular(8),
-          border: Border.all(
-            color: Colors.black26,
-            width: 1,
+      message: '${seat.seatNumber} - ${seat.seatTypeName ?? "Standard"}\nClick to edit seat type',
+      child: GestureDetector(
+        onTap: () => _editSeatType(seat),
+        child: Container(
+          width: 48,
+          height: 48,
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                seatColor,
+                seatColor.withOpacity(0.8),
+              ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(
+              color: Colors.white.withOpacity(0.3),
+              width: 2,
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: seatColor.withOpacity(0.3),
+                blurRadius: 8,
+                offset: const Offset(0, 4),
+              ),
+              BoxShadow(
+                color: Colors.black.withOpacity(0.1),
+                blurRadius: 2,
+                offset: const Offset(0, 1),
+              ),
+            ],
           ),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.1),
-              blurRadius: 2,
-              offset: const Offset(0, 1),
-            ),
-          ],
-        ),
-        child: Center(
-          child: Text(
-            seatNumber,
-            style: TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.w600,
-              color: _getTextColorForSeat(seatColor),
-            ),
+          child: Stack(
+            children: [
+              // Seat icon background
+              Center(
+                child: Icon(
+                  Icons.chair_rounded,
+                  size: 28,
+                  color: _getTextColorForSeat(seatColor).withOpacity(0.3),
+                ),
+              ),
+              // Seat number
+              Center(
+                child: Text(
+                  seatNumber,
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w800,
+                    color: _getTextColorForSeat(seatColor),
+                    shadows: [
+                      Shadow(
+                        color: Colors.black.withOpacity(0.3),
+                        blurRadius: 2,
+                        offset: const Offset(0, 1),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              // Edit indicator
+              Positioned(
+                top: 4,
+                right: 4,
+                child: Container(
+                  width: 12,
+                  height: 12,
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.9),
+                    borderRadius: BorderRadius.circular(6),
+                    border: Border.all(
+                      color: seatColor,
+                      width: 1,
+                    ),
+                  ),
+                  child: Icon(
+                    Icons.edit,
+                    size: 8,
+                    color: seatColor,
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ),
@@ -402,5 +519,20 @@ class _HallSeatListScreenState extends State<HallSeatListScreen> {
     // Calculate luminance to determine if text should be white or black
     double luminance = (0.299 * seatColor.red + 0.587 * seatColor.green + 0.114 * seatColor.blue) / 255;
     return luminance > 0.5 ? Colors.black : Colors.white;
+  }
+
+  Future<void> _editSeatType(Seat seat) async {
+    final result = await Navigator.push<bool>(
+      context,
+      MaterialPageRoute(
+        builder: (context) => HallSeatTypeScreen(seat: seat),
+        settings: const RouteSettings(name: 'HallSeatTypeScreen'),
+      ),
+    );
+
+    // If the seat type was updated, reload the seats
+    if (result == true) {
+      await _loadSeats();
+    }
   }
 }

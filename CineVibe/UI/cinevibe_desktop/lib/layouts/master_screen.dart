@@ -950,7 +950,8 @@ Widget _modernDrawerTile(
   } else if (label == 'Halls') {
     isSelected =
         currentRoute == 'HallListScreen' ||
-        currentRoute == 'HallSeatListScreen';
+        currentRoute == 'HallSeatListScreen' ||
+        currentRoute == 'HallSeatTypeScreen';
   } else if (label == 'Actors') {
     isSelected =
         currentRoute == 'ActorListScreen' || currentRoute == 'ActorDetailsScreen';
