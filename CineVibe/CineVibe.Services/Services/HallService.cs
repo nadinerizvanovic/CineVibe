@@ -80,6 +80,7 @@ namespace CineVibe.Services.Services
                     {
                         SeatNumber = $"{rowLetter}{seatNum}",
                         HallId = hallId,
+                        SeatTypeId = 1, // Standard seat type
                         IsActive = true,
                         CreatedAt = DateTime.Now
                     });

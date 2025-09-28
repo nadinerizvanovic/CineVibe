@@ -951,7 +951,8 @@ Widget _modernDrawerTile(
     isSelected =
         currentRoute == 'HallListScreen' ||
         currentRoute == 'HallSeatListScreen' ||
-        currentRoute == 'HallSeatTypeScreen';
+        currentRoute == 'HallSeatTypeScreen' ||
+        currentRoute == 'HallAddEditScreen';
   } else if (label == 'Actors') {
     isSelected =
         currentRoute == 'ActorListScreen' || currentRoute == 'ActorDetailsScreen';

@@ -8,6 +8,7 @@ import 'package:cinevibe_desktop/model/hall.dart';
 import 'package:cinevibe_desktop/utils/base_textfield.dart';
 import 'package:cinevibe_desktop/layouts/master_screen.dart';
 import 'package:cinevibe_desktop/screens/hall_seat_list_screen.dart';
+import 'package:cinevibe_desktop/screens/hall_add_edit_screen.dart';
 
 class HallListScreen extends StatefulWidget {
   const HallListScreen({super.key});
@@ -88,6 +89,24 @@ class _HallListScreenState extends State<HallListScreen> {
             text: "Search",
             onPressed: _performSearch,
             icon: Icons.search,
+          ),
+          SizedBox(width: 10),
+          customElevatedButton(
+            text: "Add Hall",
+            onPressed: () async {
+              final result = await Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const HallAddEditScreen(),
+                  settings: const RouteSettings(name: 'HallAddEditScreen'),
+                ),
+              );
+              if (result == true) {
+                await _performSearch(page: 0);
+              }
+            },
+            icon: Icons.add,
+            backgroundColor: const Color(0xFF004AAD),
           ),
         ],
       ),
@@ -317,18 +336,31 @@ class _HallListScreenState extends State<HallListScreen> {
                                     ),
                                   ),
                                   const SizedBox(width: 8),
-                                  // Generate Seats Button
+                                  // Edit Button
                                   MouseRegion(
                                     cursor: SystemMouseCursors.click,
                                     child: GestureDetector(
-                                      onTap: () => _showGenerateSeatsDialog(e),
+                                      onTap: () async {
+                                        final result = await Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => HallAddEditScreen(hall: e),
+                                            settings: const RouteSettings(
+                                              name: 'HallAddEditScreen',
+                                            ),
+                                          ),
+                                        );
+                                        if (result == true) {
+                                          await _performSearch(page: _currentPage);
+                                        }
+                                      },
                                       child: Container(
                                         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                                         decoration: BoxDecoration(
-                                          color: const Color(0xFF3B82F6).withOpacity(0.1),
+                                          color: const Color(0xFF004AAD).withOpacity(0.1),
                                           borderRadius: BorderRadius.circular(8),
                                           border: Border.all(
-                                            color: const Color(0xFF3B82F6).withOpacity(0.2),
+                                            color: const Color(0xFF004AAD).withOpacity(0.2),
                                             width: 1,
                                           ),
                                         ),
@@ -338,62 +370,17 @@ class _HallListScreenState extends State<HallListScreen> {
                                           crossAxisAlignment: CrossAxisAlignment.center,
                                           children: [
                                             Icon(
-                                              Icons.add_circle_outline,
+                                              Icons.edit_rounded,
                                               size: 14,
-                                              color: const Color(0xFF3B82F6),
+                                              color: const Color(0xFF004AAD),
                                             ),
                                             const SizedBox(width: 4),
                                             Text(
-                                              'Generate Seats',
+                                              'Edit',
                                               style: TextStyle(
                                                 fontSize: 12,
                                                 fontWeight: FontWeight.w600,
-                                                color: const Color(0xFF3B82F6),
-                                                height: 1.0,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(width: 8),
-                                  // Toggle Status Button
-                                  MouseRegion(
-                                    cursor: SystemMouseCursors.click,
-                                    child: GestureDetector(
-                                      onTap: () => _toggleHallStatus(e),
-                                      child: Container(
-                                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                                        decoration: BoxDecoration(
-                                          color: e.isActive 
-                                              ? const Color(0xFFEF4444).withOpacity(0.1)
-                                              : const Color(0xFF10B981).withOpacity(0.1),
-                                          borderRadius: BorderRadius.circular(8),
-                                          border: Border.all(
-                                            color: e.isActive 
-                                                ? const Color(0xFFEF4444).withOpacity(0.2)
-                                                : const Color(0xFF10B981).withOpacity(0.2),
-                                            width: 1,
-                                          ),
-                                        ),
-                                        child: Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          crossAxisAlignment: CrossAxisAlignment.center,
-                                          children: [
-                                            Icon(
-                                              e.isActive ? Icons.pause_circle_outline : Icons.play_circle_outline,
-                                              size: 14,
-                                              color: e.isActive ? const Color(0xFFEF4444) : const Color(0xFF10B981),
-                                            ),
-                                            const SizedBox(width: 4),
-                                            Text(
-                                              e.isActive ? 'Deactivate' : 'Activate',
-                                              style: TextStyle(
-                                                fontSize: 12,
-                                                fontWeight: FontWeight.w600,
-                                                color: e.isActive ? const Color(0xFFEF4444) : const Color(0xFF10B981),
+                                                color: const Color(0xFF004AAD),
                                                 height: 1.0,
                                               ),
                                             ),
@@ -437,312 +424,4 @@ class _HallListScreenState extends State<HallListScreen> {
     );
   }
 
-  void _showGenerateSeatsDialog(Hall hall) {
-    int rows = 10;
-    int seatsPerRow = 10;
-
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return StatefulBuilder(
-          builder: (context, setState) {
-            return AlertDialog(
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-              title: Row(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFF3B82F6).withOpacity(0.1),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: const Icon(
-                      Icons.add_circle_outline,
-                      color: Color(0xFF3B82F6),
-                      size: 24,
-                    ),
-                  ),
-                  const SizedBox(width: 16),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'Generate Seats',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w700,
-                            color: Color(0xFF1E293B),
-                          ),
-                        ),
-                        Text(
-                          'For ${hall.name}',
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: const Color(0xFF64748B),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              content: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Text(
-                    'Configure the seat layout for this hall:',
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Color(0xFF1E293B),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              'Number of Rows',
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600,
-                                color: Color(0xFF1E293B),
-                              ),
-                            ),
-                            const SizedBox(height: 8),
-                            TextField(
-                              keyboardType: TextInputType.number,
-                              onChanged: (value) {
-                                rows = int.tryParse(value) ?? 10;
-                              },
-                              decoration: InputDecoration(
-                                hintText: '$rows',
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(width: 16),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              'Seats per Row',
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600,
-                                color: Color(0xFF1E293B),
-                              ),
-                            ),
-                            const SizedBox(height: 8),
-                            TextField(
-                              keyboardType: TextInputType.number,
-                              onChanged: (value) {
-                                seatsPerRow = int.tryParse(value) ?? 10;
-                              },
-                              decoration: InputDecoration(
-                                hintText: '$seatsPerRow',
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 16),
-                  Container(
-                    padding: const EdgeInsets.all(12),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFF3B82F6).withOpacity(0.1),
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(
-                        color: const Color(0xFF3B82F6).withOpacity(0.3),
-                        width: 1,
-                      ),
-                    ),
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.info_outline,
-                          color: const Color(0xFF3B82F6),
-                          size: 20,
-                        ),
-                        const SizedBox(width: 8),
-                        Expanded(
-                          child: Text(
-                            'This will create ${rows * seatsPerRow} seats (${rows} rows × ${seatsPerRow} seats)',
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: const Color(0xFF3B82F6),
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              actions: [
-                TextButton(
-                  onPressed: () => Navigator.of(context).pop(),
-                  style: TextButton.styleFrom(
-                    foregroundColor: const Color(0xFF64748B),
-                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                  ),
-                  child: const Text(
-                    'Cancel',
-                    style: TextStyle(fontWeight: FontWeight.w600),
-                  ),
-                ),
-                ElevatedButton(
-                  onPressed: () async {
-                    Navigator.of(context).pop();
-                    await _generateSeats(hall.id, rows, seatsPerRow);
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF3B82F6),
-                    foregroundColor: Colors.white,
-                    elevation: 4,
-                    shadowColor: const Color(0xFF3B82F6).withOpacity(0.3),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(14),
-                    ),
-                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                  ),
-                  child: const Text(
-                    'Generate Seats',
-                    style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 15,
-                    ),
-                  ),
-                ),
-              ],
-            );
-          },
-        );
-      },
-    );
-  }
-
-  Future<void> _generateSeats(int hallId, int rows, int seatsPerRow) async {
-    try {
-      // Show loading dialog
-      showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const CircularProgressIndicator(color: Color(0xFF3B82F6)),
-                const SizedBox(height: 16),
-                const Text(
-                  'Generating seats...',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    color: Color(0xFF1E293B),
-                  ),
-                ),
-              ],
-            ),
-          );
-        },
-      );
-
-      final success = await hallProvider.generateSeatsForHall(hallId, rows, seatsPerRow);
-      
-      // Hide loading dialog
-      Navigator.of(context).pop();
-
-      if (success) {
-        // Show success message
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: const Text('Seats generated successfully!'),
-            backgroundColor: const Color(0xFF10B981),
-            behavior: SnackBarBehavior.floating,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-          ),
-        );
-        // Refresh the hall list
-        await _performSearch(page: _currentPage);
-      } else {
-        // Show error message
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: const Text('Failed to generate seats. Please try again.'),
-            backgroundColor: const Color(0xFFEF4444),
-            behavior: SnackBarBehavior.floating,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-          ),
-        );
-      }
-    } catch (e) {
-      // Hide loading dialog
-      Navigator.of(context).pop();
-      
-      // Show error message
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Error: ${e.toString()}'),
-          backgroundColor: const Color(0xFFEF4444),
-          behavior: SnackBarBehavior.floating,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-        ),
-      );
-    }
-  }
-
-  Future<void> _toggleHallStatus(Hall hall) async {
-    try {
-      final newStatus = !hall.isActive;
-      final success = await hallProvider.updateHallStatus(hall.id, newStatus);
-      
-      if (success) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Hall ${newStatus ? 'activated' : 'deactivated'} successfully!'),
-            backgroundColor: const Color(0xFF10B981),
-            behavior: SnackBarBehavior.floating,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-          ),
-        );
-        // Refresh the hall list
-        await _performSearch(page: _currentPage);
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: const Text('Failed to update hall status. Please try again.'),
-            backgroundColor: const Color(0xFFEF4444),
-            behavior: SnackBarBehavior.floating,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-          ),
-        );
-      }
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Error: ${e.toString()}'),
-          backgroundColor: const Color(0xFFEF4444),
-          behavior: SnackBarBehavior.floating,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-        ),
-      );
-    }
-  }
 }

@@ -5,6 +5,7 @@ import 'package:cinevibe_desktop/model/seat.dart';
 import 'package:cinevibe_desktop/model/seat_type.dart';
 import 'package:cinevibe_desktop/providers/seat_provider.dart';
 import 'package:cinevibe_desktop/providers/seat_type_provider.dart';
+import 'package:cinevibe_desktop/providers/hall_provider.dart';
 import 'package:cinevibe_desktop/layouts/master_screen.dart';
 import 'package:cinevibe_desktop/screens/hall_seat_type_screen.dart';
 
@@ -20,6 +21,7 @@ class HallSeatListScreen extends StatefulWidget {
 class _HallSeatListScreenState extends State<HallSeatListScreen> {
   late SeatProvider seatProvider;
   late SeatTypeProvider seatTypeProvider;
+  late HallProvider hallProvider;
 
   List<Seat> seats = [];
   List<SeatType> seatTypes = [];
@@ -34,6 +36,7 @@ class _HallSeatListScreenState extends State<HallSeatListScreen> {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       seatProvider = context.read<SeatProvider>();
       seatTypeProvider = context.read<SeatTypeProvider>();
+      hallProvider = context.read<HallProvider>();
       await _loadSeats();
     });
   }
@@ -113,7 +116,13 @@ class _HallSeatListScreenState extends State<HallSeatListScreen> {
                         ),
                       ],
                     )
-                  : _buildSeatGrid(),
+                  : Column(
+                      children: [
+                        if (seats.isEmpty) _buildGenerateSeatsButton(),
+                        const SizedBox(height: 20),
+                        _buildSeatGrid(),
+                      ],
+                    ),
         ),
       ),
     );
@@ -533,6 +542,351 @@ class _HallSeatListScreenState extends State<HallSeatListScreen> {
     // If the seat type was updated, reload the seats
     if (result == true) {
       await _loadSeats();
+    }
+  }
+
+  Widget _buildGenerateSeatsButton() {
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: const Color(0xFFE2E8F0), width: 1),
+        boxShadow: [
+          BoxShadow(
+            color: const Color(0xFF004AAD).withOpacity(0.1),
+            blurRadius: 20,
+            offset: const Offset(0, 8),
+          ),
+        ],
+      ),
+      child: Column(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              color: const Color(0xFF3B82F6).withOpacity(0.1),
+              borderRadius: BorderRadius.circular(50),
+            ),
+            child: Icon(
+              Icons.add_circle_outline,
+              size: 48,
+              color: const Color(0xFF3B82F6),
+            ),
+          ),
+          const SizedBox(height: 20),
+          Text(
+            'No seats configured',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.w700,
+              color: const Color(0xFF1E293B),
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            'This hall doesn\'t have any seats yet. Generate seats to get started.',
+            style: TextStyle(
+              fontSize: 14,
+              color: const Color(0xFF64748B),
+            ),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 24),
+          ElevatedButton.icon(
+            onPressed: _showGenerateSeatsDialog,
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color(0xFF3B82F6),
+              foregroundColor: Colors.white,
+              elevation: 0,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+            ),
+            icon: const Icon(Icons.add_circle_outline),
+            label: const Text(
+              'Generate Seats',
+              style: TextStyle(
+                fontWeight: FontWeight.w600,
+                fontSize: 16,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showGenerateSeatsDialog() {
+    int rows = 10;
+    int seatsPerRow = 10;
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return AlertDialog(
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+              title: Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF3B82F6).withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: const Icon(
+                      Icons.add_circle_outline,
+                      color: Color(0xFF3B82F6),
+                      size: 28,
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Generate Seats',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w700,
+                            color: Color(0xFF1E293B),
+                          ),
+                        ),
+                        Text(
+                          'For ${widget.hall.name}',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: const Color(0xFF64748B),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Text(
+                    'Configure the seat layout for this hall:',
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Color(0xFF1E293B),
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: _buildNumberField(
+                          label: 'Number of Rows',
+                          value: rows,
+                          onChanged: (value) {
+                            setState(() {
+                              rows = value;
+                            });
+                          },
+                        ),
+                      ),
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: _buildNumberField(
+                          label: 'Seats per Row',
+                          value: seatsPerRow,
+                          onChanged: (value) {
+                            setState(() {
+                              seatsPerRow = value;
+                            });
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                  Container(
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF3B82F6).withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(
+                        color: const Color(0xFF3B82F6).withOpacity(0.3),
+                        width: 1,
+                      ),
+                    ),
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.info_outline,
+                          color: const Color(0xFF3B82F6),
+                          size: 20,
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: Text(
+                            'This will create ${rows * seatsPerRow} seats (${rows} rows × ${seatsPerRow} seats)',
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: const Color(0xFF3B82F6),
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  style: TextButton.styleFrom(
+                    foregroundColor: const Color(0xFF64748B),
+                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                  ),
+                  child: const Text(
+                    'Cancel',
+                    style: TextStyle(fontWeight: FontWeight.w600),
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: () async {
+                    Navigator.of(context).pop();
+                    await _generateSeats(rows, seatsPerRow);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF3B82F6),
+                    foregroundColor: Colors.white,
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                  ),
+                  child: const Text(
+                    'Generate Seats',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 15,
+                    ),
+                  ),
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
+  }
+
+  Widget _buildNumberField({
+    required String label,
+    required int value,
+    required ValueChanged<int> onChanged,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: const TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w600,
+            color: Color(0xFF1E293B),
+          ),
+        ),
+        const SizedBox(height: 8),
+        TextField(
+          keyboardType: TextInputType.number,
+          decoration: InputDecoration(
+            hintText: '$value',
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+          ),
+          onChanged: (value) {
+            final intValue = int.tryParse(value);
+            if (intValue != null && intValue > 0 && intValue <= 50) {
+              onChanged(intValue);
+            }
+          },
+        ),
+      ],
+    );
+  }
+
+  Future<void> _generateSeats(int rows, int seatsPerRow) async {
+    try {
+      // Show loading dialog
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const CircularProgressIndicator(color: Color(0xFF3B82F6)),
+                const SizedBox(height: 20),
+                const Text(
+                  'Generating seats...',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: Color(0xFF1E293B),
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+      );
+
+      final success = await hallProvider.generateSeatsForHall(widget.hall.id, rows, seatsPerRow);
+      
+      // Hide loading dialog
+      Navigator.of(context).pop();
+
+      if (success) {
+        // Show success message
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: const Text('Seats generated successfully!'),
+            backgroundColor: const Color(0xFF10B981),
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+          ),
+        );
+        // Reload the seats
+        await _loadSeats();
+      } else {
+        // Show error message
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: const Text('Failed to generate seats. Please try again.'),
+            backgroundColor: const Color(0xFFEF4444),
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+          ),
+        );
+      }
+    } catch (e) {
+      // Hide loading dialog
+      Navigator.of(context).pop();
+      
+      // Show error message
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error: ${e.toString()}'),
+          backgroundColor: const Color(0xFFEF4444),
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        ),
+      );
     }
   }
 }
