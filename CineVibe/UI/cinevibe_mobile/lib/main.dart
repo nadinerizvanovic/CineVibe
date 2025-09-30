@@ -189,7 +189,7 @@ class _LoginPageState extends State<LoginPage>
                 child: Container(
                   decoration: BoxDecoration(
                     image: const DecorationImage(
-                      image: AssetImage('assets/images/1.png'),
+                      image: AssetImage('assets/images/login_background.png'),
                       fit: BoxFit.cover,
                     ),
                     gradient: LinearGradient(
