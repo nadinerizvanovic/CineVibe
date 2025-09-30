@@ -184,7 +184,7 @@ class _LoginPageState extends State<LoginPage>
                 child: Container(
                   decoration: BoxDecoration(
                     image: const DecorationImage(
-                      image: AssetImage('assets/images/1.png'),
+                      image: AssetImage('assets/images/4.png'),
                       fit: BoxFit.cover,
                     ),
                     gradient: LinearGradient(
@@ -234,7 +234,7 @@ class _LoginPageState extends State<LoginPage>
                               return Transform.rotate(
                                 angle: _logoRotationAnimation.value,
                                 child: Container(
-                                  padding: const EdgeInsets.all(24),
+                                  padding: const EdgeInsets.all(5),
                                   decoration: BoxDecoration(
                                     color: Colors.white.withOpacity(0.15),
                                     borderRadius: BorderRadius.circular(28),
@@ -259,9 +259,9 @@ class _LoginPageState extends State<LoginPage>
                                   ),
                                   child: Image.asset(
                                     'assets/images/logo_small.png',
-                                    width: 80,
-                                    height: 80,
-                                    fit: BoxFit.contain,
+                                    width: 120,
+                                    height: 120,
+                                    fit: BoxFit.fitWidth,
                                   ),
                                 ),
                               );

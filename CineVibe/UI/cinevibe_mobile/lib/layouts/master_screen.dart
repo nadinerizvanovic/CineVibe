@@ -1,4 +1,5 @@
 import 'package:cinevibe_mobile/providers/user_provider.dart';
+import 'package:cinevibe_mobile/screens/profile_screen.dart';
 import 'package:flutter/material.dart';
 
 
@@ -51,10 +52,10 @@ class _MasterScreenState extends State<MasterScreen> {
   late PageController _pageController;
 
   final List<String> _pageTitles = [
-    'Discover',
+    'Movies',
+    'Snacks',
     'Reviews',
-    'Tickets',
-    'My Festivals',
+    'My Purchases',
     'Profile',
   ];
 
@@ -94,36 +95,149 @@ class _MasterScreenState extends State<MasterScreen> {
     showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (context) => AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        title: const Row(
-          children: [
-            Icon(Icons.logout, color: Color(0xFF6A1B9A)),
-            SizedBox(width: 8),
-            Text("Logout"),
-          ],
-        ),
-        content: const Text("Are you sure you want to logout?"),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            style: TextButton.styleFrom(foregroundColor: Colors.grey[600]),
-            child: const Text("Cancel"),
-          ),
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop(); // Close dialog
-              // Navigate back to login by popping all routes
-              Navigator.of(
-                context,
-              ).pushNamedAndRemoveUntil('/', (route) => false);
-            },
-            style: TextButton.styleFrom(
-              foregroundColor: const Color(0xFF6A1B9A),
+      builder: (context) => Dialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+        elevation: 20,
+        child: Container(
+          padding: const EdgeInsets.all(32),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(24),
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                Colors.white,
+                const Color(0xFFF8FAFC),
+              ],
             ),
-            child: const Text("Logout"),
           ),
-        ],
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Icon with background
+              Container(
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  color: const Color(0xFF004AAD).withOpacity(0.1),
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(
+                  Icons.logout_outlined,
+                  color: Color(0xFF004AAD),
+                  size: 32,
+                ),
+              ),
+              const SizedBox(height: 24),
+              
+              // Title
+              const Text(
+                "Logout",
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF1E293B),
+                  letterSpacing: -0.5,
+                ),
+              ),
+              const SizedBox(height: 12),
+              
+              // Message
+              Text(
+                "Are you sure you want to logout?",
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.grey[600],
+                  fontWeight: FontWeight.w500,
+                  height: 1.5,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 32),
+              
+              // Action buttons
+              Row(
+                children: [
+                  // Cancel button
+                  Expanded(
+                    child: Container(
+                      height: 48,
+                      decoration: BoxDecoration(
+                        color: Colors.grey[100],
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(
+                          color: Colors.grey[300]!,
+                          width: 1,
+                        ),
+                      ),
+                      child: TextButton(
+                        onPressed: () => Navigator.of(context).pop(),
+                        style: TextButton.styleFrom(
+                          foregroundColor: Colors.grey[700],
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
+                        child: const Text(
+                          "Cancel",
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  
+                  // Logout button
+                  Expanded(
+                    child: Container(
+                      height: 48,
+                      decoration: BoxDecoration(
+                        gradient: const LinearGradient(
+                          colors: [Color(0xFF004AAD), Color(0xFF1E40AF)],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
+                        borderRadius: BorderRadius.circular(12),
+                        boxShadow: [
+                          BoxShadow(
+                            color: const Color(0xFF004AAD).withOpacity(0.3),
+                            spreadRadius: 0,
+                            blurRadius: 8,
+                            offset: const Offset(0, 4),
+                          ),
+                        ],
+                      ),
+                      child: TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop(); // Close dialog
+                          // Navigate back to login by popping all routes
+                          Navigator.of(
+                            context,
+                          ).pushNamedAndRemoveUntil('/', (route) => false);
+                        },
+                        style: TextButton.styleFrom(
+                          foregroundColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
+                        child: const Text(
+                          "Logout",
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -131,59 +245,140 @@ class _MasterScreenState extends State<MasterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFF8FAFC),
       body: Column(
         children: [
-          // Modern Header
+          // Modern Header with enhanced design
           Container(
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topLeft,
-                end: Alignment.topRight,
-                colors: [const Color(0xFF6A1B9A), const Color(0xFF8E24AA)],
+                end: Alignment.bottomRight,
+                colors: [
+                  const Color(0xFF004AAD),
+                  const Color(0xFF1E40AF),
+                  const Color(0xFF3B82F6),
+                ],
               ),
               boxShadow: [
                 BoxShadow(
-                  color: const Color(0xFF6A1B9A).withOpacity(0.3),
-                  spreadRadius: 1,
-                  blurRadius: 8,
-                  offset: const Offset(0, 2),
+                  color: const Color(0xFF004AAD).withOpacity(0.3),
+                  spreadRadius: 0,
+                  blurRadius: 20,
+                  offset: const Offset(0, 8),
                 ),
               ],
             ),
             child: SafeArea(
               child: Padding(
                 padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 12,
+                  horizontal: 20,
+                  vertical: 16,
                 ),
                 child: Row(
                   children: [
-                    // Title
+                    // Title with enhanced styling
                     Expanded(
-                      child: Text(
-                        _pageTitles[_selectedIndex],
-                        style: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            _pageTitles[_selectedIndex],
+                            style: const TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                              letterSpacing: -0.5,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            'Welcome back!',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.white.withOpacity(0.8),
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                    // Logout Button
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.2),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: IconButton(
-                        onPressed: _handleLogout,
-                        icon: const Icon(
-                          Icons.logout,
-                          color: Colors.white,
-                          size: 20,
+                    // Action buttons
+                    Row(
+                      children: [
+                        // Cart Button
+                        Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white.withOpacity(0.15),
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(
+                              color: Colors.white.withOpacity(0.2),
+                              width: 1,
+                            ),
+                          ),
+                          child: IconButton(
+                            onPressed: () {
+                              // TODO: Implement cart functionality
+                            },
+                            icon: Stack(
+                              children: [
+                                const Icon(
+                                  Icons.shopping_cart_outlined,
+                                  color: Colors.white,
+                                  size: 22,
+                                ),
+                                // Cart badge (you can make this dynamic later)
+                                Positioned(
+                                  right: 0,
+                                  top: 0,
+                                  child: Container(
+                                    padding: const EdgeInsets.all(2),
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xFFF7B61B),
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    constraints: const BoxConstraints(
+                                      minWidth: 16,
+                                      minHeight: 16,
+                                    ),
+                                    child: const Text(
+                                      '0',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            tooltip: 'Shopping Cart',
+                          ),
                         ),
-                        tooltip: 'Logout',
-                      ),
+                        const SizedBox(width: 12),
+                        // Logout Button
+                        Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white.withOpacity(0.15),
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(
+                              color: Colors.white.withOpacity(0.2),
+                              width: 1,
+                            ),
+                          ),
+                          child: IconButton(
+                            onPressed: _handleLogout,
+                            icon: const Icon(
+                              Icons.logout_outlined,
+                              color: Colors.white,
+                              size: 22,
+                            ),
+                            tooltip: 'Logout',
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -200,75 +395,122 @@ class _MasterScreenState extends State<MasterScreen> {
               },
               physics: const AlwaysScrollableScrollPhysics(),
               children: const [
-                // DiscoverScreen(),
-                // ReviewListScreen(),
-                // TicketsListScreen(),
-                // FestivalsListScreen(),
-                // ProfileScreen(),
+                // Movies Screen (placeholder)
+                _PlaceholderScreen(
+                  title: 'Movies',
+                  icon: Icons.movie,
+                  description: 'Discover and book your favorite movies',
+                ),
+                // Snacks Screen (placeholder)
+                _PlaceholderScreen(
+                  title: 'Snacks',
+                  icon: Icons.fastfood,
+                  description: 'Order delicious snacks for your movie experience',
+                ),
+                // Reviews Screen (placeholder)
+                _PlaceholderScreen(
+                  title: 'Reviews',
+                  icon: Icons.rate_review,
+                  description: 'Read and write movie reviews',
+                ),
+                // My Purchases Screen (placeholder)
+                _PlaceholderScreen(
+                  title: 'My Purchases',
+                  icon: Icons.shopping_cart,
+                  description: 'View your purchase history and tickets',
+                ),
+                // Profile Screen
+                ProfileScreen(),
               ],
             ),
           ),
 
           // Modern Bottom Navigation
           Container(
-            height: 85,
+            height: 100,
             decoration: BoxDecoration(
               color: Colors.white,
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(28),
+                topRight: Radius.circular(28),
+              ),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.grey.withOpacity(0.2),
-                  spreadRadius: 1,
-                  blurRadius: 8,
-                  offset: const Offset(0, -2),
+                  color: Colors.grey.withOpacity(0.15),
+                  spreadRadius: 0,
+                  blurRadius: 25,
+                  offset: const Offset(0, -6),
                 ),
               ],
             ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 8),
-              child: Row(
-                children: [
-                  // Discover Tab
-                  Expanded(
-                    child: _buildNavigationItem(
-                      index: 0,
-                      icon: Icons.explore,
-                      label: 'Discover',
+            child: Column(
+              children: [
+                // Navigation Track
+                Container(
+                  height: 4,
+                  margin: const EdgeInsets.only(top: 8),
+                  width: 40,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF004AAD).withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(2),
+                  ),
+                ),
+                // Navigation Items
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
+                    child: Row(
+                      children: [
+                        // Movies Tab
+                        Expanded(
+                          child: _buildNavigationItem(
+                            index: 0,
+                            icon: Icons.movie_outlined,
+                            activeIcon: Icons.movie,
+                            label: 'Movies',
+                          ),
+                        ),
+                        // Snacks Tab
+                        Expanded(
+                          child: _buildNavigationItem(
+                            index: 1,
+                            icon: Icons.fastfood_outlined,
+                            activeIcon: Icons.fastfood,
+                            label: 'Snacks',
+                          ),
+                        ),
+                        // Reviews Tab
+                        Expanded(
+                          child: _buildNavigationItem(
+                            index: 2,
+                            icon: Icons.rate_review_outlined,
+                            activeIcon: Icons.rate_review,
+                            label: 'Reviews',
+                          ),
+                        ),
+                        // My Purchases Tab
+                        Expanded(
+                          child: _buildNavigationItem(
+                            index: 3,
+                            icon: Icons.shopping_cart_outlined,
+                            activeIcon: Icons.shopping_cart,
+                            label: 'Purchases',
+                          ),
+                        ),
+                        // Profile Tab
+                        Expanded(
+                          child: _buildNavigationItem(
+                            index: 4,
+                            icon: Icons.person_outline,
+                            activeIcon: Icons.person,
+                            label: 'Profile',
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  // Reviews Tab
-                  Expanded(
-                    child: _buildNavigationItem(
-                      index: 1,
-                      icon: Icons.rate_review,
-                      label: 'Reviews',
-                    ),
-                  ),
-                  // Tickets Tab
-                  Expanded(
-                    child: _buildNavigationItem(
-                      index: 2,
-                      icon: Icons.confirmation_number,
-                      label: 'Tickets',
-                    ),
-                  ),
-                  // Festivals Tab
-                  Expanded(
-                    child: _buildNavigationItem(
-                      index: 3,
-                      icon: Icons.festival,
-                      label: 'My Festivals',
-                    ),
-                  ),
-                  // Profile Tab
-                  Expanded(
-                    child: _buildNavigationItem(
-                      index: 4,
-                      icon: Icons.person,
-                      label: 'Profile',
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ],
@@ -279,39 +521,134 @@ class _MasterScreenState extends State<MasterScreen> {
   Widget _buildNavigationItem({
     required int index,
     required IconData icon,
+    required IconData activeIcon,
     required String label,
   }) {
     final isSelected = _selectedIndex == index;
 
     return GestureDetector(
       onTap: () => _onItemTapped(index),
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 1),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
+        curve: Curves.easeInOut,
+        padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 2),
         decoration: BoxDecoration(
           color: isSelected
-              ? const Color(0xFF6A1B9A).withOpacity(0.1)
+              ? const Color(0xFF004AAD).withOpacity(0.1)
               : Colors.transparent,
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(16),
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(
-              icon,
-              color: isSelected ? const Color(0xFF6A1B9A) : Colors.grey[600],
-              size: 24,
+              isSelected ? activeIcon : icon,
+              color: isSelected ? const Color(0xFF004AAD) : Colors.grey[600],
+              size: 22,
             ),
-            const SizedBox(height: 4),
-            Text(
-              label,
-              style: TextStyle(
-                fontSize: 12,
-                fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
-                color: isSelected ? const Color(0xFF6A1B9A) : Colors.grey[600],
+            const SizedBox(height: 3),
+            Flexible(
+              child: AnimatedDefaultTextStyle(
+                duration: const Duration(milliseconds: 200),
+                style: TextStyle(
+                  fontSize: 10,
+                  fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
+                  color: isSelected ? const Color(0xFF004AAD) : Colors.grey[600],
+                ),
+                child: Text(
+                  label,
+                  textAlign: TextAlign.center,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+// Placeholder screen for tabs that haven't been implemented yet
+class _PlaceholderScreen extends StatelessWidget {
+  final String title;
+  final IconData icon;
+  final String description;
+
+  const _PlaceholderScreen({
+    required this.title,
+    required this.icon,
+    required this.description,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: const Color(0xFFF8FAFC),
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(32),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(24),
+                decoration: BoxDecoration(
+                  color: const Color(0xFF004AAD).withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Icon(
+                  icon,
+                  size: 64,
+                  color: const Color(0xFF004AAD),
+                ),
+              ),
+              const SizedBox(height: 32),
+              Text(
+                title,
+                style: const TextStyle(
+                  fontSize: 28,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF1E293B),
+                  letterSpacing: -0.5,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 16),
+              Text(
+                description,
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.grey[600],
+                  fontWeight: FontWeight.w500,
+                  height: 1.5,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 32),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                decoration: BoxDecoration(
+                  color: const Color(0xFF004AAD).withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(
+                    color: const Color(0xFF004AAD).withOpacity(0.2),
+                    width: 1,
+                  ),
+                ),
+                child: Text(
+                  'Coming Soon',
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                    color: const Color(0xFF004AAD),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
