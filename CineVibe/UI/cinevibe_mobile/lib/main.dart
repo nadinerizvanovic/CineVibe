@@ -10,18 +10,20 @@ import 'package:cinevibe_mobile/providers/ticket_provider.dart';
 import 'package:cinevibe_mobile/providers/user_provider.dart';
 import 'package:cinevibe_mobile/screens/register_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_stripe/flutter_stripe.dart' as stripe;
 import 'package:provider/provider.dart';
 import 'dart:math' as math;
 
 void main() async {
-  // WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();
 
-  // await dotenv.load(fileName: ".env");
+  await dotenv.load(fileName: ".env");
 
-  // stripe.Stripe.publishableKey = dotenv.env["STRIPE_PUBLISHABLE_KEY"] ?? "";
-  // stripe.Stripe.merchantIdentifier = 'merchant.flutter.stripe.test';
-  // stripe.Stripe.urlScheme = 'flutterstripe';
-  // await stripe.Stripe.instance.applySettings();
+  stripe.Stripe.publishableKey = dotenv.env["STRIPE_PUBLISHABLE_KEY"] ?? "";
+  stripe.Stripe.merchantIdentifier = 'merchant.flutter.stripe.test';
+  stripe.Stripe.urlScheme = 'flutterstripe';
+  await stripe.Stripe.instance.applySettings();
 
   runApp(
     MultiProvider(

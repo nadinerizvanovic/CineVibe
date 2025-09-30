@@ -4,6 +4,7 @@ import 'package:cinevibe_mobile/providers/cart_provider.dart';
 import 'package:cinevibe_mobile/providers/user_provider.dart';
 import 'package:cinevibe_mobile/model/cart.dart';
 import 'package:cinevibe_mobile/model/cart_item.dart';
+import 'package:cinevibe_mobile/screens/stripe_payment_screen.dart';
 import 'package:cinevibe_mobile/utils/base_snackbar.dart';
 import 'dart:convert';
 
@@ -528,11 +529,12 @@ class _CartListScreenState extends State<CartListScreen> {
               height: 52,
               child: ElevatedButton(
                 onPressed: () {
-                  // TODO: Implement checkout functionality
-                  BaseSnackbar.showInfoSnackbar(
+                  Navigator.push(
                     context,
-                    'Checkout feature coming soon!',
-                  );
+                    MaterialPageRoute(
+                      builder: (context) => StripePaymentScreen(cart: _cart!),
+                    ),
+                  ).then((_) => _loadCart()); // Reload cart when returning
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.transparent,
