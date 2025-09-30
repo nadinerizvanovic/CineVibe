@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cinevibe_mobile/providers/product_provider.dart';
+import 'package:cinevibe_mobile/providers/cart_provider.dart';
+import 'package:cinevibe_mobile/providers/user_provider.dart';
 import 'package:cinevibe_mobile/model/product.dart';
 import 'package:cinevibe_mobile/screens/snacks_details_screen.dart';
 import 'package:cinevibe_mobile/utils/base_snackbar.dart';
@@ -102,12 +104,33 @@ class _SnacksListScreenState extends State<SnacksListScreen> {
     );
   }
 
-  void _addToCart(Product product) {
-    // TODO: Implement cart functionality
-    BaseSnackbar.showSuccessSnackbar(
-      context,
-      '${product.name} added to cart!',
-    );
+  Future<void> _addToCart(Product product) async {
+    if (UserProvider.currentUser == null) {
+      BaseSnackbar.showErrorSnackbar(
+        context,
+        'Please login to add items to cart',
+      );
+      return;
+    }
+
+    try {
+      final cartProvider = Provider.of<CartProvider>(context, listen: false);
+      await cartProvider.addItemToCart(
+        UserProvider.currentUser!.id,
+        product.id,
+        1, // Adding 1 item at a time
+      );
+      
+      BaseSnackbar.showSuccessSnackbar(
+        context,
+        '${product.name} added to cart!',
+      );
+    } catch (e) {
+      BaseSnackbar.showErrorSnackbar(
+        context,
+        'Failed to add item to cart: $e',
+      );
+    }
   }
 
   @override

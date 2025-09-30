@@ -1,9 +1,12 @@
 import 'package:cinevibe_mobile/providers/user_provider.dart';
+import 'package:cinevibe_mobile/providers/cart_provider.dart';
 import 'package:cinevibe_mobile/screens/profile_screen.dart';
 import 'package:cinevibe_mobile/screens/purchases_list_screen.dart';
 import 'package:cinevibe_mobile/screens/review_list_screen.dart';
 import 'package:cinevibe_mobile/screens/snacks_list_screen.dart';
+import 'package:cinevibe_mobile/screens/cart_list_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 
 class CustomPageViewScrollPhysics extends ScrollPhysics {
@@ -53,6 +56,7 @@ class MasterScreen extends StatefulWidget {
 class _MasterScreenState extends State<MasterScreen> {
   int _selectedIndex = 0;
   late PageController _pageController;
+  int _cartItemCount = 0;
 
   final List<String> _pageTitles = [
     'Movies',
@@ -66,6 +70,24 @@ class _MasterScreenState extends State<MasterScreen> {
   void initState() {
     super.initState();
     _pageController = PageController(initialPage: 0);
+    _loadCartCount();
+  }
+
+  Future<void> _loadCartCount() async {
+    if (UserProvider.currentUser == null) return;
+
+    try {
+      final cartProvider = Provider.of<CartProvider>(context, listen: false);
+      final cart = await cartProvider.getByUserId(UserProvider.currentUser!.id);
+      
+      if (mounted) {
+        setState(() {
+          _cartItemCount = cart?.totalItems ?? 0;
+        });
+      }
+    } catch (e) {
+      // Silently fail - cart count is not critical
+    }
   }
 
   @override
@@ -247,6 +269,14 @@ class _MasterScreenState extends State<MasterScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // Listen to cart provider changes and refresh cart count
+    context.watch<CartProvider>();
+    
+    // Refresh cart count whenever provider changes
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _loadCartCount();
+    });
+    
     return Scaffold(
       backgroundColor: const Color(0xFFF8FAFC),
       body: Column(
@@ -321,7 +351,12 @@ class _MasterScreenState extends State<MasterScreen> {
                           ),
                           child: IconButton(
                             onPressed: () {
-                              // TODO: Implement cart functionality
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const CartListScreen(),
+                                ),
+                              ).then((_) => _loadCartCount()); // Refresh cart count when returning
                             },
                             icon: Stack(
                               children: [
@@ -330,31 +365,32 @@ class _MasterScreenState extends State<MasterScreen> {
                                   color: Colors.white,
                                   size: 22,
                                 ),
-                                // Cart badge (you can make this dynamic later)
-                                Positioned(
-                                  right: 0,
-                                  top: 0,
-                                  child: Container(
-                                    padding: const EdgeInsets.all(2),
-                                    decoration: BoxDecoration(
-                                      color: const Color(0xFFF7B61B),
-                                      borderRadius: BorderRadius.circular(8),
-                                    ),
-                                    constraints: const BoxConstraints(
-                                      minWidth: 16,
-                                      minHeight: 16,
-                                    ),
-                                    child: const Text(
-                                      '0',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 10,
-                                        fontWeight: FontWeight.bold,
+                                // Cart badge with dynamic count
+                                if (_cartItemCount > 0)
+                                  Positioned(
+                                    right: 0,
+                                    top: 0,
+                                    child: Container(
+                                      padding: const EdgeInsets.all(2),
+                                      decoration: BoxDecoration(
+                                        color: const Color(0xFFF7B61B),
+                                        borderRadius: BorderRadius.circular(8),
                                       ),
-                                      textAlign: TextAlign.center,
+                                      constraints: const BoxConstraints(
+                                        minWidth: 16,
+                                        minHeight: 16,
+                                      ),
+                                      child: Text(
+                                        _cartItemCount > 99 ? '99+' : '$_cartItemCount',
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                      ),
                                     ),
                                   ),
-                                ),
                               ],
                             ),
                             tooltip: 'Shopping Cart',

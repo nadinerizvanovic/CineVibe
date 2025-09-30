@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:cinevibe_mobile/model/product.dart';
+import 'package:cinevibe_mobile/providers/cart_provider.dart';
+import 'package:cinevibe_mobile/providers/user_provider.dart';
 import 'package:cinevibe_mobile/utils/base_snackbar.dart';
 import 'dart:convert';
 
@@ -11,15 +14,38 @@ class SnacksDetailsScreen extends StatelessWidget {
     required this.product,
   });
 
-  void _addToCart(BuildContext context) {
-    // Close the dialog first
-    Navigator.of(context).pop();
-    
-    // TODO: Implement cart functionality
-    BaseSnackbar.showSuccessSnackbar(
-      context,
-      '${product.name} added to cart!',
-    );
+  Future<void> _addToCart(BuildContext context) async {
+    if (UserProvider.currentUser == null) {
+      Navigator.of(context).pop();
+      BaseSnackbar.showErrorSnackbar(
+        context,
+        'Please login to add items to cart',
+      );
+      return;
+    }
+
+    try {
+      final cartProvider = Provider.of<CartProvider>(context, listen: false);
+      await cartProvider.addItemToCart(
+        UserProvider.currentUser!.id,
+        product.id,
+        1, // Adding 1 item at a time
+      );
+      
+      // Close the dialog after successful addition
+      Navigator.of(context).pop();
+      
+      BaseSnackbar.showSuccessSnackbar(
+        context,
+        '${product.name} added to cart!',
+      );
+    } catch (e) {
+      Navigator.of(context).pop();
+      BaseSnackbar.showErrorSnackbar(
+        context,
+        'Failed to add item to cart: $e',
+      );
+    }
   }
 
 
