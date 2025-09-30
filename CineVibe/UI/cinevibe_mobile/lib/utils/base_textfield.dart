@@ -175,8 +175,61 @@ Widget customTextField({
   String? errorText,
   String? helperText,
   VoidCallback? onSuffixIconPressed,
+  String? Function(String?)? validator,
 }) {
-  Widget textField = TextField(
+  Widget textField = validator != null 
+    ? TextFormField(
+        controller: controller,
+        focusNode: focusNode,
+        autofocus: autofocus,
+        decoration: customTextFieldDecoration(
+          label,
+          prefixIcon: prefixIcon,
+          suffixIcon: suffixIcon,
+          hintText: hintText,
+          isError: isError,
+          isSuccess: isSuccess,
+          onSuffixIconPressed: onSuffixIconPressed,
+        ).copyWith(
+          errorText: errorText,
+          helperText: helperText,
+          helperStyle: TextStyle(
+            color: CineVibeColors.textSecondary,
+            fontSize: 13,
+            fontWeight: FontWeight.w400,
+          ),
+          errorStyle: TextStyle(
+            color: CineVibeColors.errorRed,
+            fontSize: 13,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        onFieldSubmitted: (_) {
+          if (onSubmitted != null) {
+            onSubmitted();
+          }
+        },
+        onChanged: (_) {
+          if (onChanged != null) {
+            onChanged();
+          }
+        },
+        enabled: enabled,
+        obscureText: obscureText,
+        keyboardType: keyboardType,
+        textInputAction: textInputAction ?? (maxLines == null ? TextInputAction.done : TextInputAction.newline),
+        maxLines: maxLines ?? 1,
+        maxLength: maxLength,
+        style: TextStyle(
+          color: CineVibeColors.textPrimary,
+          fontSize: 15,
+          fontWeight: FontWeight.w500,
+          letterSpacing: 0.1,
+        ),
+        cursorColor: CineVibeColors.seedBlue,
+        validator: validator,
+      )
+    : TextField(
     controller: controller,
     focusNode: focusNode,
     autofocus: autofocus,

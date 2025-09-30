@@ -1,5 +1,6 @@
 import 'package:cinevibe_mobile/providers/user_provider.dart';
 import 'package:cinevibe_mobile/screens/profile_screen.dart';
+import 'package:cinevibe_mobile/screens/purchases_list_screen.dart';
 import 'package:flutter/material.dart';
 
 
@@ -55,7 +56,7 @@ class _MasterScreenState extends State<MasterScreen> {
     'Movies',
     'Snacks',
     'Reviews',
-    'My Purchases',
+    'My Purchase History',
     'Profile',
   ];
 
@@ -413,12 +414,8 @@ class _MasterScreenState extends State<MasterScreen> {
                   icon: Icons.rate_review,
                   description: 'Read and write movie reviews',
                 ),
-                // My Purchases Screen (placeholder)
-                _PlaceholderScreen(
-                  title: 'My Purchases',
-                  icon: Icons.shopping_cart,
-                  description: 'View your purchase history and tickets',
-                ),
+                // My Purchases Screen
+                const PurchasesListScreen(),
                 // Profile Screen
                 ProfileScreen(),
               ],

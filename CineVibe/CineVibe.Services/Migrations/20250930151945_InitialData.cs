@@ -1299,9 +1299,9 @@ namespace CineVibe.Services.Migrations
                 columns: new[] { "Id", "CreatedAt", "IsActive", "TotalAmount", "UserId" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), true, 3.00m, 3 },
-                    { 2, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), true, 18.00m, 3 },
-                    { 3, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), true, 15.00m, 3 },
+                    { 1, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), true, 3.00m, 2 },
+                    { 2, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), true, 18.00m, 2 },
+                    { 3, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), true, 15.00m, 2 },
                     { 4, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), true, 18.50m, 4 },
                     { 5, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), true, 18.50m, 4 },
                     { 6, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), true, 31.00m, 4 }
@@ -1485,9 +1485,9 @@ namespace CineVibe.Services.Migrations
                 columns: new[] { "Id", "Comment", "CreatedAt", "IsActive", "Rating", "ScreeningId", "UserId" },
                 values: new object[,]
                 {
-                    { 1, "Amazing movie! Great experience.", new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), true, 3, 1, 3 },
-                    { 2, "Good movie, enjoyed it with family.", new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), true, 5, 10, 3 },
-                    { 3, "Great entertainment, worth watching.", new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), true, 3, 25, 3 },
+                    { 1, "Amazing movie! Great experience.", new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), true, 3, 1, 2 },
+                    { 2, "Good movie, enjoyed it with family.", new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), true, 5, 10, 2 },
+                    { 3, "Great entertainment, worth watching.", new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), true, 3, 25, 2 },
                     { 4, "Fantastic visual effects and storyline.", new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), true, 5, 1, 4 },
                     { 5, "Loved the story and acting. Highly recommend!", new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), true, 4, 15, 4 },
                     { 6, "Excellent cinematography and sound quality.", new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), true, 5, 30, 4 }
@@ -1498,9 +1498,9 @@ namespace CineVibe.Services.Migrations
                 columns: new[] { "Id", "CreatedAt", "IsActive", "ScreeningId", "SeatId", "UserId" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), true, 1, 1, 3 },
-                    { 2, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), true, 10, 11, 3 },
-                    { 3, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), true, 25, 21, 3 },
+                    { 1, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), true, 1, 1, 2 },
+                    { 2, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), true, 10, 11, 2 },
+                    { 3, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), true, 25, 21, 2 },
                     { 4, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), true, 1, 2, 4 },
                     { 5, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), true, 15, 12, 4 },
                     { 6, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), true, 30, 22, 4 }

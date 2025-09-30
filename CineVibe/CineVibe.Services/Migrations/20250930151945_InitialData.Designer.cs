@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CineVibe.Services.Migrations
 {
     [DbContext(typeof(CineVibeDbContext))]
-    [Migration("20250928141545_InitialData")]
+    [Migration("20250930151945_InitialData")]
     partial class InitialData
     {
         /// <inheritdoc />
@@ -1543,7 +1543,7 @@ namespace CineVibe.Services.Migrations
                             CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
                             IsActive = true,
                             TotalAmount = 3.00m,
-                            UserId = 3
+                            UserId = 2
                         },
                         new
                         {
@@ -1551,7 +1551,7 @@ namespace CineVibe.Services.Migrations
                             CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
                             IsActive = true,
                             TotalAmount = 18.00m,
-                            UserId = 3
+                            UserId = 2
                         },
                         new
                         {
@@ -1559,7 +1559,7 @@ namespace CineVibe.Services.Migrations
                             CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
                             IsActive = true,
                             TotalAmount = 15.00m,
-                            UserId = 3
+                            UserId = 2
                         },
                         new
                         {
@@ -2138,7 +2138,7 @@ namespace CineVibe.Services.Migrations
                             IsActive = true,
                             Rating = 3,
                             ScreeningId = 1,
-                            UserId = 3
+                            UserId = 2
                         },
                         new
                         {
@@ -2148,7 +2148,7 @@ namespace CineVibe.Services.Migrations
                             IsActive = true,
                             Rating = 5,
                             ScreeningId = 10,
-                            UserId = 3
+                            UserId = 2
                         },
                         new
                         {
@@ -2158,7 +2158,7 @@ namespace CineVibe.Services.Migrations
                             IsActive = true,
                             Rating = 3,
                             ScreeningId = 25,
-                            UserId = 3
+                            UserId = 2
                         },
                         new
                         {
@@ -7428,7 +7428,7 @@ namespace CineVibe.Services.Migrations
                             IsActive = true,
                             ScreeningId = 1,
                             SeatId = 1,
-                            UserId = 3
+                            UserId = 2
                         },
                         new
                         {
@@ -7437,7 +7437,7 @@ namespace CineVibe.Services.Migrations
                             IsActive = true,
                             ScreeningId = 10,
                             SeatId = 11,
-                            UserId = 3
+                            UserId = 2
                         },
                         new
                         {
@@ -7446,7 +7446,7 @@ namespace CineVibe.Services.Migrations
                             IsActive = true,
                             ScreeningId = 25,
                             SeatId = 21,
-                            UserId = 3
+                            UserId = 2
                         },
                         new
                         {

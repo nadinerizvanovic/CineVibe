@@ -1,7 +1,5 @@
-
-
-import 'package:cinevibe_mobile/model/city.dart';
 import 'package:cinevibe_mobile/providers/base_provider.dart';
+import 'package:cinevibe_mobile/model/city.dart';
 
 class CityProvider extends BaseProvider<City> {
   CityProvider() : super("City");

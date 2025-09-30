@@ -19,6 +19,7 @@ Ticket _$TicketFromJson(Map<String, dynamic> json) => Ticket(
   screeningTypeName: json['screeningTypeName'] as String? ?? '',
   userId: (json['userId'] as num?)?.toInt() ?? 0,
   userFullName: json['userFullName'] as String? ?? '',
+  moviePoster: json['moviePoster'] as String? ?? '',
 );
 
 Map<String, dynamic> _$TicketToJson(Ticket instance) => <String, dynamic>{
@@ -34,4 +35,5 @@ Map<String, dynamic> _$TicketToJson(Ticket instance) => <String, dynamic>{
   'screeningTypeName': instance.screeningTypeName,
   'userId': instance.userId,
   'userFullName': instance.userFullName,
+  'moviePoster': instance.moviePoster,
 };

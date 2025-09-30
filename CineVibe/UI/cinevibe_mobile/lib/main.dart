@@ -1,6 +1,11 @@
 import 'package:cinevibe_mobile/layouts/master_screen.dart';
 import 'package:cinevibe_mobile/providers/auth_provider.dart';
+import 'package:cinevibe_mobile/providers/city_provider.dart';
+import 'package:cinevibe_mobile/providers/gender_provider.dart';
+import 'package:cinevibe_mobile/providers/review_provider.dart';
+import 'package:cinevibe_mobile/providers/ticket_provider.dart';
 import 'package:cinevibe_mobile/providers/user_provider.dart';
+import 'package:cinevibe_mobile/screens/register_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'dart:math' as math;
@@ -19,14 +24,10 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider<UserProvider>(create: (_) => UserProvider()),
-        // ChangeNotifierProvider<ReviewProvider>(create: (_) => ReviewProvider()),
-        // ChangeNotifierProvider<TicketProvider>(create: (_) => TicketProvider()),
-        // ChangeNotifierProvider<FestivalProvider>(
-        //   create: (_) => FestivalProvider(),
-        // ),
-        // ChangeNotifierProvider<AssetProvider>(create: (_) => AssetProvider()),
-        // ChangeNotifierProvider<CityProvider>(create: (_) => CityProvider()),
-        // ChangeNotifierProvider<GenderProvider>(create: (_) => GenderProvider()),
+        ChangeNotifierProvider<ReviewProvider>(create: (_) => ReviewProvider()),
+        ChangeNotifierProvider<TicketProvider>(create: (_) => TicketProvider()),
+        ChangeNotifierProvider<CityProvider>(create: (_) => CityProvider()),
+        ChangeNotifierProvider<GenderProvider>(create: (_) => GenderProvider()),
       ],
       child: const MyApp(),
     ),
@@ -184,7 +185,7 @@ class _LoginPageState extends State<LoginPage>
                 child: Container(
                   decoration: BoxDecoration(
                     image: const DecorationImage(
-                      image: AssetImage('assets/images/4.png'),
+                      image: AssetImage('assets/images/1.png'),
                       fit: BoxFit.cover,
                     ),
                     gradient: LinearGradient(
@@ -236,7 +237,7 @@ class _LoginPageState extends State<LoginPage>
                                 child: Container(
                                   padding: const EdgeInsets.all(5),
                                   decoration: BoxDecoration(
-                                    color: Colors.white.withOpacity(0.15),
+                                    color: Colors.white.withOpacity(0.20),
                                     borderRadius: BorderRadius.circular(28),
                                     border: Border.all(
                                       color: Colors.white.withOpacity(0.2),
@@ -312,7 +313,7 @@ class _LoginPageState extends State<LoginPage>
                               opacity: _formOpacityAnimation,
                               child: Container(
                                 decoration: BoxDecoration(
-                                  color: Colors.white.withOpacity(0.15),
+                                  color: Colors.white.withOpacity(0.25),
                                   borderRadius: BorderRadius.circular(28),
                                   border: Border.all(
                                     color: Colors.white.withOpacity(0.15),
@@ -421,7 +422,12 @@ class _LoginPageState extends State<LoginPage>
                                     _buildModernOutlinedButton(
                                       text: "Create Account",
                                       onPressed: () {
-                                        // Registration logic here
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => const RegisterScreen(),
+                                          ),
+                                        );
                                       },
                                     ),
                                   ],

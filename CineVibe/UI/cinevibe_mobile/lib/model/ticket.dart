@@ -16,6 +16,7 @@ class Ticket {
   final String screeningTypeName;
   final int userId;
   final String userFullName;
+  final String moviePoster;
 
   Ticket({
     this.id = 0,
@@ -30,6 +31,7 @@ class Ticket {
     this.screeningTypeName = '',
     this.userId = 0,
     this.userFullName = '',
+    this.moviePoster = '',
   });
 
   factory Ticket.fromJson(Map<String, dynamic> json) => _$TicketFromJson(json);

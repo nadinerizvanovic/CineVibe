@@ -631,10 +631,10 @@ namespace CineVibe.Services.Database
             modelBuilder.Entity<Screening>().HasData(screenings);
 
             // Seed Tickets for users with User role (3 tickets each)
-            // Based on seeding: User IDs 3 and 4 have User role (Role ID 2)
+            // Based on seeding: User IDs 2 and 4 have User role (Role ID 2)
             var tickets = new List<Ticket>();
             int ticketId = 1;
-            var userIds = new[] { 3, 4 }; // Users with User role
+            var userIds = new[] { 2, 4 }; // Users with User role
 
             foreach (int userId in userIds)
             {
@@ -645,7 +645,7 @@ namespace CineVibe.Services.Database
                     Id = ticketId++,
                     UserId = userId,
                     ScreeningId = 1, // First screening in the list
-                    SeatId = userId == 3 ? 1 : 2, // Different seats (A1, A2)
+                    SeatId = userId == 2 ? 1 : 2, // Different seats (A1, A2)
                     IsActive = true,
                     CreatedAt = fixedDate
                 });
@@ -655,8 +655,8 @@ namespace CineVibe.Services.Database
                 {
                     Id = ticketId++,
                     UserId = userId,
-                    ScreeningId = userId == 3 ? 10 : 15, // Different screenings
-                    SeatId = userId == 3 ? 11 : 12, // Different seats (B1, B2)
+                    ScreeningId = userId == 2 ? 10 : 15, // Different screenings
+                    SeatId = userId == 2 ? 11 : 12, // Different seats (B1, B2)
                     IsActive = true,
                     CreatedAt = fixedDate
                 });
@@ -666,8 +666,8 @@ namespace CineVibe.Services.Database
                 {
                     Id = ticketId++,
                     UserId = userId,
-                    ScreeningId = userId == 3 ? 25 : 30, // Different screenings
-                    SeatId = userId == 3 ? 21 : 22, // Different seats (C1, C2)
+                    ScreeningId = userId == 2 ? 25 : 30, // Different screenings
+                    SeatId = userId == 2 ? 21 : 22, // Different seats (C1, C2)
                     IsActive = true,
                     CreatedAt = fixedDate
                 });

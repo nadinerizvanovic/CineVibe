@@ -16,5 +16,6 @@ namespace CineVibe.Model.Responses
         public string ScreeningTypeName { get; set; } = string.Empty;
         public int UserId { get; set; }
         public string UserFullName { get; set; } = string.Empty;
+        public byte[] MoviePoster { get; set; } = Array.Empty<byte>();
     }
 }
