@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cinevibe_mobile/providers/ticket_provider.dart';
+import 'package:cinevibe_mobile/providers/order_provider.dart';
 import 'package:cinevibe_mobile/providers/user_provider.dart';
 import 'package:cinevibe_mobile/model/ticket.dart';
+import 'package:cinevibe_mobile/model/order.dart';
 import 'package:cinevibe_mobile/screens/ticket_details_screen.dart';
+import 'package:cinevibe_mobile/screens/order_details_screen.dart';
 import 'dart:convert';
 
 class PurchasesListScreen extends StatefulWidget {
@@ -18,12 +21,15 @@ class _PurchasesListScreenState extends State<PurchasesListScreen>
   bool _isTicketsSelected = true;
   bool _isLoading = false;
   List<Ticket> _tickets = [];
+  List<Order> _orders = [];
   late TicketProvider _ticketProvider;
+  late OrderProvider _orderProvider;
 
   @override
   void initState() {
     super.initState();
     _ticketProvider = Provider.of<TicketProvider>(context, listen: false);
+    _orderProvider = Provider.of<OrderProvider>(context, listen: false);
     _loadTickets();
   }
 
@@ -56,6 +62,39 @@ class _PurchasesListScreenState extends State<PurchasesListScreen>
           _isLoading = false;
         });
         _showErrorDialog("Failed to load tickets: $e");
+      }
+    }
+  }
+
+  Future<void> _loadOrders() async {
+    if (UserProvider.currentUser == null) return;
+
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      final result = await _orderProvider.get(
+        filter: {
+          'userId': UserProvider.currentUser!.id,
+          'page': 0,
+          'pageSize': 1000,
+          'includeTotalCount': false,
+        },
+      );
+
+      if (mounted) {
+        setState(() {
+          _orders = result.items ?? [];
+          _isLoading = false;
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+        _showErrorDialog("Failed to load orders: $e");
       }
     }
   }
@@ -117,6 +156,7 @@ class _PurchasesListScreenState extends State<PurchasesListScreen>
                       setState(() {
                         _isTicketsSelected = true;
                       });
+                      _loadTickets();
                     },
                   ),
                 ),
@@ -128,6 +168,7 @@ class _PurchasesListScreenState extends State<PurchasesListScreen>
                       setState(() {
                         _isTicketsSelected = false;
                       });
+                      _loadOrders();
                     },
                   ),
                 ),
@@ -204,10 +245,33 @@ class _PurchasesListScreenState extends State<PurchasesListScreen>
   }
 
   Widget _buildSnacksContent() {
-    return _buildEmptyState(
-      icon: Icons.fastfood_outlined,
-      title: "Snacks Coming Soon",
-      description: "Snack ordering feature will be available soon.\nStay tuned for delicious movie treats!",
+    if (_isLoading) {
+      return const Center(
+        child: CircularProgressIndicator(
+          valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF004AAD)),
+        ),
+      );
+    }
+
+    if (_orders.isEmpty) {
+      return _buildEmptyState(
+        icon: Icons.fastfood_outlined,
+        title: "No Orders Found",
+        description: "You haven't placed any snack orders yet.\nVisit the concessions to order some treats!",
+      );
+    }
+
+    return RefreshIndicator(
+      onRefresh: _loadOrders,
+      color: const Color(0xFF004AAD),
+      child: ListView.builder(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        itemCount: _orders.length,
+        itemBuilder: (context, index) {
+          final order = _orders[index];
+          return _buildOrderCard(order);
+        },
+      ),
     );
   }
 
@@ -257,6 +321,194 @@ class _PurchasesListScreenState extends State<PurchasesListScreen>
               textAlign: TextAlign.center,
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildOrderCard(Order order) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.1),
+            spreadRadius: 0,
+            blurRadius: 10,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => OrderDetailsScreen(order: order),
+              ),
+            );
+          },
+          borderRadius: BorderRadius.circular(16),
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Header with order info and status
+                Row(
+                  children: [
+                    // Order icon
+                    Container(
+                      width: 60,
+                      height: 60,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFF7B61B).withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: const Icon(
+                        Icons.shopping_bag_outlined,
+                        color: Color(0xFFF7B61B),
+                        size: 28,
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    // Order details
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Order #${order.id}',
+                            style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xFF1E293B),
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            '${order.totalItems} items • \$${order.totalAmount.toStringAsFixed(2)}',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.grey[600],
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                            decoration: BoxDecoration(
+                              color: order.isActive 
+                                  ? const Color(0xFF10B981).withOpacity(0.1)
+                                  : const Color(0xFFEF4444).withOpacity(0.1),
+                              borderRadius: BorderRadius.circular(12),
+                              border: Border.all(
+                                color: order.isActive 
+                                    ? const Color(0xFF10B981)
+                                    : const Color(0xFFEF4444),
+                                width: 1,
+                              ),
+                            ),
+                            child: Text(
+                              order.isActive ? 'Completed' : 'Cancelled',
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600,
+                                color: order.isActive 
+                                    ? const Color(0xFF10B981)
+                                    : const Color(0xFFEF4444),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    // Arrow
+                    Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF004AAD).withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: const Icon(
+                        Icons.arrow_forward_ios,
+                        color: Color(0xFF004AAD),
+                        size: 16,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16),
+
+                // Order items preview
+                if (order.orderItems.isNotEmpty) ...[
+                  Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: Colors.grey[50],
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.shopping_cart_outlined,
+                          size: 16,
+                          color: Colors.grey[600],
+                        ),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: Text(
+                            order.orderItems.take(2).map((item) => item.productName).join(', '),
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.grey[700],
+                              fontWeight: FontWeight.w500,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        if (order.orderItems.length > 2)
+                          Text(
+                            ' +${order.orderItems.length - 2} more',
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: Colors.grey[500],
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                ],
+
+                // Order date
+                Row(
+                  children: [
+                    Icon(
+                      Icons.access_time_outlined,
+                      size: 16,
+                      color: Colors.grey[600],
+                    ),
+                    const SizedBox(width: 8),
+                    Text(
+                      'Ordered on ${_formatDate(order.createdAt)}',
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.grey[600],
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );
