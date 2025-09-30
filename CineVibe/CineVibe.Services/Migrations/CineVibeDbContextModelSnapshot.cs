@@ -1564,7 +1564,7 @@ namespace CineVibe.Services.Migrations
                             CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
                             IsActive = true,
                             TotalAmount = 18.50m,
-                            UserId = 4
+                            UserId = 2
                         },
                         new
                         {
@@ -1580,6 +1580,22 @@ namespace CineVibe.Services.Migrations
                             CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
                             IsActive = true,
                             TotalAmount = 31.00m,
+                            UserId = 4
+                        },
+                        new
+                        {
+                            Id = 7,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsActive = true,
+                            TotalAmount = 14.50m,
+                            UserId = 4
+                        },
+                        new
+                        {
+                            Id = 8,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsActive = true,
+                            TotalAmount = 14.50m,
                             UserId = 4
                         });
                 });
@@ -1748,6 +1764,56 @@ namespace CineVibe.Services.Migrations
                             Quantity = 2,
                             TotalPrice = 14.00m,
                             UnitPrice = 7.00m
+                        },
+                        new
+                        {
+                            Id = 14,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            OrderId = 7,
+                            ProductId = 9,
+                            Quantity = 1,
+                            TotalPrice = 7.00m,
+                            UnitPrice = 7.00m
+                        },
+                        new
+                        {
+                            Id = 15,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            OrderId = 7,
+                            ProductId = 7,
+                            Quantity = 1,
+                            TotalPrice = 7.50m,
+                            UnitPrice = 7.50m
+                        },
+                        new
+                        {
+                            Id = 16,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            OrderId = 8,
+                            ProductId = 2,
+                            Quantity = 2,
+                            TotalPrice = 6.00m,
+                            UnitPrice = 3.00m
+                        },
+                        new
+                        {
+                            Id = 17,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            OrderId = 8,
+                            ProductId = 4,
+                            Quantity = 2,
+                            TotalPrice = 5.00m,
+                            UnitPrice = 2.50m
+                        },
+                        new
+                        {
+                            Id = 18,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            OrderId = 8,
+                            ProductId = 3,
+                            Quantity = 1,
+                            TotalPrice = 3.50m,
+                            UnitPrice = 3.50m
                         });
                 });
 
@@ -2160,30 +2226,30 @@ namespace CineVibe.Services.Migrations
                         new
                         {
                             Id = 4,
-                            Comment = "Fantastic visual effects and storyline.",
+                            Comment = "Loved the story and acting. Highly recommend!",
                             CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
                             IsActive = true,
-                            Rating = 5,
+                            Rating = 4,
                             ScreeningId = 1,
                             UserId = 4
                         },
                         new
                         {
                             Id = 5,
-                            Comment = "Loved the story and acting. Highly recommend!",
+                            Comment = "Excellent cinematography and sound quality.",
                             CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
                             IsActive = true,
-                            Rating = 4,
+                            Rating = 5,
                             ScreeningId = 15,
                             UserId = 4
                         },
                         new
                         {
                             Id = 6,
-                            Comment = "Excellent cinematography and sound quality.",
+                            Comment = "Fantastic visual effects and storyline.",
                             CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
                             IsActive = true,
-                            Rating = 5,
+                            Rating = 4,
                             ScreeningId = 30,
                             UserId = 4
                         });
@@ -7450,13 +7516,22 @@ namespace CineVibe.Services.Migrations
                             Id = 4,
                             CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
                             IsActive = true,
+                            ScreeningId = 35,
+                            SeatId = 31,
+                            UserId = 2
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsActive = true,
                             ScreeningId = 1,
                             SeatId = 2,
                             UserId = 4
                         },
                         new
                         {
-                            Id = 5,
+                            Id = 6,
                             CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
                             IsActive = true,
                             ScreeningId = 15,
@@ -7465,11 +7540,20 @@ namespace CineVibe.Services.Migrations
                         },
                         new
                         {
-                            Id = 6,
+                            Id = 7,
                             CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
                             IsActive = true,
                             ScreeningId = 30,
                             SeatId = 22,
+                            UserId = 4
+                        },
+                        new
+                        {
+                            Id = 8,
+                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsActive = true,
+                            ScreeningId = 40,
+                            SeatId = 32,
                             UserId = 4
                         });
                 });

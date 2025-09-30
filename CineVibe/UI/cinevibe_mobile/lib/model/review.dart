@@ -16,6 +16,7 @@ class Review {
   final String screeningTypeName;
   final int userId;
   final String userFullName;
+  final String moviePoster;
 
   Review({
     this.id = 0,
@@ -30,6 +31,7 @@ class Review {
     this.screeningTypeName = '',
     this.userId = 0,
     this.userFullName = '',
+    this.moviePoster = '',
   });
 
   factory Review.fromJson(Map<String, dynamic> json) => _$ReviewFromJson(json);

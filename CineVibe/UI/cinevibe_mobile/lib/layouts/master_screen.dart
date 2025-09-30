@@ -1,6 +1,7 @@
 import 'package:cinevibe_mobile/providers/user_provider.dart';
 import 'package:cinevibe_mobile/screens/profile_screen.dart';
 import 'package:cinevibe_mobile/screens/purchases_list_screen.dart';
+import 'package:cinevibe_mobile/screens/review_list_screen.dart';
 import 'package:flutter/material.dart';
 
 
@@ -408,12 +409,8 @@ class _MasterScreenState extends State<MasterScreen> {
                   icon: Icons.fastfood,
                   description: 'Order delicious snacks for your movie experience',
                 ),
-                // Reviews Screen (placeholder)
-                _PlaceholderScreen(
-                  title: 'Reviews',
-                  icon: Icons.rate_review,
-                  description: 'Read and write movie reviews',
-                ),
+                // Reviews Screen
+                const ReviewListScreen(),
                 // My Purchases Screen
                 const PurchasesListScreen(),
                 // Profile Screen

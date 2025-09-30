@@ -630,7 +630,7 @@ namespace CineVibe.Services.Database
 
             modelBuilder.Entity<Screening>().HasData(screenings);
 
-            // Seed Tickets for users with User role (3 tickets each)
+            // Seed Tickets for users with User role (4 tickets each - 3 reviewed, 1 unreviewed)
             // Based on seeding: User IDs 2 and 4 have User role (Role ID 2)
             var tickets = new List<Ticket>();
             int ticketId = 1;
@@ -638,7 +638,10 @@ namespace CineVibe.Services.Database
 
             foreach (int userId in userIds)
             {
-                // Give each user 3 tickets for different screenings
+                // Give each user 4 tickets for different screenings
+                // Tickets 1-3: Will have reviews (for existing functionality)
+                // Ticket 4: Will NOT have review (for testing review functionality)
+                
                 // Ticket 1: First screening of first movie
                 tickets.Add(new Ticket
                 {
@@ -671,11 +674,22 @@ namespace CineVibe.Services.Database
                     IsActive = true,
                     CreatedAt = fixedDate
                 });
+
+                // Ticket 4: Ticket WITHOUT review (for testing review functionality)
+                tickets.Add(new Ticket
+                {
+                    Id = ticketId++,
+                    UserId = userId,
+                    ScreeningId = userId == 2 ? 35 : 40, // Different screenings
+                    SeatId = userId == 2 ? 31 : 32, // Different seats (D1, D2)
+                    IsActive = true,
+                    CreatedAt = fixedDate
+                });
             }
 
             modelBuilder.Entity<Ticket>().HasData(tickets);
 
-            // Seed Reviews for every purchased ticket
+            // Seed Reviews for first 3 tickets of each user (leaving 1 ticket unreviewed per user for testing)
             var reviews = new List<Review>();
             int reviewId = 1;
             
@@ -690,8 +704,12 @@ namespace CineVibe.Services.Database
                 "Fantastic visual effects and storyline."
             };
 
-            // Create a review for each ticket
-            foreach (var ticket in tickets)
+            // Create reviews for exactly 3 tickets per user
+            // User 2: tickets 1-3 (IDs 1, 2, 3) - leave ticket 4 unreviewed
+            // User 4: tickets 5-7 (IDs 5, 6, 7) - leave ticket 8 unreviewed
+            var ticketsToReview = tickets.Where(t => (t.Id >= 1 && t.Id <= 3) || (t.Id >= 5 && t.Id <= 7)).ToList();
+            
+            foreach (var ticket in ticketsToReview)
             {
                 var random = new Random(ticket.Id); // Use ticket ID as seed for consistent results
                 var rating = random.Next(3, 6); // Random rating between 3-5 (positive reviews)

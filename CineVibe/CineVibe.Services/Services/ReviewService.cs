@@ -32,7 +32,8 @@ namespace CineVibe.Services.Services
                 HallName = entity.Screening?.Hall?.Name ?? string.Empty,
                 ScreeningTypeName = entity.Screening?.ScreeningType?.Name ?? string.Empty,
                 UserId = entity.UserId,
-                UserFullName = $"{entity.User?.FirstName} {entity.User?.LastName}".Trim()
+                UserFullName = $"{entity.User?.FirstName} {entity.User?.LastName}".Trim(),
+                MoviePoster = entity.Screening?.Movie?.Poster ?? Array.Empty<byte>()
             };
         }
 

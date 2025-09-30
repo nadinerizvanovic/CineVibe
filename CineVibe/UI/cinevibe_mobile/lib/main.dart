@@ -3,6 +3,7 @@ import 'package:cinevibe_mobile/providers/auth_provider.dart';
 import 'package:cinevibe_mobile/providers/city_provider.dart';
 import 'package:cinevibe_mobile/providers/gender_provider.dart';
 import 'package:cinevibe_mobile/providers/order_provider.dart';
+import 'package:cinevibe_mobile/providers/product_provider.dart';
 import 'package:cinevibe_mobile/providers/review_provider.dart';
 import 'package:cinevibe_mobile/providers/ticket_provider.dart';
 import 'package:cinevibe_mobile/providers/user_provider.dart';
@@ -30,6 +31,7 @@ void main() async {
         ChangeNotifierProvider<CityProvider>(create: (_) => CityProvider()),
         ChangeNotifierProvider<GenderProvider>(create: (_) => GenderProvider()),
         ChangeNotifierProvider<OrderProvider>(create: (_) => OrderProvider()),
+        ChangeNotifierProvider<ProductProvider>(create: (_) => ProductProvider()),
       ],
       child: const MyApp(),
     ),

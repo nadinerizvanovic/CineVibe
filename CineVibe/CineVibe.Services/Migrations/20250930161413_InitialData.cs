@@ -1302,9 +1302,11 @@ namespace CineVibe.Services.Migrations
                     { 1, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), true, 3.00m, 2 },
                     { 2, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), true, 18.00m, 2 },
                     { 3, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), true, 15.00m, 2 },
-                    { 4, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), true, 18.50m, 4 },
+                    { 4, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), true, 18.50m, 2 },
                     { 5, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), true, 18.50m, 4 },
-                    { 6, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), true, 31.00m, 4 }
+                    { 6, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), true, 31.00m, 4 },
+                    { 7, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), true, 14.50m, 4 },
+                    { 8, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), true, 14.50m, 4 }
                 });
 
             migrationBuilder.InsertData(
@@ -1477,7 +1479,12 @@ namespace CineVibe.Services.Migrations
                     { 10, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 5, 7, 2, 15.00m, 7.50m },
                     { 11, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 6, 6, 2, 7.00m, 3.50m },
                     { 12, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 6, 10, 2, 10.00m, 5.00m },
-                    { 13, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 6, 9, 2, 14.00m, 7.00m }
+                    { 13, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 6, 9, 2, 14.00m, 7.00m },
+                    { 14, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 7, 9, 1, 7.00m, 7.00m },
+                    { 15, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 7, 7, 1, 7.50m, 7.50m },
+                    { 16, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 8, 2, 2, 6.00m, 3.00m },
+                    { 17, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 8, 4, 2, 5.00m, 2.50m },
+                    { 18, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), 8, 3, 1, 3.50m, 3.50m }
                 });
 
             migrationBuilder.InsertData(
@@ -1488,9 +1495,9 @@ namespace CineVibe.Services.Migrations
                     { 1, "Amazing movie! Great experience.", new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), true, 3, 1, 2 },
                     { 2, "Good movie, enjoyed it with family.", new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), true, 5, 10, 2 },
                     { 3, "Great entertainment, worth watching.", new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), true, 3, 25, 2 },
-                    { 4, "Fantastic visual effects and storyline.", new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), true, 5, 1, 4 },
-                    { 5, "Loved the story and acting. Highly recommend!", new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), true, 4, 15, 4 },
-                    { 6, "Excellent cinematography and sound quality.", new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), true, 5, 30, 4 }
+                    { 4, "Loved the story and acting. Highly recommend!", new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), true, 4, 1, 4 },
+                    { 5, "Excellent cinematography and sound quality.", new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), true, 5, 15, 4 },
+                    { 6, "Fantastic visual effects and storyline.", new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), true, 4, 30, 4 }
                 });
 
             migrationBuilder.InsertData(
@@ -1501,9 +1508,11 @@ namespace CineVibe.Services.Migrations
                     { 1, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), true, 1, 1, 2 },
                     { 2, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), true, 10, 11, 2 },
                     { 3, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), true, 25, 21, 2 },
-                    { 4, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), true, 1, 2, 4 },
-                    { 5, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), true, 15, 12, 4 },
-                    { 6, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), true, 30, 22, 4 }
+                    { 4, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), true, 35, 31, 2 },
+                    { 5, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), true, 1, 2, 4 },
+                    { 6, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), true, 15, 12, 4 },
+                    { 7, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), true, 30, 22, 4 },
+                    { 8, new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Utc), true, 40, 32, 4 }
                 });
 
             migrationBuilder.CreateIndex(
