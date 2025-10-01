@@ -44,8 +44,7 @@ class _ReviewListScreenState extends State<ReviewListScreen> {
     var filter = {
       "MovieName": movieTitleController.text.isNotEmpty ? movieTitleController.text : null,
       "UserFullName": userFullNameController.text.isNotEmpty ? userFullNameController.text : null,
-      "MinRating": selectedRating,
-      "MaxRating": selectedRating,
+      "Rating": selectedRating,
       "page": pageToFetch,
       "pageSize": pageSizeToUse,
       "includeTotalCount": true,

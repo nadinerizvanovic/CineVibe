@@ -69,6 +69,11 @@ namespace CineVibe.Services.Services
                 query = query.Where(r => r.Screening.HallId == search.HallId.Value);
             }
 
+            if (search.Rating.HasValue)
+            {
+                query = query.Where(r => r.Rating == search.Rating.Value);
+            }
+
             if (search.MinRating.HasValue)
             {
                 query = query.Where(r => r.Rating >= search.MinRating.Value);
