@@ -121,5 +121,28 @@ namespace CineVibe.WebAPI.Controllers
             
             return Ok("Production company successfully removed from movie");
         }
+
+        /// <summary>
+        /// Get a movie recommendation for a specific user based on their viewing history and preferences
+        /// </summary>
+        /// <param name="userId">User ID</param>
+        /// <returns>Recommended movie</returns>
+        [HttpGet("recommend/{userId}")]
+        public ActionResult<MovieResponse> GetRecommendation(int userId)
+        {
+            try
+            {
+                var recommendation = _movieService.RecommendForUser(userId);
+                return Ok(recommendation);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred while generating recommendation: {ex.Message}");
+            }
+        }
     }
 }

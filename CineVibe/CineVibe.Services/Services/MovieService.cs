@@ -8,13 +8,30 @@ using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using EasyNetQ;
 using CineVibe.Subscriber.Models;
+using Microsoft.ML;
+using Microsoft.ML.Data;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace CineVibe.Services.Services
 {
     public class MovieService : BaseCRUDService<MovieResponse, MovieSearchObject, Movie, MovieUpsertRequest, MovieUpsertRequest>, IMovieService
     {
+        private static MLContext _mlContext = null;
+        private static object _mlLock = new object();
+        private static ITransformer? _model = null;
+
         public MovieService(CineVibeDbContext context, IMapper mapper) : base(context, mapper)
         {
+            if (_mlContext == null)
+            {
+                lock (_mlLock)
+                {
+                    if (_mlContext == null)
+                    {
+                        _mlContext = new MLContext();
+                    }
+                }
+            }
         }
 
 
@@ -317,6 +334,200 @@ namespace CineVibe.Services.Services
             }
 
             return movieResponse;
+        }
+
+        // Train a recommender using Matrix Factorization on (User, Movie) implicit feedback
+        public static void TrainRecommenderAtStartup(IServiceProvider serviceProvider)
+        {
+            lock (_mlLock)
+            {
+                if (_mlContext == null)
+                {
+                    _mlContext = new MLContext();
+                }
+                using var scope = serviceProvider.CreateScope();
+                var db = scope.ServiceProvider.GetRequiredService<CineVibeDbContext>();
+
+                // Build implicit feedback dataset combining tickets and positive reviews
+                var positiveEntries =
+                    db.Tickets.Select(t => new FeedbackEntry
+                    {
+                        UserId = (uint)t.UserId,
+                        MovieId = (uint)t.Screening.MovieId,
+                        Label = 1f
+                    }).ToList();
+
+                var positiveReviewEntries = db.Reviews
+                    .Where(r => r.Rating >= 4)
+                    .Select(r => new FeedbackEntry
+                    {
+                        UserId = (uint)r.UserId,
+                        MovieId = (uint)r.Screening.MovieId,
+                        Label = 1f
+                    }).ToList();
+
+                positiveEntries.AddRange(positiveReviewEntries);
+
+                if (!positiveEntries.Any())
+                {
+                    _model = null;
+                    return;
+                }
+
+                var trainData = _mlContext.Data.LoadFromEnumerable(positiveEntries);
+                var options = new Microsoft.ML.Trainers.MatrixFactorizationTrainer.Options
+                {
+                    MatrixColumnIndexColumnName = nameof(FeedbackEntry.UserId),
+                    MatrixRowIndexColumnName = nameof(FeedbackEntry.MovieId),
+                    LabelColumnName = nameof(FeedbackEntry.Label),
+                    LossFunction = Microsoft.ML.Trainers.MatrixFactorizationTrainer.LossFunctionType.SquareLossOneClass,
+                    Alpha = 0.01,
+                    Lambda = 0.025,
+                    NumberOfIterations = 50,
+                    C = 0.00001
+                };
+
+                var estimator = _mlContext.Recommendation().Trainers.MatrixFactorization(options);
+                _model = estimator.Fit(trainData);
+            }
+        }
+
+        public MovieResponse RecommendForUser(int userId)
+        {
+            if (_model == null)
+            {
+                // Fallback: recommend based on user's preferences
+                return RecommendHeuristic(userId);
+            }
+
+            var predictionEngine = _mlContext.Model.CreatePredictionEngine<FeedbackEntry, MovieScorePrediction>(_model);
+
+            // Get movies the user has already watched (bought tickets for)
+            var watchedMovieIds = _context.Tickets
+                .Where(t => t.UserId == userId)
+                .Select(t => t.Screening.MovieId)
+                .Distinct()
+                .ToHashSet();
+
+            // Get movies with upcoming/current screenings (so user can actually watch them)
+            var moviesWithAvailableScreenings = _context.Screenings
+                .Where(s => s.IsActive && s.StartTime >= DateTime.Now)
+                .Select(s => s.MovieId)
+                .Distinct()
+                .ToHashSet();
+
+            // Get candidate movies (active movies user hasn't watched yet and have available screenings)
+            var candidateMovies = _context.Movies
+                .Include(m => m.MovieActors)
+                    .ThenInclude(ma => ma.Actor)
+                .Include(m => m.Category)
+                .Include(m => m.Genre)
+                .Include(m => m.Director)
+                .Include(m => m.MovieProductionCompanies)
+                    .ThenInclude(mpc => mpc.ProductionCompany)
+                .Where(m => m.IsActive 
+                    && !watchedMovieIds.Contains(m.Id)
+                    && moviesWithAvailableScreenings.Contains(m.Id))
+                .ToList();
+
+            if (!candidateMovies.Any())
+            {
+                return RecommendHeuristic(userId);
+            }
+
+            // Score all candidates and pick best
+            var scored = candidateMovies
+                .Select(m => new
+                {
+                    Movie = m,
+                    Score = predictionEngine.Predict(new FeedbackEntry
+                    {
+                        UserId = (uint)userId,
+                        MovieId = (uint)m.Id
+                    }).Score
+                })
+                .OrderByDescending(x => x.Score)
+                .First().Movie;
+
+            return MapToResponse(scored);
+        }
+
+        private MovieResponse RecommendHeuristic(int userId)
+        {
+            // Get movies the user has already watched
+            var watchedMovieIds = _context.Tickets
+                .Where(t => t.UserId == userId)
+                .Select(t => t.Screening.MovieId)
+                .Distinct()
+                .ToHashSet();
+
+            // Get movies with upcoming/current screenings (so user can actually watch them)
+            var moviesWithAvailableScreenings = _context.Screenings
+                .Where(s => s.IsActive && s.StartTime >= DateTime.Now)
+                .Select(s => s.MovieId)
+                .Distinct()
+                .ToHashSet();
+
+            // Get user's preferred genres (from highly rated movies)
+            var likedGenreIds = _context.Reviews
+                .Where(r => r.UserId == userId && r.Rating >= 4)
+                .Select(r => r.Screening.Movie.GenreId)
+                .ToList();
+
+            // Get user's preferred directors
+            var likedDirectorIds = _context.Reviews
+                .Where(r => r.UserId == userId && r.Rating >= 4)
+                .Select(r => r.Screening.Movie.DirectorId)
+                .ToList();
+
+            // Get user's preferred actors (from movies they watched)
+            var likedActorIds = _context.Tickets
+                .Where(t => t.UserId == userId)
+                .SelectMany(t => t.Screening.Movie.MovieActors.Select(ma => ma.ActorId))
+                .ToList();
+
+            // Get user's preferred production companies
+            var likedProductionCompanyIds = _context.Tickets
+                .Where(t => t.UserId == userId)
+                .SelectMany(t => t.Screening.Movie.MovieProductionCompanies.Select(mpc => mpc.ProductionCompanyId))
+                .ToList();
+
+            var candidate = _context.Movies
+                .Include(m => m.MovieActors)
+                    .ThenInclude(ma => ma.Actor)
+                .Include(m => m.Category)
+                .Include(m => m.Genre)
+                .Include(m => m.Director)
+                .Include(m => m.MovieProductionCompanies)
+                    .ThenInclude(mpc => mpc.ProductionCompany)
+                .Where(m => m.IsActive 
+                    && !watchedMovieIds.Contains(m.Id)
+                    && moviesWithAvailableScreenings.Contains(m.Id))
+                .OrderByDescending(m => likedGenreIds.Contains(m.GenreId) ? 3 : 0)
+                .ThenByDescending(m => likedDirectorIds.Contains(m.DirectorId) ? 2 : 0)
+                .ThenByDescending(m => m.MovieActors.Any(ma => likedActorIds.Contains(ma.ActorId)) ? 2 : 0)
+                .ThenByDescending(m => m.MovieProductionCompanies.Any(mpc => likedProductionCompanyIds.Contains(mpc.ProductionCompanyId)) ? 1 : 0)
+                .ThenByDescending(m => m.ReleaseDate)
+                .FirstOrDefault();
+
+            if (candidate == null) 
+                throw new InvalidOperationException("No suitable movie found for recommendation.");
+            
+            return MapToResponse(candidate);
+        }
+
+        private class FeedbackEntry
+        {
+            [KeyType(count: 100000)]
+            public uint UserId { get; set; }
+            [KeyType(count: 100000)]
+            public uint MovieId { get; set; }
+            public float Label { get; set; }
+        }
+
+        private class MovieScorePrediction
+        {
+            public float Score { get; set; }
         }
     }
 }

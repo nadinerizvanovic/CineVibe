@@ -5,6 +5,7 @@ import 'package:cinevibe_mobile/screens/purchases_list_screen.dart';
 import 'package:cinevibe_mobile/screens/review_list_screen.dart';
 import 'package:cinevibe_mobile/screens/snacks_list_screen.dart';
 import 'package:cinevibe_mobile/screens/cart_list_screen.dart';
+import 'package:cinevibe_mobile/screens/movie_list_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -434,12 +435,8 @@ class _MasterScreenState extends State<MasterScreen> {
               },
               physics: const AlwaysScrollableScrollPhysics(),
               children: const [
-                // Movies Screen (placeholder)
-                _PlaceholderScreen(
-                  title: 'Movies',
-                  icon: Icons.movie,
-                  description: 'Discover and book your favorite movies',
-                ),
+                // Movies Screen
+                MovieListScreen(),
                 // Snacks Screen
                 SnacksListScreen(),
                 // Reviews Screen
@@ -592,90 +589,6 @@ class _MasterScreenState extends State<MasterScreen> {
               ),
             ),
           ],
-        ),
-      ),
-    );
-  }
-}
-
-// Placeholder screen for tabs that haven't been implemented yet
-class _PlaceholderScreen extends StatelessWidget {
-  final String title;
-  final IconData icon;
-  final String description;
-
-  const _PlaceholderScreen({
-    required this.title,
-    required this.icon,
-    required this.description,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFFF8FAFC),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(32),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                padding: const EdgeInsets.all(24),
-                decoration: BoxDecoration(
-                  color: const Color(0xFF004AAD).withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Icon(
-                  icon,
-                  size: 64,
-                  color: const Color(0xFF004AAD),
-                ),
-              ),
-              const SizedBox(height: 32),
-              Text(
-                title,
-                style: const TextStyle(
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xFF1E293B),
-                  letterSpacing: -0.5,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 16),
-              Text(
-                description,
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.grey[600],
-                  fontWeight: FontWeight.w500,
-                  height: 1.5,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 32),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                decoration: BoxDecoration(
-                  color: const Color(0xFF004AAD).withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(
-                    color: const Color(0xFF004AAD).withOpacity(0.2),
-                    width: 1,
-                  ),
-                ),
-                child: Text(
-                  'Coming Soon',
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                    color: const Color(0xFF004AAD),
-                  ),
-                ),
-              ),
-            ],
-          ),
         ),
       ),
     );

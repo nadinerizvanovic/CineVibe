@@ -177,4 +177,38 @@ class MovieProvider extends BaseProvider<Movie> {
       throw Exception("Failed to remove production company from movie: $e");
     }
   }
+
+  // Get movie recommendation for a specific user
+  Future<Movie?> getRecommendation(int userId) async {
+    var url = "${BaseProvider.baseUrl}Movie/recommend/$userId";
+    var uri = Uri.parse(url);
+    var headers = createHeaders();
+
+    try {
+      final response = await http.get(uri, headers: headers).timeout(
+        Duration(seconds: 30),
+        onTimeout: () {
+          throw Exception("Request timed out. Please check your network connection.");
+        },
+      );
+
+      if (response.statusCode == 200) {
+        var data = jsonDecode(response.body);
+        return Movie.fromJson(data);
+      } else if (response.statusCode == 404) {
+        // No suitable movie found for recommendation
+        return null;
+      } else {
+        throw Exception("Failed to fetch movie recommendation. Status: ${response.statusCode}");
+      }
+    } catch (e) {
+      if (e.toString().contains("SocketException") ||
+          e.toString().contains("Connection refused")) {
+        throw Exception(
+          "Cannot connect to server. Please check:\n1. Your computer's IP address\n2. The server is running\n3. Both devices are on the same network",
+        );
+      }
+      throw Exception("Failed to fetch movie recommendation: $e");
+    }
+  }
 }
