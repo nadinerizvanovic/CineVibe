@@ -28,6 +28,7 @@ namespace CineVibe.Services.Services
                 SeatNumber = entity.Seat?.SeatNumber ?? string.Empty,
                 ScreeningId = entity.ScreeningId,
                 ScreeningStartTime = entity.Screening?.StartTime ?? DateTime.MinValue,
+                MovieId = entity.Screening?.MovieId ?? 0,
                 MovieTitle = entity.Screening?.Movie?.Title ?? string.Empty,
                 HallName = entity.Screening?.Hall?.Name ?? string.Empty,
                 ScreeningTypeName = entity.Screening?.ScreeningType?.Name ?? string.Empty,

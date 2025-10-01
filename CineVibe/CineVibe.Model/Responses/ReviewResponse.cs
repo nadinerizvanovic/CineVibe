@@ -11,6 +11,7 @@ namespace CineVibe.Model.Responses
         public DateTime CreatedAt { get; set; }
         public int ScreeningId { get; set; }
         public DateTime ScreeningStartTime { get; set; }
+        public int MovieId { get; set; }
         public string MovieTitle { get; set; } = string.Empty;
         public string HallName { get; set; } = string.Empty;
         public string ScreeningTypeName { get; set; } = string.Empty;

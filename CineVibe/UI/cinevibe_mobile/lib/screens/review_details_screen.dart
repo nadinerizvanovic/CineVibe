@@ -67,7 +67,7 @@ class _ReviewDetailsScreenState extends State<ReviewDetailsScreen> {
         },
       );
 
-      // Then, get all user reviews to find which screenings have been reviewed
+      // Then, get all user reviews to find which movies have been reviewed
       final reviewsResult = await _reviewProvider.get(
         filter: {
           'userId': UserProvider.currentUser!.id,
@@ -81,18 +81,29 @@ class _ReviewDetailsScreenState extends State<ReviewDetailsScreen> {
         final allTickets = ticketsResult.items ?? [];
         final allReviews = reviewsResult.items ?? [];
         
-        // Get screening IDs that have already been reviewed
-        final reviewedScreeningIds = allReviews
-            .map((review) => review.screeningId)
+        // Get movie IDs that have already been reviewed
+        final reviewedMovieIds = allReviews
+            .map((review) => review.movieId)
             .toSet();
         
-        // Filter out tickets for screenings that have already been reviewed
+        // Filter out tickets for movies that have already been reviewed
         final availableTickets = allTickets
-            .where((ticket) => !reviewedScreeningIds.contains(ticket.screeningId))
+            .where((ticket) => !reviewedMovieIds.contains(ticket.movieId))
             .toList();
 
+        // Group tickets by movie ID and keep only one ticket per movie (most recent screening)
+        final Map<int, Ticket> uniqueMovieTickets = {};
+        for (var ticket in availableTickets) {
+          if (!uniqueMovieTickets.containsKey(ticket.movieId) ||
+              ticket.screeningStartTime.isAfter(uniqueMovieTickets[ticket.movieId]!.screeningStartTime)) {
+            uniqueMovieTickets[ticket.movieId] = ticket;
+          }
+        }
+
         setState(() {
-          _availableTickets = availableTickets;
+          _availableTickets = uniqueMovieTickets.values.toList();
+          // Sort by most recent screening first
+          _availableTickets.sort((a, b) => b.screeningStartTime.compareTo(a.screeningStartTime));
           _isLoading = false;
         });
       }

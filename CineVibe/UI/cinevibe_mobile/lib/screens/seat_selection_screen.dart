@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:cinevibe_mobile/model/screening.dart';
 import 'package:cinevibe_mobile/model/screening_with_seats.dart';
 import 'package:cinevibe_mobile/providers/screening_provider.dart';
+import 'package:cinevibe_mobile/screens/ticket_payment_screen.dart';
 import 'package:intl/intl.dart';
 
 class SeatSelectionScreen extends StatefulWidget {
@@ -744,14 +745,14 @@ class _SeatSelectionScreenState extends State<SeatSelectionScreen> {
                   child: InkWell(
                     borderRadius: BorderRadius.circular(16),
                     onTap: () {
-                      // TODO: Navigate to payment screen
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text('Proceeding to payment for ${selectedSeats.length} seat(s) - \$${totalPrice.toStringAsFixed(2)}'),
-                          backgroundColor: const Color(0xFF10B981),
-                          behavior: SnackBarBehavior.floating,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => TicketPaymentScreen(
+                            screening: widget.screening,
+                            selectedSeatIds: _selectedSeatIds.toList(),
+                            selectedSeatNumbers: selectedSeats,
+                            totalAmount: totalPrice,
                           ),
                         ),
                       );

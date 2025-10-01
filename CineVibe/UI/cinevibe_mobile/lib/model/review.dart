@@ -11,6 +11,7 @@ class Review {
   final DateTime createdAt;
   final int screeningId;
   final DateTime screeningStartTime;
+  final int movieId;
   final String movieTitle;
   final String hallName;
   final String screeningTypeName;
@@ -26,6 +27,7 @@ class Review {
     required this.createdAt,
     this.screeningId = 0,
     required this.screeningStartTime,
+    this.movieId = 0,
     this.movieTitle = '',
     this.hallName = '',
     this.screeningTypeName = '',

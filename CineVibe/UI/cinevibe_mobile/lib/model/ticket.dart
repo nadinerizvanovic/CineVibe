@@ -11,6 +11,7 @@ class Ticket {
   final String seatNumber;
   final int screeningId;
   final DateTime screeningStartTime;
+  final int movieId;
   final String movieTitle;
   final String hallName;
   final String screeningTypeName;
@@ -26,6 +27,7 @@ class Ticket {
     this.seatNumber = '',
     this.screeningId = 0,
     required this.screeningStartTime,
+    this.movieId = 0,
     this.movieTitle = '',
     this.hallName = '',
     this.screeningTypeName = '',
