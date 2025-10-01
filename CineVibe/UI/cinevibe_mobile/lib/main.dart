@@ -1,4 +1,6 @@
 import 'package:cinevibe_mobile/layouts/master_screen.dart';
+import 'package:cinevibe_mobile/providers/actor_provider.dart';
+import 'package:cinevibe_mobile/providers/production_company_provider.dart';
 import 'package:cinevibe_mobile/providers/auth_provider.dart';
 import 'package:cinevibe_mobile/providers/cart_provider.dart';
 import 'package:cinevibe_mobile/providers/city_provider.dart';
@@ -7,6 +9,9 @@ import 'package:cinevibe_mobile/providers/movie_provider.dart';
 import 'package:cinevibe_mobile/providers/order_provider.dart';
 import 'package:cinevibe_mobile/providers/product_provider.dart';
 import 'package:cinevibe_mobile/providers/review_provider.dart';
+import 'package:cinevibe_mobile/providers/screening_provider.dart';
+import 'package:cinevibe_mobile/providers/seat_provider.dart';
+import 'package:cinevibe_mobile/providers/seat_type_provider.dart';
 import 'package:cinevibe_mobile/providers/ticket_provider.dart';
 import 'package:cinevibe_mobile/providers/user_provider.dart';
 import 'package:cinevibe_mobile/screens/register_screen.dart';
@@ -34,10 +39,15 @@ void main() async {
         ChangeNotifierProvider<TicketProvider>(create: (_) => TicketProvider()),
         ChangeNotifierProvider<CityProvider>(create: (_) => CityProvider()),
         ChangeNotifierProvider<GenderProvider>(create: (_) => GenderProvider()),
+        ChangeNotifierProvider<SeatProvider>(create: (_) => SeatProvider()),
         ChangeNotifierProvider<MovieProvider>(create: (_) => MovieProvider()),
+        ChangeNotifierProvider<ScreeningProvider>(create: (_) => ScreeningProvider()),
         ChangeNotifierProvider<OrderProvider>(create: (_) => OrderProvider()),
         ChangeNotifierProvider<ProductProvider>(create: (_) => ProductProvider()),
         ChangeNotifierProvider<CartProvider>(create: (_) => CartProvider()),
+        ChangeNotifierProvider<ActorProvider>(create: (_) => ActorProvider()),
+        ChangeNotifierProvider<ProductionCompanyProvider>(create: (_) => ProductionCompanyProvider()),
+        ChangeNotifierProvider<SeatTypeProvider>(create: (_) => SeatTypeProvider()),
       ],
       child: const MyApp(),
     ),

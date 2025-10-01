@@ -149,6 +149,7 @@ class _ScreeningDetailsScreenState extends State<ScreeningDetailsScreen> {
                         _buildScreeningInfo(),
                         const SizedBox(height: 20),
                         _buildSeatGrid(),
+                        
                       ],
                     ),
         ),

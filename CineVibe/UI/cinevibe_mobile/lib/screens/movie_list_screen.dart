@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:cinevibe_mobile/providers/movie_provider.dart';
 import 'package:cinevibe_mobile/providers/user_provider.dart';
 import 'package:cinevibe_mobile/model/movie.dart';
+import 'package:cinevibe_mobile/screens/movie_details_screen.dart';
 import 'dart:convert';
 
 class MovieListScreen extends StatefulWidget {
@@ -402,7 +403,7 @@ class _MovieListScreenState extends State<MovieListScreen> {
                   ),
                   const SizedBox(height: 14),
                   
-                  // Book Tickets Button
+                  // More Details Button
                   Container(
                     width: double.infinity,
                     height: 42,
@@ -427,15 +428,10 @@ class _MovieListScreenState extends State<MovieListScreen> {
                       child: InkWell(
                         borderRadius: BorderRadius.circular(12),
                         onTap: () {
-                          // TODO: Navigate to movie details/screening selection
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: const Text('Movie details coming soon!'),
-                              backgroundColor: const Color(0xFF004AAD),
-                              behavior: SnackBarBehavior.floating,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => MovieDetailsScreen(movie: _recommendedMovie!),
                             ),
                           );
                         },
@@ -444,7 +440,7 @@ class _MovieListScreenState extends State<MovieListScreen> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Icon(
-                                Icons.local_activity_outlined,
+                                Icons.info_outline,
                                 color: Colors.white,
                                 size: 18,
                               ),
@@ -595,7 +591,7 @@ class _MovieListScreenState extends State<MovieListScreen> {
                 shape: BoxShape.circle,
               ),
               child: const Icon(
-                Icons.movie_filter_outlined,
+                Icons.info_outline,
                 size: 48,
                 color: Color(0xFF004AAD),
               ),
@@ -817,15 +813,10 @@ class _MovieListScreenState extends State<MovieListScreen> {
                       child: InkWell(
                         borderRadius: BorderRadius.circular(12),
                         onTap: () {
-                          // TODO: Navigate to movie details/screening selection
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: const Text('Movie details coming soon!'),
-                              backgroundColor: const Color(0xFF004AAD),
-                              behavior: SnackBarBehavior.floating,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => MovieDetailsScreen(movie: movie),
                             ),
                           );
                         },
@@ -834,7 +825,7 @@ class _MovieListScreenState extends State<MovieListScreen> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Icon(
-                                Icons.local_activity_outlined,
+                                Icons.info_outline,
                                 color: Colors.white,
                                 size: 18,
                               ),

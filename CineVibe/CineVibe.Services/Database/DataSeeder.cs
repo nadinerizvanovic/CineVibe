@@ -286,14 +286,14 @@ namespace CineVibe.Services.Database
             // Seed Movies
             modelBuilder.Entity<Movie>().HasData(
                 // In Theaters (first 4 movies)
-                new Movie 
-                { 
-                    Id = 1, 
-                    Title = "Fantastic Four: First Steps", 
-                    ReleaseDate = new DateTime(2025, 7, 25), 
+                new Movie
+                {
+                    Id = 1,
+                    Title = "Fantastic Four: First Steps",
+                    ReleaseDate = new DateTime(2025, 7, 25),
                     Description = "The first family of superheroes, the Fantastic Four, gain their powers and learn to work together to stop the world-devouring Galactus.",
-                    Duration = 125, 
-                    IsActive = true, 
+                    Duration = 125,
+                    IsActive = true,
                     CreatedAt = fixedDate,
                     CategoryId = 1, // In Theaters
                     GenreId = 1, // Action
@@ -301,14 +301,14 @@ namespace CineVibe.Services.Database
                     Poster = ImageConversion.ConvertImageToByteArray("Assets", "1.jpg"),
                     Trailer = "https://www.youtube.com/watch?v=pAsmrKyMqaA"
                 },
-                new Movie 
-                { 
-                    Id = 2, 
-                    Title = "Superman", 
-                    ReleaseDate = new DateTime(2025, 7, 11), 
+                new Movie
+                {
+                    Id = 2,
+                    Title = "Superman",
+                    ReleaseDate = new DateTime(2025, 7, 11),
                     Description = "Superman navigates his dual identity as Clark Kent and the Man of Steel, while facing new challenges in Metropolis.",
-                    Duration = 140, 
-                    IsActive = true, 
+                    Duration = 140,
+                    IsActive = true,
                     CreatedAt = fixedDate,
                     CategoryId = 1, // In Theaters
                     GenreId = 1, // Action
@@ -316,29 +316,29 @@ namespace CineVibe.Services.Database
                     Poster = ImageConversion.ConvertImageToByteArray("Assets", "2.jpg"),
                     Trailer = "https://www.youtube.com/watch?v=Ox8ZLF6cGM0"
                 },
-                new Movie 
-                { 
-                    Id = 3, 
-                    Title = "F1", 
-                    ReleaseDate = new DateTime(2025, 6, 27), 
+                new Movie
+                {
+                    Id = 3,
+                    Title = "F1",
+                    ReleaseDate = new DateTime(2025, 6, 27),
                     Description = "A seasoned Formula 1 driver comes out of retirement to mentor a young rookie and compete at the highest level of motorsport.",
-                    Duration = 130, 
-                    IsActive = true, 
+                    Duration = 130,
+                    IsActive = true,
                     CreatedAt = fixedDate,
                     CategoryId = 1, // In Theaters
                     GenreId = 19, // Sport
                     DirectorId = 3, // Joseph Kosinski
                     Poster = ImageConversion.ConvertImageToByteArray("Assets", "3.jpg"),
-                    Trailer = "https://www.youtube.com/watch?v=69ffwl-8pCU"
+                    Trailer = "https://www.youtube.com/watch?v=n-MDGqexqjQ"
                 },
-                new Movie 
-                { 
-                    Id = 4, 
-                    Title = "Elio", 
-                    ReleaseDate = new DateTime(2025, 6, 13), 
+                new Movie
+                {
+                    Id = 4,
+                    Title = "Elio",
+                    ReleaseDate = new DateTime(2025, 6, 13),
                     Description = "A young boy with an active imagination accidentally becomes Earth's intergalactic representative and must navigate alien politics.",
-                    Duration = 100, 
-                    IsActive = true, 
+                    Duration = 100,
+                    IsActive = true,
                     CreatedAt = fixedDate,
                     CategoryId = 1, // In Theaters
                     GenreId = 10, // Animation
@@ -348,28 +348,29 @@ namespace CineVibe.Services.Database
 
                 },
                 // Upcoming (Spider-Man and Avatar)
-                new Movie 
-                { 
-                    Id = 5, 
-                    Title = "Spider-Man: Brand New Day", 
-                    ReleaseDate = new DateTime(2026, 7, 24), 
+                new Movie
+                {
+                    Id = 5,
+                    Title = "Spider-Man: Brand New Day",
+                    ReleaseDate = new DateTime(2026, 7, 24),
                     Description = "Peter Parker faces his greatest challenge yet as he balances his life as Spider-Man with new threats emerging in New York City.",
-                    Duration = 135, 
-                    IsActive = true, 
+                    Duration = 135,
+                    IsActive = true,
                     CreatedAt = fixedDate,
                     CategoryId = 2, // Upcoming
                     GenreId = 1, // Action
                     DirectorId = 5, // Jon Watts
-                    Poster = ImageConversion.ConvertImageToByteArray("Assets", "5.jpg")
+                    Poster = ImageConversion.ConvertImageToByteArray("Assets", "5.jpg"),
+                    Trailer = "https://www.youtube.com/watch?v=Vsn7sVxCq1M"
                 },
-                new Movie 
-                { 
-                    Id = 6, 
-                    Title = "Avatar: Fire and Ash", 
-                    ReleaseDate = new DateTime(2025, 12, 19), 
+                new Movie
+                {
+                    Id = 6,
+                    Title = "Avatar: Fire and Ash",
+                    ReleaseDate = new DateTime(2025, 12, 19),
                     Description = "Jake Sully and his family continue their fight for survival on Pandora as they face new threats from the fire and ash regions.",
-                    Duration = 190, 
-                    IsActive = true, 
+                    Duration = 190,
+                    IsActive = true,
                     CreatedAt = fixedDate,
                     CategoryId = 2, // Upcoming
                     GenreId = 8, // Science Fiction
@@ -378,14 +379,14 @@ namespace CineVibe.Services.Database
                     Trailer = "https://www.youtube.com/watch?v=nb_fFj_0rq8"
                 },
                 // Classics (Titanic and Cast Away)
-                new Movie 
-                { 
-                    Id = 7, 
-                    Title = "Titanic", 
-                    ReleaseDate = new DateTime(1997, 12, 19), 
+                new Movie
+                {
+                    Id = 7,
+                    Title = "Titanic",
+                    ReleaseDate = new DateTime(1997, 12, 19),
                     Description = "A seventeen-year-old aristocrat falls in love with a kind but poor artist aboard the luxurious, ill-fated R.M.S. Titanic.",
-                    Duration = 195, 
-                    IsActive = true, 
+                    Duration = 195,
+                    IsActive = true,
                     CreatedAt = fixedDate,
                     CategoryId = 3, // Classics
                     GenreId = 6, // Romance
@@ -393,14 +394,14 @@ namespace CineVibe.Services.Database
                     Poster = ImageConversion.ConvertImageToByteArray("Assets", "7.jpg"),
                     Trailer = "https://www.youtube.com/watch?v=kVrqfYjkTdQ"
                 },
-                new Movie 
-                { 
-                    Id = 8, 
-                    Title = "Cast Away", 
-                    ReleaseDate = new DateTime(2000, 12, 22), 
+                new Movie
+                {
+                    Id = 8,
+                    Title = "Cast Away",
+                    ReleaseDate = new DateTime(2000, 12, 22),
                     Description = "A FedEx executive undergoes a physical and emotional transformation after crash landing on a deserted island.",
-                    Duration = 143, 
-                    IsActive = true, 
+                    Duration = 143,
+                    IsActive = true,
                     CreatedAt = fixedDate,
                     CategoryId = 3, // Classics
                     GenreId = 4, // Drama
