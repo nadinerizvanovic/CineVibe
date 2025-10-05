@@ -36,7 +36,7 @@ CineVibe is a full-stack cinema management platform that provides:
 - SQL Server 2022
 - RabbitMQ 3.x
 - Flutter SDK
-- Docker (optional)
+- Docker
 
 ### Environment Setup
 
@@ -45,7 +45,6 @@ Create a `.env` file in the root directory:
 SQL__DATABASE=CineVibeDb
 SQL__USER=sa
 SQL__PASSWORD=QWEasd123!
-SQL__PID=Express
 
 RABBITMQ__HOST=localhost
 RABBITMQ__USERNAME=guest
@@ -56,11 +55,7 @@ RABBITMQ__PASSWORD=guest
 
 ```bash
 # Start all services (API, Database, RabbitMQ, Notification Service)
-docker-compose up -d
-
-# View logs
-docker-compose logs -f
-```
+docker-compose up --build
 
 ### Manual Setup
 
